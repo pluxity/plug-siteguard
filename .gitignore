@@ -1,49 +1,65 @@
-# Dependencies
-node_modules
-.pnp
+# Node.js 관련
+**/node_modules/
+.pnp/
 .pnp.js
 
-# Testing
-coverage
+# PNPM 전용 캐시 폴더 (필요시)
+.pnpm-store/
 
-# Production
-dist
-build
-.next
-out
+# Next.js 빌드 출력
+.next/
+out/
 
-# Misc
-.DS_Store
-*.pem
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# 기타 빌드 산출물 (각 패키지에서 사용되는 dist, build 폴더 등)
+dist/
+build/
 
-# Debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Turbo
-.turbo
-
-# Vercel
-.vercel
-
-# TypeScript
+# TypeScript 캐시 파일
 *.tsbuildinfo
-next-env.d.ts
 
-# IDE
-.vscode
-.idea
-*.swp
-*.swo
-*~
+# 환경 변수 파일 (필요에 따라 커스터마이징)
+.env
+.env.development
+.env.staging
+.env.production
 
-# OS
+# MCP 설정 파일 (민감한 정보 포함)
+.mcp.json
+
+# 로그 파일
+*.log
+
+# 테스트 결과 폴더 (예: coverage)
+coverage/
+
+# OS별 불필요 파일
+.DS_Store
 Thumbs.db
+
+# 에디터 및 IDE 설정 폴더
+.vscode/
+.idea/
+
+# Claude Code 로컬 설정 (스킬은 전역으로 관리)
+.claude/
+
+# Storybook 빌드 산출물
+storybook-static/
+
+# 기타 임시 파일
+tmp/
+temp/
+
+# Docker 관련 (개발용 override 파일 등, 필요에 따라)
+docker-compose.override.yml
+*storybook.log
+
+# 모든 .d.ts 파일을 무시하되, vite-env.d.ts와 vite.config.d.ts는 예외 처리
+*.d.ts
+!vite-env.d.ts
+!vite.config.d.ts
+
+apps/v1/vite.config.ts
+
+.turbo/
+.github/

@@ -1,38 +1,40 @@
 import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
 
-<Meta title="Introduction" />
+<Meta title="Getting Started" />
 
 # Plug SiteGuard UI
 
-A modern, accessible UI component library built with React 19, TypeScript 5.8, and Tailwind CSS v4.
+**현대적이고 접근성 높은 UI 컴포넌트 라이브러리**
 
-## Design System
+React 19, TypeScript 5.8, Tailwind CSS v4로 구축된 전문 UI 라이브러리입니다.
 
-This library follows **Atomic Design** principles, organizing components by complexity:
+## 디자인 시스템
 
-- **Atoms**: Basic building blocks (Button, Input, Badge, etc.)
-- **Molecules**: Simple combinations of atoms
-- **Organisms**: Complex, feature-complete components
-- **Templates**: Page-level layouts
+이 라이브러리는 **Atomic Design** 원칙을 따르며, 복잡도에 따라 컴포넌트를 구성합니다:
 
-## Technology Stack
+- **Atoms** (원자): 기본 빌딩 블록 (Button, Input, Badge 등)
+- **Molecules** (분자): Atom의 간단한 조합
+- **Organisms** (유기체): 복잡하고 기능이 완전한 컴포넌트
+- **Templates** (템플릿): 페이지 레벨 레이아웃
 
-- ⚛️ **React 19** - Latest React features
-- 🔷 **TypeScript 5.8** - Full type safety
-- 🎨 **Tailwind CSS v4** - Utility-first styling
-- ♿ **Radix UI** - Accessible primitives
-- 📚 **Storybook 8.6** - Interactive documentation
+## 기술 스택
+
+- ⚛️ **React 19** - 최신 React 기능 활용
+- 🔷 **TypeScript 5.8** - 완전한 타입 안정성
+- 🎨 **Tailwind CSS v4** - 유틸리티 기반 스타일링
+- ♿ **Radix UI** - 접근성 우선 프리미티브
+- 📚 **Storybook 8.6** - 인터랙티브 문서화
 
 ---
 
-## Color Palette
+## 색상 팔레트
 
-Our design system uses a comprehensive color palette with brand colors and semantic variations. Each color has 11 shades (50-950) for maximum flexibility.
+우리의 디자인 시스템은 브랜드 색상과 시맨틱 변형을 포함한 포괄적인 색상 팔레트를 사용합니다. 각 색상은 최대한의 유연성을 위해 11가지 음영(50-950)을 제공합니다.
 
 <ColorPalette>
   <ColorItem
-    title="Primary"
-    subtitle="Main brand colors - Blue"
+    title="Primary (주요)"
+    subtitle="주요 브랜드 색상 - Blue"
     colors={{
       50: 'oklch(97.8% 0.014 264.7)',
       100: 'oklch(94.4% 0.034 264.5)',
@@ -48,8 +50,8 @@ Our design system uses a comprehensive color palette with brand colors and seman
     }}
   />
   <ColorItem
-    title="Success"
-    subtitle="Positive actions & confirmations - Green"
+    title="Success (성공)"
+    subtitle="긍정적 액션 및 확인 - Green"
     colors={{
       50: 'oklch(97.5% 0.020 145.0)',
       100: 'oklch(94.0% 0.045 145.0)',
@@ -65,8 +67,8 @@ Our design system uses a comprehensive color palette with brand colors and seman
     }}
   />
   <ColorItem
-    title="Warning"
-    subtitle="Cautionary messages & alerts - Amber"
+    title="Warning (경고)"
+    subtitle="주의 메시지 및 알림 - Amber"
     colors={{
       50: 'oklch(98.0% 0.025 85.0)',
       100: 'oklch(95.5% 0.055 85.0)',
@@ -82,8 +84,8 @@ Our design system uses a comprehensive color palette with brand colors and seman
     }}
   />
   <ColorItem
-    title="Error"
-    subtitle="Destructive actions & errors - Red"
+    title="Error (오류)"
+    subtitle="파괴적 액션 및 오류 - Red"
     colors={{
       50: 'oklch(97.5% 0.020 25.0)',
       100: 'oklch(94.5% 0.045 25.0)',
@@ -99,8 +101,8 @@ Our design system uses a comprehensive color palette with brand colors and seman
     }}
   />
   <ColorItem
-    title="Gray"
-    subtitle="Neutral colors for text & backgrounds"
+    title="Gray (중립)"
+    subtitle="텍스트 및 배경을 위한 중립 색상"
     colors={{
       50: 'oklch(98.5% 0.002 270.0)',
       100: 'oklch(96.5% 0.004 270.0)',
@@ -117,141 +119,165 @@ Our design system uses a comprehensive color palette with brand colors and seman
   />
 </ColorPalette>
 
-### Using Colors
+### 색상 사용하기
 
-All colors are available through Tailwind CSS classes:
+모든 색상은 Tailwind CSS 클래스를 통해 사용할 수 있습니다:
 
 ```tsx
 // Primary (Blue)
-<div className="bg-primary-600 text-white">Primary button</div>
+<div className="bg-primary-600 text-white">주요 버튼</div>
 
 // Success (Green)
-<div className="bg-success-600 text-white">Success message</div>
+<div className="bg-success-600 text-white">성공 메시지</div>
 
 // Warning (Amber)
-<div className="bg-warning-600 text-white">Warning alert</div>
+<div className="bg-warning-600 text-white">경고 알림</div>
 
 // Error (Red)
-<div className="bg-error-600 text-white">Error message</div>
+<div className="bg-error-600 text-white">오류 메시지</div>
 
 // Gray (Neutral)
-<div className="bg-gray-100 text-gray-900">Neutral background</div>
+<div className="bg-gray-100 text-gray-900">중립 배경</div>
 
-// Text colors
-<p className="text-primary-600">Primary text</p>
-<p className="text-success-700">Success text</p>
-<p className="text-error-600">Error text</p>
+// 텍스트 색상
+<p className="text-primary-600">주요 텍스트</p>
+<p className="text-success-700">성공 텍스트</p>
+<p className="text-error-600">오류 텍스트</p>
 
-// Border colors
-<div className="border border-gray-300">Gray border</div>
-<div className="border-2 border-primary-500">Primary border</div>
+// 테두리 색상
+<div className="border border-gray-300">회색 테두리</div>
+<div className="border-2 border-primary-500">주요 테두리</div>
 ```
 
-### Semantic Color Usage
+### 시맨틱 색상 사용법
 
-- **Primary**: Main brand actions, links, focus states
-- **Success**: Confirmations, successful operations, positive feedback
-- **Warning**: Cautionary messages, potential issues, attention needed
-- **Error**: Destructive actions, error states, critical alerts
-- **Gray**: Text, backgrounds, borders, disabled states
+- **Primary**: 주요 브랜드 액션, 링크, 포커스 상태
+- **Success**: 확인, 성공적인 작업, 긍정적 피드백
+- **Warning**: 주의 메시지, 잠재적 문제, 주의 필요
+- **Error**: 파괴적 액션, 오류 상태, 중요 알림
+- **Gray**: 텍스트, 배경, 테두리, 비활성 상태
 
 ---
 
-## Design Tokens
+## 디자인 토큰
 
-### Border Radius
+### Border Radius (모서리 둥글기)
 
-<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginTop: '1rem', marginBottom: '2rem' }}>
   <div>
-    <div style={{ width: '100px', height: '100px', backgroundColor: '#E5E7EB', borderRadius: '0.25rem' }}></div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'oklch(90.2% 0.066 264.3)', borderRadius: '0.25rem' }}></div>
     <p style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}><strong>sm</strong> - 0.25rem (4px)</p>
   </div>
   <div>
-    <div style={{ width: '100px', height: '100px', backgroundColor: '#E5E7EB', borderRadius: '0.375rem' }}></div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'oklch(90.2% 0.066 264.3)', borderRadius: '0.375rem' }}></div>
     <p style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}><strong>md</strong> - 0.375rem (6px)</p>
   </div>
   <div>
-    <div style={{ width: '100px', height: '100px', backgroundColor: '#E5E7EB', borderRadius: '0.5rem' }}></div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'oklch(90.2% 0.066 264.3)', borderRadius: '0.5rem' }}></div>
     <p style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}><strong>lg</strong> - 0.5rem (8px)</p>
   </div>
   <div>
-    <div style={{ width: '100px', height: '100px', backgroundColor: '#E5E7EB', borderRadius: '0.75rem' }}></div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'oklch(90.2% 0.066 264.3)', borderRadius: '0.75rem' }}></div>
     <p style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}><strong>xl</strong> - 0.75rem (12px)</p>
   </div>
   <div>
-    <div style={{ width: '100px', height: '100px', backgroundColor: '#E5E7EB', borderRadius: '1rem' }}></div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'oklch(90.2% 0.066 264.3)', borderRadius: '1rem' }}></div>
     <p style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}><strong>2xl</strong> - 1rem (16px)</p>
   </div>
 </div>
 
-### Spacing Scale
+### Typography (타이포그래피)
 
-<div style={{ marginTop: '1rem' }}>
+<div style={{ marginTop: '1rem', marginBottom: '2rem' }}>
+  <div style={{ marginBottom: '1rem', padding: '1.5rem', backgroundColor: 'oklch(98.5% 0.002 270.0)', borderRadius: '0.5rem' }}>
+    <p style={{ fontFamily: 'SUIT, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', fontSize: '1rem', margin: 0 }}>
+      <strong>SUIT</strong> - 기본 본문 폰트
+    </p>
+    <p style={{ fontFamily: 'SUIT, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', fontSize: '0.875rem', color: 'oklch(45.0% 0.012 270.0)', margin: '0.5rem 0 0 0' }}>
+      한글 최적화 산세리프 서체 (9가지 굵기 제공: Thin, ExtraLight, Light, Regular, Medium, SemiBold, Bold, ExtraBold, Heavy)
+    </p>
+    <p style={{ fontFamily: 'SUIT, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', fontSize: '0.75rem', color: 'oklch(55.0% 0.013 270.0)', margin: '0.5rem 0 0 0', fontStyle: 'italic' }}>
+      fonts/SUIT-*.woff2
+    </p>
+  </div>
+  <div style={{ padding: '1.5rem', backgroundColor: 'oklch(98.5% 0.002 270.0)', borderRadius: '0.5rem' }}>
+    <p style={{ fontFamily: 'ui-monospace, "Cascadia Code", monospace', fontSize: '1rem', margin: 0 }}>
+      <strong>Monospace</strong> - 코드 표시용 폰트
+    </p>
+    <p style={{ fontFamily: 'ui-monospace, "Cascadia Code", monospace', fontSize: '0.875rem', color: 'oklch(45.0% 0.012 270.0)', margin: '0.5rem 0 0 0' }}>
+      코드 블록 및 고정폭 텍스트
+    </p>
+  </div>
+</div>
+
+### Spacing Scale (간격)
+
+<div style={{ marginTop: '1rem', marginBottom: '2rem' }}>
   <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-    <div style={{ width: '0.25rem', height: '40px', backgroundColor: '#6366F1' }}></div>
+    <div style={{ width: '0.25rem', height: '40px', backgroundColor: 'oklch(65.5% 0.180 262.1)' }}></div>
     <span style={{ marginLeft: '1rem', fontSize: '0.875rem' }}><strong>xs</strong> - 0.25rem (4px)</span>
   </div>
   <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-    <div style={{ width: '0.5rem', height: '40px', backgroundColor: '#6366F1' }}></div>
+    <div style={{ width: '0.5rem', height: '40px', backgroundColor: 'oklch(65.5% 0.180 262.1)' }}></div>
     <span style={{ marginLeft: '1rem', fontSize: '0.875rem' }}><strong>sm</strong> - 0.5rem (8px)</span>
   </div>
   <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-    <div style={{ width: '1rem', height: '40px', backgroundColor: '#6366F1' }}></div>
+    <div style={{ width: '1rem', height: '40px', backgroundColor: 'oklch(65.5% 0.180 262.1)' }}></div>
     <span style={{ marginLeft: '1rem', fontSize: '0.875rem' }}><strong>md</strong> - 1rem (16px)</span>
   </div>
   <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-    <div style={{ width: '1.5rem', height: '40px', backgroundColor: '#6366F1' }}></div>
+    <div style={{ width: '1.5rem', height: '40px', backgroundColor: 'oklch(65.5% 0.180 262.1)' }}></div>
     <span style={{ marginLeft: '1rem', fontSize: '0.875rem' }}><strong>lg</strong> - 1.5rem (24px)</span>
   </div>
   <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-    <div style={{ width: '2rem', height: '40px', backgroundColor: '#6366F1' }}></div>
+    <div style={{ width: '2rem', height: '40px', backgroundColor: 'oklch(65.5% 0.180 262.1)' }}></div>
     <span style={{ marginLeft: '1rem', fontSize: '0.875rem' }}><strong>xl</strong> - 2rem (32px)</span>
   </div>
   <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-    <div style={{ width: '3rem', height: '40px', backgroundColor: '#6366F1' }}></div>
+    <div style={{ width: '3rem', height: '40px', backgroundColor: 'oklch(65.5% 0.180 262.1)' }}></div>
     <span style={{ marginLeft: '1rem', fontSize: '0.875rem' }}><strong>2xl</strong> - 3rem (48px)</span>
   </div>
 </div>
 
 ---
 
-## Getting Started
+## 시작하기
 
-### Installation
+### 설치
 
 ```bash
 pnpm add @plug-siteguard/ui
 ```
 
-### Usage
+### 사용법
 
-Import the global styles in your app:
+앱에 전역 스타일을 import합니다:
 
 ```tsx
 import '@plug-siteguard/ui/globals.css';
 ```
 
-Import components from atomic levels:
+Atomic 레벨에서 컴포넌트를 import합니다:
 
 ```tsx
-// Import from atoms
+// Atoms에서 import
 import { Button } from '@plug-siteguard/ui/atoms';
 
-// Or import from main entry
+// 또는 메인 엔트리에서 import
 import { Button } from '@plug-siteguard/ui';
 
 function App() {
   return (
     <Button variant="default" size="lg">
-      Click me
+      클릭하세요
     </Button>
   );
 }
 ```
 
-### Utilities
+### 유틸리티
 
-Use the `cn` utility for conditional class names:
+조건부 클래스명을 위한 `cn` 유틸리티를 사용합니다:
 
 ```tsx
 import { cn } from '@plug-siteguard/ui/utils';
@@ -265,11 +291,11 @@ const buttonClass = cn(
 
 ---
 
-## Browse Components
+## 컴포넌트 탐색
 
-Explore our components organized by atomic design levels:
+Atomic Design 레벨에 따라 구성된 컴포넌트를 탐색하세요:
 
-- **Atoms** → Basic UI elements
-- **Molecules** → Component compositions
-- **Organisms** → Complex features
-- **Templates** → Page layouts
+- **Atoms** → 기본 UI 요소
+- **Molecules** → 컴포넌트 조합
+- **Organisms** → 복잡한 기능
+- **Templates** → 페이지 레이아웃

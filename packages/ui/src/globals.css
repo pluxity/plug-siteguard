@@ -1,70 +1,65 @@
 @import "tailwindcss";
 
 @theme {
-  /* Primary Colors (Blue) */
-  --color-primary-50: oklch(97.8% 0.014 264.7);
-  --color-primary-100: oklch(94.4% 0.034 264.5);
-  --color-primary-200: oklch(90.2% 0.066 264.3);
-  --color-primary-300: oklch(83.7% 0.109 263.4);
-  --color-primary-400: oklch(74.5% 0.155 262.8);
-  --color-primary-500: oklch(65.5% 0.180 262.1);
-  --color-primary-600: oklch(56.8% 0.183 261.2);
-  --color-primary-700: oklch(48.6% 0.153 260.7);
-  --color-primary-800: oklch(41.7% 0.124 260.3);
-  --color-primary-900: oklch(37.1% 0.102 259.5);
-  --color-primary-950: oklch(25.3% 0.070 258.9);
+  /* Primary Colors (Blue) - From Figma Design System */
+  --color-primary-50: #edf1fc;
+  --color-primary-100: #dbe4f9;
+  --color-primary-200: #b8c9f3;
+  --color-primary-300: #84a1eb;
+  --color-primary-400: #4f79e2;
+  --color-primary-500: #2357db;
+  --color-primary-600: #1d49b8;
+  --color-primary-700: #183b95;
+  --color-primary-800: #112a69;
+  --color-primary-900: #0b1c46;
 
-  /* Success Colors (Green) */
-  --color-success-50: oklch(97.5% 0.020 145.0);
-  --color-success-100: oklch(94.0% 0.045 145.0);
-  --color-success-200: oklch(89.5% 0.085 145.0);
-  --color-success-300: oklch(82.0% 0.130 145.0);
-  --color-success-400: oklch(72.0% 0.160 145.0);
-  --color-success-500: oklch(62.0% 0.175 145.0);
-  --color-success-600: oklch(52.0% 0.165 145.0);
-  --color-success-700: oklch(44.0% 0.140 145.0);
-  --color-success-800: oklch(37.0% 0.115 145.0);
-  --color-success-900: oklch(32.0% 0.090 145.0);
-  --color-success-950: oklch(22.0% 0.060 145.0);
+  /* Success Colors (Green) - From Figma Design System */
+  --color-success-50: #eefbf4;
+  --color-success-100: #ddf7e9;
+  --color-success-200: #bcefd3;
+  --color-success-300: #8ae4b3;
+  --color-success-400: #58d992;
+  --color-success-500: #2fcf77;
+  --color-success-600: #27ae64;
+  --color-success-700: #208d51;
+  --color-success-800: #166339;
+  --color-success-900: #0f4226;
 
-  /* Warning Colors (Amber) */
-  --color-warning-50: oklch(98.0% 0.025 85.0);
-  --color-warning-100: oklch(95.5% 0.055 85.0);
-  --color-warning-200: oklch(91.0% 0.105 85.0);
-  --color-warning-300: oklch(84.0% 0.150 85.0);
-  --color-warning-400: oklch(76.0% 0.180 85.0);
-  --color-warning-500: oklch(68.0% 0.190 85.0);
-  --color-warning-600: oklch(58.0% 0.175 85.0);
-  --color-warning-700: oklch(48.0% 0.145 85.0);
-  --color-warning-800: oklch(40.0% 0.120 85.0);
-  --color-warning-900: oklch(35.0% 0.095 85.0);
-  --color-warning-950: oklch(24.0% 0.065 85.0);
+  /* Warning Colors (Amber) - From Figma Design System */
+  --color-warning-50: #fcf4ec;
+  --color-warning-100: #faeada;
+  --color-warning-200: #f6d6b5;
+  --color-warning-300: #f0b77f;
+  --color-warning-400: #e99948;
+  --color-warning-500: #e47f1a;
+  --color-warning-600: #bf6b16;
+  --color-warning-700: #9b5612;
+  --color-warning-800: #6d3d0c;
+  --color-warning-900: #492808;
 
-  /* Error Colors (Red) */
-  --color-error-50: oklch(97.5% 0.020 25.0);
-  --color-error-100: oklch(94.5% 0.045 25.0);
-  --color-error-200: oklch(90.0% 0.090 25.0);
-  --color-error-300: oklch(83.0% 0.135 25.0);
-  --color-error-400: oklch(73.0% 0.170 25.0);
-  --color-error-500: oklch(63.0% 0.185 25.0);
-  --color-error-600: oklch(55.0% 0.180 25.0);
-  --color-error-700: oklch(47.0% 0.155 25.0);
-  --color-error-800: oklch(40.0% 0.130 25.0);
-  --color-error-900: oklch(35.0% 0.105 25.0);
-  --color-error-950: oklch(23.0% 0.070 25.0);
+  /* Error Colors (Red) - From Figma Design System */
+  --color-error-50: #fbeeee;
+  --color-error-100: #f8dddd;
+  --color-error-200: #f1bbbb;
+  --color-error-300: #e68888;
+  --color-error-400: #dc5555;
+  --color-error-500: #d32b2b;
+  --color-error-600: #b12424;
+  --color-error-700: #8f1d1d;
+  --color-error-800: #651414;
+  --color-error-900: #430d0d;
 
-  /* Gray Colors (Neutral) */
-  --color-gray-50: oklch(98.5% 0.002 270.0);
-  --color-gray-100: oklch(96.5% 0.004 270.0);
-  --color-gray-200: oklch(92.0% 0.007 270.0);
-  --color-gray-300: oklch(85.0% 0.010 270.0);
-  --color-gray-400: oklch(70.0% 0.012 270.0);
-  --color-gray-500: oklch(55.0% 0.013 270.0);
-  --color-gray-600: oklch(45.0% 0.012 270.0);
-  --color-gray-700: oklch(38.0% 0.010 270.0);
-  --color-gray-800: oklch(30.0% 0.008 270.0);
-  --color-gray-900: oklch(24.0% 0.006 270.0);
-  --color-gray-950: oklch(16.0% 0.004 270.0);
+  /* Gray Colors (Neutral) - From Figma Design System */
+  --color-gray-50: #f4f4f4;
+  --color-gray-100: #eaeaea;
+  --color-gray-200: #d6d6d6;
+  --color-gray-300: #b7b7b7;
+  --color-gray-400: #999999;
+  --color-gray-500: #7f7f7f;
+  --color-gray-600: #6b6b6b;
+  --color-gray-700: #565656;
+  --color-gray-800: #3d3d3d;
+  --color-gray-900: #282828;
 
   /* Typography */
   --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
