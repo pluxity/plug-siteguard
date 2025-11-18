@@ -1,0 +1,275 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+
+<Meta title="Introduction" />
+
+# Plug SiteGuard UI
+
+A modern, accessible UI component library built with React 19, TypeScript 5.8, and Tailwind CSS v4.
+
+## Design System
+
+This library follows **Atomic Design** principles, organizing components by complexity:
+
+- **Atoms**: Basic building blocks (Button, Input, Badge, etc.)
+- **Molecules**: Simple combinations of atoms
+- **Organisms**: Complex, feature-complete components
+- **Templates**: Page-level layouts
+
+## Technology Stack
+
+- ⚛️ **React 19** - Latest React features
+- 🔷 **TypeScript 5.8** - Full type safety
+- 🎨 **Tailwind CSS v4** - Utility-first styling
+- ♿ **Radix UI** - Accessible primitives
+- 📚 **Storybook 8.6** - Interactive documentation
+
+---
+
+## Color Palette
+
+Our design system uses a comprehensive color palette with brand colors and semantic variations. Each color has 11 shades (50-950) for maximum flexibility.
+
+<ColorPalette>
+  <ColorItem
+    title="Primary"
+    subtitle="Main brand colors - Blue"
+    colors={{
+      50: 'oklch(97.8% 0.014 264.7)',
+      100: 'oklch(94.4% 0.034 264.5)',
+      200: 'oklch(90.2% 0.066 264.3)',
+      300: 'oklch(83.7% 0.109 263.4)',
+      400: 'oklch(74.5% 0.155 262.8)',
+      500: 'oklch(65.5% 0.180 262.1)',
+      600: 'oklch(56.8% 0.183 261.2)',
+      700: 'oklch(48.6% 0.153 260.7)',
+      800: 'oklch(41.7% 0.124 260.3)',
+      900: 'oklch(37.1% 0.102 259.5)',
+      950: 'oklch(25.3% 0.070 258.9)',
+    }}
+  />
+  <ColorItem
+    title="Success"
+    subtitle="Positive actions & confirmations - Green"
+    colors={{
+      50: 'oklch(97.5% 0.020 145.0)',
+      100: 'oklch(94.0% 0.045 145.0)',
+      200: 'oklch(89.5% 0.085 145.0)',
+      300: 'oklch(82.0% 0.130 145.0)',
+      400: 'oklch(72.0% 0.160 145.0)',
+      500: 'oklch(62.0% 0.175 145.0)',
+      600: 'oklch(52.0% 0.165 145.0)',
+      700: 'oklch(44.0% 0.140 145.0)',
+      800: 'oklch(37.0% 0.115 145.0)',
+      900: 'oklch(32.0% 0.090 145.0)',
+      950: 'oklch(22.0% 0.060 145.0)',
+    }}
+  />
+  <ColorItem
+    title="Warning"
+    subtitle="Cautionary messages & alerts - Amber"
+    colors={{
+      50: 'oklch(98.0% 0.025 85.0)',
+      100: 'oklch(95.5% 0.055 85.0)',
+      200: 'oklch(91.0% 0.105 85.0)',
+      300: 'oklch(84.0% 0.150 85.0)',
+      400: 'oklch(76.0% 0.180 85.0)',
+      500: 'oklch(68.0% 0.190 85.0)',
+      600: 'oklch(58.0% 0.175 85.0)',
+      700: 'oklch(48.0% 0.145 85.0)',
+      800: 'oklch(40.0% 0.120 85.0)',
+      900: 'oklch(35.0% 0.095 85.0)',
+      950: 'oklch(24.0% 0.065 85.0)',
+    }}
+  />
+  <ColorItem
+    title="Error"
+    subtitle="Destructive actions & errors - Red"
+    colors={{
+      50: 'oklch(97.5% 0.020 25.0)',
+      100: 'oklch(94.5% 0.045 25.0)',
+      200: 'oklch(90.0% 0.090 25.0)',
+      300: 'oklch(83.0% 0.135 25.0)',
+      400: 'oklch(73.0% 0.170 25.0)',
+      500: 'oklch(63.0% 0.185 25.0)',
+      600: 'oklch(55.0% 0.180 25.0)',
+      700: 'oklch(47.0% 0.155 25.0)',
+      800: 'oklch(40.0% 0.130 25.0)',
+      900: 'oklch(35.0% 0.105 25.0)',
+      950: 'oklch(23.0% 0.070 25.0)',
+    }}
+  />
+  <ColorItem
+    title="Gray"
+    subtitle="Neutral colors for text & backgrounds"
+    colors={{
+      50: 'oklch(98.5% 0.002 270.0)',
+      100: 'oklch(96.5% 0.004 270.0)',
+      200: 'oklch(92.0% 0.007 270.0)',
+      300: 'oklch(85.0% 0.010 270.0)',
+      400: 'oklch(70.0% 0.012 270.0)',
+      500: 'oklch(55.0% 0.013 270.0)',
+      600: 'oklch(45.0% 0.012 270.0)',
+      700: 'oklch(38.0% 0.010 270.0)',
+      800: 'oklch(30.0% 0.008 270.0)',
+      900: 'oklch(24.0% 0.006 270.0)',
+      950: 'oklch(16.0% 0.004 270.0)',
+    }}
+  />
+</ColorPalette>
+
+### Using Colors
+
+All colors are available through Tailwind CSS classes:
+
+```tsx
+// Primary (Blue)
+<div className="bg-primary-600 text-white">Primary button</div>
+
+// Success (Green)
+<div className="bg-success-600 text-white">Success message</div>
+
+// Warning (Amber)
+<div className="bg-warning-600 text-white">Warning alert</div>
+
+// Error (Red)
+<div className="bg-error-600 text-white">Error message</div>
+
+// Gray (Neutral)
+<div className="bg-gray-100 text-gray-900">Neutral background</div>
+
+// Text colors
+<p className="text-primary-600">Primary text</p>
+<p className="text-success-700">Success text</p>
+<p className="text-error-600">Error text</p>
+
+// Border colors
+<div className="border border-gray-300">Gray border</div>
+<div className="border-2 border-primary-500">Primary border</div>
+```
+
+### Semantic Color Usage
+
+- **Primary**: Main brand actions, links, focus states
+- **Success**: Confirmations, successful operations, positive feedback
+- **Warning**: Cautionary messages, potential issues, attention needed
+- **Error**: Destructive actions, error states, critical alerts
+- **Gray**: Text, backgrounds, borders, disabled states
+
+---
+
+## Design Tokens
+
+### Border Radius
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+  <div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: '#E5E7EB', borderRadius: '0.25rem' }}></div>
+    <p style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}><strong>sm</strong> - 0.25rem (4px)</p>
+  </div>
+  <div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: '#E5E7EB', borderRadius: '0.375rem' }}></div>
+    <p style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}><strong>md</strong> - 0.375rem (6px)</p>
+  </div>
+  <div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: '#E5E7EB', borderRadius: '0.5rem' }}></div>
+    <p style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}><strong>lg</strong> - 0.5rem (8px)</p>
+  </div>
+  <div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: '#E5E7EB', borderRadius: '0.75rem' }}></div>
+    <p style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}><strong>xl</strong> - 0.75rem (12px)</p>
+  </div>
+  <div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: '#E5E7EB', borderRadius: '1rem' }}></div>
+    <p style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}><strong>2xl</strong> - 1rem (16px)</p>
+  </div>
+</div>
+
+### Spacing Scale
+
+<div style={{ marginTop: '1rem' }}>
+  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+    <div style={{ width: '0.25rem', height: '40px', backgroundColor: '#6366F1' }}></div>
+    <span style={{ marginLeft: '1rem', fontSize: '0.875rem' }}><strong>xs</strong> - 0.25rem (4px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+    <div style={{ width: '0.5rem', height: '40px', backgroundColor: '#6366F1' }}></div>
+    <span style={{ marginLeft: '1rem', fontSize: '0.875rem' }}><strong>sm</strong> - 0.5rem (8px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+    <div style={{ width: '1rem', height: '40px', backgroundColor: '#6366F1' }}></div>
+    <span style={{ marginLeft: '1rem', fontSize: '0.875rem' }}><strong>md</strong> - 1rem (16px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+    <div style={{ width: '1.5rem', height: '40px', backgroundColor: '#6366F1' }}></div>
+    <span style={{ marginLeft: '1rem', fontSize: '0.875rem' }}><strong>lg</strong> - 1.5rem (24px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+    <div style={{ width: '2rem', height: '40px', backgroundColor: '#6366F1' }}></div>
+    <span style={{ marginLeft: '1rem', fontSize: '0.875rem' }}><strong>xl</strong> - 2rem (32px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
+    <div style={{ width: '3rem', height: '40px', backgroundColor: '#6366F1' }}></div>
+    <span style={{ marginLeft: '1rem', fontSize: '0.875rem' }}><strong>2xl</strong> - 3rem (48px)</span>
+  </div>
+</div>
+
+---
+
+## Getting Started
+
+### Installation
+
+```bash
+pnpm add @plug-siteguard/ui
+```
+
+### Usage
+
+Import the global styles in your app:
+
+```tsx
+import '@plug-siteguard/ui/globals.css';
+```
+
+Import components from atomic levels:
+
+```tsx
+// Import from atoms
+import { Button } from '@plug-siteguard/ui/atoms';
+
+// Or import from main entry
+import { Button } from '@plug-siteguard/ui';
+
+function App() {
+  return (
+    <Button variant="default" size="lg">
+      Click me
+    </Button>
+  );
+}
+```
+
+### Utilities
+
+Use the `cn` utility for conditional class names:
+
+```tsx
+import { cn } from '@plug-siteguard/ui/utils';
+
+const buttonClass = cn(
+  'base-class',
+  isActive && 'active-class',
+  isDisabled && 'disabled-class'
+);
+```
+
+---
+
+## Browse Components
+
+Explore our components organized by atomic design levels:
+
+- **Atoms** → Basic UI elements
+- **Molecules** → Component compositions
+- **Organisms** → Complex features
+- **Templates** → Page layouts

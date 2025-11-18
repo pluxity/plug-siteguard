@@ -1,0 +1,33 @@
+{
+  "name": "plug-siteguard",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "packageManager": "pnpm@10.9.0",
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:yongin": "pnpm --filter @plug-siteguard/yongin dev",
+    "build": "turbo run build",
+    "build:yongin": "pnpm --filter @plug-siteguard/yongin build",
+    "preview": "pnpm --filter @plug-siteguard/yongin preview",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean && rimraf node_modules",
+    "storybook": "pnpm --filter @plug-siteguard/ui storybook",
+    "build-storybook": "pnpm --filter @plug-siteguard/ui build-storybook"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^22.10.6",
+    "rimraf": "^6.0.1",
+    "turbo": "^2.4.3",
+    "typescript": "^5.8.2"
+  }
+}
