@@ -1,10 +1,9 @@
 export {
-  useFormField,
   Form,
+  FormField,
   FormItem,
   FormLabel,
   FormControl,
   FormDescription,
   FormMessage,
-  FormField,
-} from './form';
+} from "./form.component"

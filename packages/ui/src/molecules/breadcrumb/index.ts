@@ -6,4 +6,14 @@ export {
   BreadcrumbPage,
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
-} from './breadcrumb';
+} from "./breadcrumb.component"
+
+export type {
+  BreadcrumbProps,
+  BreadcrumbListProps,
+  BreadcrumbItemProps,
+  BreadcrumbLinkProps,
+  BreadcrumbPageProps,
+  BreadcrumbSeparatorProps,
+  BreadcrumbEllipsisProps,
+} from "./breadcrumb.types"
