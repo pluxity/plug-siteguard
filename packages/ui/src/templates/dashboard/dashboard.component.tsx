@@ -136,7 +136,7 @@ const DashboardContent = ({ className, children, ...props }: DashboardContentPro
   return (
     <main
       data-slot="dashboard-content"
-      className={cn("flex flex-col flex-1 overflow-hidden", className)}
+      className={cn("flex flex-col flex-1 overflow-y-auto", className)}
       {...props}
     >
       {children}
@@ -149,7 +149,7 @@ const DashboardContentHeader = ({ className, children, ...props }: DashboardCont
   return (
     <header
       data-slot="dashboard-content-header"
-      className={cn("flex-shrink-0", className)}
+      className={cn(className)}
       {...props}
     >
       {children}
@@ -164,7 +164,7 @@ const DashboardContentBody = React.forwardRef<HTMLDivElement, DashboardContentBo
       <div
         ref={ref}
         data-slot="dashboard-content-body"
-        className={cn("flex-1 overflow-y-auto", className)}
+        className={cn("flex-1", className)}
         {...props}
       >
         {children}
