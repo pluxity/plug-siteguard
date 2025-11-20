@@ -13,11 +13,6 @@ export interface DashboardSidebarProps extends React.ComponentProps<"aside"> {
   children: React.ReactNode
 }
 
-export interface DashboardSidebarWidthProps extends React.ComponentProps<"div"> {
-  className?: string
-  children: React.ReactNode
-}
-
 export interface DashboardSidebarHeaderProps extends React.ComponentProps<"header"> {
   className?: string
   children: React.ReactNode
@@ -29,11 +24,6 @@ export interface DashboardSidebarBodyProps extends React.ComponentProps<"div"> {
 }
 
 export interface DashboardContentProps extends React.ComponentProps<"main"> {
-  className?: string
-  children: React.ReactNode
-}
-
-export interface DashboardContentWidthProps extends React.ComponentProps<"div"> {
   className?: string
   children: React.ReactNode
 }

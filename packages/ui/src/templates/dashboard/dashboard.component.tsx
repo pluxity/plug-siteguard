@@ -3,11 +3,9 @@ import { cn } from "../../lib/utils"
 import {
   DashboardProps,
   DashboardSidebarProps,
-  DashboardSidebarWidthProps,
   DashboardSidebarHeaderProps,
   DashboardSidebarBodyProps,
   DashboardContentProps,
-  DashboardContentWidthProps,
   DashboardContentHeaderProps,
   DashboardContentBodyProps,
 } from "./dashboard.types"
@@ -108,19 +106,6 @@ const DashboardSidebar = ({ className, children, ...props }: DashboardSidebarPro
 }
 DashboardSidebar.displayName = "Dashboard.Sidebar"
 
-const DashboardSidebarWidth = ({ className, children, ...props }: DashboardSidebarWidthProps) => {
-  return (
-    <div
-      data-slot="dashboard-sidebar-width"
-      className={cn("flex-shrink-0", className)}
-      {...props}
-    >
-      {children}
-    </div>
-  )
-}
-DashboardSidebarWidth.displayName = "Dashboard.Sidebar.Width"
-
 const DashboardSidebarHeader = ({ className, children, ...props }: DashboardSidebarHeaderProps) => {
   return (
     <header
@@ -160,19 +145,6 @@ const DashboardContent = ({ className, children, ...props }: DashboardContentPro
 }
 DashboardContent.displayName = "Dashboard.Content"
 
-const DashboardContentWidth = ({ className, children, ...props }: DashboardContentWidthProps) => {
-  return (
-    <div
-      data-slot="dashboard-content-width"
-      className={cn("flex-shrink-0", className)}
-      {...props}
-    >
-      {children}
-    </div>
-  )
-}
-DashboardContentWidth.displayName = "Dashboard.Content.Width"
-
 const DashboardContentHeader = ({ className, children, ...props }: DashboardContentHeaderProps) => {
   return (
     <header
@@ -204,12 +176,10 @@ DashboardContentBody.displayName = "Dashboard.Content.Body"
 
 export const Dashboard = Object.assign(DashboardRoot, {
   Sidebar: Object.assign(DashboardSidebar, {
-    Width: DashboardSidebarWidth,
     Header: DashboardSidebarHeader,
     Body: DashboardSidebarBody,
   }),
   Content: Object.assign(DashboardContent, {
-    Width: DashboardContentWidth,
     Header: DashboardContentHeader,
     Body: DashboardContentBody,
   }),
