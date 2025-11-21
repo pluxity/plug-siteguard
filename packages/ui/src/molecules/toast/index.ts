@@ -1,11 +1,19 @@
 export {
-  type ToastProps,
-  type ToastActionElement,
-  ToastProvider,
-  ToastViewport,
   Toast,
+  ToastAction,
+  ToastClose,
   ToastTitle,
   ToastDescription,
-  ToastClose,
-  ToastAction,
-} from './toast';
+  ToastContainer,
+  toastVariants,
+  useToast
+} from "./toast.component"
+export type {
+  ToastProps,
+  ToastActionProps,
+  ToastTitleProps,
+  ToastDescriptionProps,
+  ToastData,
+  ToastContainerProps,
+  ToastVariant
+} from "./toast.types"
