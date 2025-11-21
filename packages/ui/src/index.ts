@@ -37,6 +37,7 @@ export * from './molecules/tooltip'
 export * from './molecules/menubar'
 export * from './molecules/sheet'
 export * from './molecules/ModalForm'
+export * from './molecules/widget'
 
 export * from './organisms/alert-dialog'
 export * from './organisms/chart'
@@ -53,3 +54,4 @@ export * from './organisms/side-menu'
 
 export * from './templates/two-column-layout'
 export * from './templates/dashboard'
+export * from './templates/grid-layout'

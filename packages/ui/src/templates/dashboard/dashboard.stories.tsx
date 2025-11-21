@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import { Dashboard } from "./dashboard.component"
 import { Button } from "../../atoms/button"
-import { Card, CardContent, CardHeader, CardTitle } from "../../molecules/card"
 import { DataTable, Column } from "../../organisms/data-table"
 import { SideMenu, SideMenuContent, SideMenuNav } from "../../organisms/side-menu"
-import { Home, Settings, User, BarChart3 } from "lucide-react"
+import { GridLayout } from "../grid-layout"
+import { Widget } from "../../molecules/widget"
+import { Home, Settings, User, BarChart3, MapPin, Users, Calendar, AlertCircle } from "lucide-react"
 
 const meta: Meta<typeof Dashboard> = {
   title: "Templates/Dashboard",
@@ -29,12 +30,12 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          "좌측과 우측 각 영역에 Header, Body 구조를 사용할 수 있습니다. 각 영역을 독립적으로 구성할 수 있습니다.",
+          "MapViewTemplate을 사용한 대시보드 예시입니다. 좌측 사이드바와 우측 지도 뷰로 구성되어 있습니다.",
       },
     },
   },
   render: () => (
-    <Dashboard 
+    <Dashboard
       className="bg-gray-100"
       sidebarWidth="30%"
       contentWidth="70%"
@@ -98,33 +99,57 @@ export const Default: Story = {
           )}
         </SideMenu>
       </Dashboard.Sidebar>
-      <Dashboard.Content className="bg-gray-100 flex flex-col h-full">
-        <Dashboard.Content.Header className="px-6 pt-5 flex-shrink-0">
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
-                전체보기
-              </Button>
-              <Button variant="outline" size="sm">
-                공원별 보기
-              </Button>
+      <Dashboard.Content className="bg-gray-100">
+        <GridLayout className="p-6" columns={12} gap={16}>
+          <Widget colSpan={3} title="총 시설">
+            <div className="flex items-center justify-between">
+              <p className="text-3xl font-bold">12</p>
+              <div className="p-3 bg-green-50 rounded-lg">
+                <MapPin className="w-6 h-6 text-green-600" />
+              </div>
             </div>
-        </Dashboard.Content.Header>
-        <Dashboard.Content.Body className="p-6 bg-gray-100">
-          <div className="h-full bg-white rounded-lg flex items-center justify-center">
-            <p className="text-muted-foreground">메인 콘텐츠 영역 (지도, 차트 등)</p>
-          </div>
-        </Dashboard.Content.Body>
+          </Widget>
+          <Widget colSpan={3} title="이용객">
+            <div className="flex items-center justify-between">
+              <p className="text-3xl font-bold">55</p>
+              <div className="p-3 bg-blue-50 rounded-lg">
+                <Users className="w-6 h-6 text-blue-600" />
+              </div>
+            </div>
+          </Widget>
+          <Widget colSpan={3} title="경기 일정">
+            <div className="flex items-center justify-between">
+              <p className="text-3xl font-bold">153</p>
+              <div className="p-3 bg-yellow-50 rounded-lg">
+                <Calendar className="w-6 h-6 text-yellow-600" />
+              </div>
+            </div>
+          </Widget>
+          <Widget colSpan={3} title="알림">
+            <div className="flex items-center justify-between">
+              <p className="text-3xl font-bold">12</p>
+              <div className="p-3 bg-red-50 rounded-lg">
+                <AlertCircle className="w-6 h-6 text-red-600" />
+              </div>
+            </div>
+          </Widget>
+          <Widget colSpan={12} title="지도 보기" contentClassName="p-0 h-[400px]">
+            <div className="h-full bg-gradient-to-br from-green-100 to-blue-100 flex items-center justify-center">
+              <p className="text-gray-600">3D 지도 영역</p>
+            </div>
+          </Widget>
+        </GridLayout>
       </Dashboard.Content>
     </Dashboard>
   ),
 }
 
-export const WithoutContentHeader: Story = {
+export const WithTableView: Story = {
   parameters: {
     docs: {
       description: {
         story:
-          "ContentHeader 없이 Body만 사용하는 예시입니다. 헤더가 필요 없는 간단한 레이아웃에 사용할 수 있습니다.",
+          "TableViewTemplate을 사용한 대시보드 예시입니다. 상단 지도와 하단 테이블을 조합한 레이아웃입니다.",
       },
     },
   },
@@ -152,7 +177,7 @@ export const WithoutContentHeader: Story = {
     ]
 
     return (
-      <Dashboard 
+      <Dashboard
         className="bg-gray-100"
         sidebarWidth="30%"
         contentWidth="70%"
@@ -216,28 +241,17 @@ export const WithoutContentHeader: Story = {
             )}
           </SideMenu>
         </Dashboard.Sidebar>
-        <Dashboard.Content className="bg-gray-100 flex flex-col h-full">
-          <Dashboard.Content.Body className="p-6 bg-gray-100 flex flex-col gap-6">
-              <Card className="flex-1 min-h-[400px]">
-                <CardHeader className="border-b">
-                  <CardTitle>지도 보기</CardTitle>
-                </CardHeader>
-                <CardContent className="h-full p-0">
-                  <div className="h-full bg-gray-200 rounded-b-lg flex items-center justify-center">
-                    <p className="text-muted-foreground">지도 영역</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="border-b">
-                  <CardTitle>공원 목록</CardTitle>
-                </CardHeader>
-                <CardContent className="p-4">
-                  <DataTable data={tableData} columns={columns} />
-                </CardContent>
-              </Card>
-            </Dashboard.Content.Body>
+        <Dashboard.Content className="bg-gray-100">
+          <GridLayout className="p-6" columns={12} gap={16}>
+            <Widget colSpan={12} title="지도 보기" contentClassName="p-0 h-[300px]">
+              <div className="h-full bg-gray-200 flex items-center justify-center">
+                <p className="text-muted-foreground">지도 영역</p>
+              </div>
+            </Widget>
+            <Widget colSpan={12} title="공원 목록">
+              <DataTable data={tableData} columns={columns} />
+            </Widget>
+          </GridLayout>
         </Dashboard.Content>
       </Dashboard>
     )
