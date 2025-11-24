@@ -109,7 +109,7 @@ const SideMenuHeader = React.forwardRef<HTMLDivElement, SideMenuHeaderProps>(
   ({ className, children, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("px-4 py-3 border-b", className)}
+      className={cn("py-3 border-b", className)}
       {...props}
     >
       {children}

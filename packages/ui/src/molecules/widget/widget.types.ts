@@ -27,4 +27,9 @@ export interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
    * 콘텐츠 영역 클래스명
    */
   contentClassName?: string
+  /**
+   * 테두리 표시 여부
+   * @default true
+   */
+  border?: boolean
 }
