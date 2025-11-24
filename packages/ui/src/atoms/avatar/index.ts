@@ -1,1 +1,2 @@
-export { Avatar, AvatarImage, AvatarFallback } from './avatar';
+export { Avatar, AvatarImage, AvatarFallback, avatarVariants } from "./avatar.component"
+export type { AvatarProps } from "./avatar.component"
