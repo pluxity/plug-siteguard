@@ -55,7 +55,12 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Yongin Smart City
-        run: pnpm build:yongin --mode staging
+        env:
+          VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
+          VITE_CCTV_API_URL: ${{ vars.VITE_CCTV_API_URL }}
+          VITE_WS_URL: ${{ secrets.VITE_WS_URL }}
+          VITE_CESIUM_ION_ACCESS_TOKEN: ${{ secrets.VITE_CESIUM_ION_ACCESS_TOKEN }}
+        run: pnpm build:yongin
 
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
@@ -66,7 +71,7 @@ jobs:
         run: |
           sshpass -e scp -o StrictHostKeyChecking=no -P ${{ secrets.PLX_DEV_SSH_PORT }} \
             -r apps/yongin-smart-city/dist/* \
-            ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }}:${{ vars.PLX_YONGIN_PATH }}
+            ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }}:${{ secrets.VITE_DEPLOY_PATH }}
 
       - name: Verify Deployment
         env:
@@ -74,4 +79,4 @@ jobs:
         run: |
           sshpass -e ssh -o StrictHostKeyChecking=no -p ${{ secrets.PLX_DEV_SSH_PORT }} \
             ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }} \
-            "echo 'Deployment completed!' && ls -la ${{ vars.PLX_YONGIN_PATH }}"
+            "echo 'Deployment completed!' && ls -la ${{ secrets.VITE_DEPLOY_PATH }}"
