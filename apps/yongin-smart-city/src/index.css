@@ -3,33 +3,33 @@
 @import "@plug-siteguard/ui/globals.css";
 
 @theme {
-  /* Primary Color Override - Orange (#ff7500) */
-  --color-primary-50: hsl(28 100% 97%);
-  --color-primary-100: hsl(28 100% 93%);
-  --color-primary-200: hsl(28 100% 85%);
-  --color-primary-300: hsl(28 100% 73%);
-  --color-primary-400: hsl(28 100% 60%);
-  --color-primary-500: hsl(28 100% 50%);
-  --color-primary-600: hsl(28 100% 42%);
-  --color-primary-700: hsl(28 100% 34%);
-  --color-primary-800: hsl(28 100% 26%);
-  --color-primary-900: hsl(28 100% 18%);
-  --color-primary: hsl(28 100% 50%);
+  /* Primary Color Override - Blue (#0057E3) */
+  --color-primary-50: hsl(217 100% 97%);
+  --color-primary-100: hsl(217 100% 93%);
+  --color-primary-200: hsl(217 100% 85%);
+  --color-primary-300: hsl(217 100% 73%);
+  --color-primary-400: hsl(217 100% 60%);
+  --color-primary-500: hsl(217 100% 45%);
+  --color-primary-600: hsl(217 100% 38%);
+  --color-primary-700: hsl(217 100% 30%);
+  --color-primary-800: hsl(217 100% 22%);
+  --color-primary-900: hsl(217 100% 15%);
+  --color-primary: hsl(217 100% 45%);
   --color-primary-foreground: hsl(0 0% 100%);
 }
 
 .dark {
   /* Primary Color Override for Dark Mode */
-  --color-primary-50: hsl(28 100% 18%);
-  --color-primary-100: hsl(28 100% 26%);
-  --color-primary-200: hsl(28 100% 34%);
-  --color-primary-300: hsl(28 100% 42%);
-  --color-primary-400: hsl(28 100% 50%);
-  --color-primary-500: hsl(28 100% 60%);
-  --color-primary-600: hsl(28 100% 73%);
-  --color-primary-700: hsl(28 100% 85%);
-  --color-primary-800: hsl(28 100% 93%);
-  --color-primary-900: hsl(28 100% 97%);
-  --color-primary: hsl(28 100% 60%);
+  --color-primary-50: hsl(217 100% 15%);
+  --color-primary-100: hsl(217 100% 22%);
+  --color-primary-200: hsl(217 100% 30%);
+  --color-primary-300: hsl(217 100% 38%);
+  --color-primary-400: hsl(217 100% 45%);
+  --color-primary-500: hsl(217 100% 60%);
+  --color-primary-600: hsl(217 100% 73%);
+  --color-primary-700: hsl(217 100% 85%);
+  --color-primary-800: hsl(217 100% 93%);
+  --color-primary-900: hsl(217 100% 97%);
+  --color-primary: hsl(217 100% 60%);
   --color-primary-foreground: hsl(0 0% 100%);
 }
