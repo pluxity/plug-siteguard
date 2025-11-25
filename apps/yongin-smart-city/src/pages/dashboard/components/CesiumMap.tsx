@@ -1,73 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import * as Cesium from 'cesium';
 import { Tabs, TabsList, TabsTrigger, Spinner } from '@plug-siteguard/ui';
-import { CameraEventType } from 'cesium';
-interface ViewerOptions {
-  animation?: boolean;
-  baseLayerPicker?: boolean;
-  fullscreenButton?: boolean;
-  geocoder?: boolean;
-  homeButton?: boolean;
-  infoBox?: boolean;
-  sceneModePicker?: boolean;
-  selectionIndicator?: boolean;
-  timeline?: boolean;
-  navigationHelpButton?: boolean;
-  shouldAnimate?: boolean;
-  requestRenderMode?: boolean;
-  maximumRenderTimeChange?: number;
-}
-
-const DEFAULT_VIEWER_OPTIONS: ViewerOptions = {
-  animation: false,
-  baseLayerPicker: false,
-  fullscreenButton: false,
-  geocoder: false,
-  homeButton: false,
-  infoBox: false,
-  sceneModePicker: false,
-  selectionIndicator: false,
-  timeline: false,
-  navigationHelpButton: false,
-  shouldAnimate: true,
-  requestRenderMode: true,
-  maximumRenderTimeChange: Infinity,
-};
-
-
-const createViewer = (container: HTMLElement, options?: ViewerOptions): Cesium.Viewer => {
-  Cesium.Ion.defaultAccessToken = import.meta.env.VITE_CESIUM_ION_ACCESS_TOKEN || '';
-
-  const mergedOptions = { ...DEFAULT_VIEWER_OPTIONS, ...options };
-  const viewer = new Cesium.Viewer(container, mergedOptions);
-
-  return viewer;
-};
-
-const setupTerrain = async (viewer: Cesium.Viewer, assetId?: number): Promise<void> => {
-  if (viewer.isDestroyed()) return;
-
-  const terrainAssetId = assetId || Number(import.meta.env.VITE_CESIUM_TERRAIN_ASSET_ID);
-
-  try {
-    if (terrainAssetId) {
-      const terrainResource = await Cesium.IonResource.fromAssetId(terrainAssetId);
-      const terrainProvider = await Cesium.CesiumTerrainProvider.fromUrl(terrainResource);
-      if (!viewer.isDestroyed()) {
-        viewer.terrainProvider = terrainProvider;
-      }
-    }
-  } catch (error) {
-    console.warn('Failed to load Cesium terrain, using default ellipsoid:', error);
-  }
-};
+import { useViewerStore } from '../../../stores/cesium/viewerStore';
 
 export default function CesiumMap() {
   const [activeTab, setActiveTab] = useState('3d-map');
-  const cesiumContainerRef = useRef<HTMLDivElement>(null);
-  const viewerRef = useRef<Cesium.Viewer | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const viewerRef = useRef<Cesium.Viewer | null>(null);
+  const cesiumContainerRef = useRef<HTMLDivElement>(null);
+  const { createViewer, initializeResources } = useViewerStore();
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -77,9 +19,7 @@ export default function CesiumMap() {
   useEffect(() => {
     if (!cesiumContainerRef.current) return;
 
-    let removeCameraListener: Cesium.Event.RemoveCallback | undefined;
-
-    const initializeViewer = async () => {
+    const initViewer = async () => {
       try {
         setIsLoading(true);
         setError(null);
@@ -87,13 +27,11 @@ export default function CesiumMap() {
         const viewer = createViewer(cesiumContainerRef.current!);
         viewerRef.current = viewer;
 
-        const controller = viewer.scene.screenSpaceCameraController;
-        controller.minimumZoomDistance = 10;
-        controller.maximumZoomDistance = 50000000;
-        controller.inertiaZoom = 0.3;
-        controller.zoomEventTypes = [CameraEventType.WHEEL, CameraEventType.PINCH];
+        await initializeResources(viewer, {
+          loadTerrain: true,
+        });
 
-        // 초기 카메라 위치 설정 (용인시 근처)
+        // 초기 카메라 위치 설정 (구성역)
         viewer.camera.setView({
           destination: Cesium.Cartesian3.fromDegrees(127.1056, 37.2989, 1000),
           orientation: {
@@ -103,39 +41,6 @@ export default function CesiumMap() {
           },
         });
 
-        // Pitch/Roll 제한 이벤트 리스너
-        removeCameraListener = viewer.camera.changed.addEventListener(() => {
-          const cameraHeight = viewer.camera.positionCartographic.height;
-          const MAX_PITCH_FAR = -0.1; // 약 -5.7도
-          const MAX_PITCH_MID = -0.2; // 약 -11도
-          const MAX_PITCH_NEAR = -0.3; // 약 -17도
-          const NEAR_HEIGHT_THRESHOLD = 1000;
-          const MID_HEIGHT_THRESHOLD = 5000;
-          const ROLL_THRESHOLD = 0.01;
-
-          let adjustedMaxPitch = MAX_PITCH_FAR;
-          if (cameraHeight < NEAR_HEIGHT_THRESHOLD) {
-            adjustedMaxPitch = MAX_PITCH_NEAR;
-          } else if (cameraHeight < MID_HEIGHT_THRESHOLD) {
-            adjustedMaxPitch = MAX_PITCH_MID;
-          }
-
-          const { pitch, roll } = viewer.camera;
-
-          if (pitch > adjustedMaxPitch || Math.abs(roll) > ROLL_THRESHOLD) {
-            viewer.camera.setView({
-              destination: viewer.camera.position,
-              orientation: {
-                heading: viewer.camera.heading,
-                pitch: Math.min(pitch, adjustedMaxPitch),
-                roll: 0,
-              },
-            });
-          }
-        });
-
-        await setupTerrain(viewer);
-
         setIsLoading(false);
       } catch (err) {
         console.error('Failed to initialize viewer:', err);
@@ -144,16 +49,15 @@ export default function CesiumMap() {
       }
     };
 
-    initializeViewer();
+    initViewer();
 
     return () => {
-      removeCameraListener?.();
       if (viewerRef.current) {
         viewerRef.current.destroy();
         viewerRef.current = null;
       }
     };
-  }, []);
+  }, [createViewer, initializeResources]);
 
   return (
     <div className="h-full min-h-[450px] flex items-center justify-center rounded-lg relative">
@@ -166,7 +70,7 @@ export default function CesiumMap() {
               value="2d-map"
               className={`
                 w-[70px] px-[10px] py-2 !border-r !border-[#FF7500] border-0 text-[#FF7500] text-xs font-bold rounded-none first:rounded-l-[7px] cursor-pointer
-                bg-white data-[state=active]:bg-[#FF7500] data-[state=active]:text-white !hover:bg-[#FF7500]/10 data-[state=active]:hover:bg-[#FF7500] transition-colors duration-200
+                bg-white hover:!bg-white data-[state=active]:bg-[#FF7500] data-[state=active]:text-white data-[state=active]:hover:!bg-[#FF7500] transition-colors duration-200
               `}
             >
               2D MAP
@@ -174,8 +78,8 @@ export default function CesiumMap() {
             <TabsTrigger
               value="3d-map"
               className={`
-                w-[70px] px-[10px] py-2 !border-r !border-[#FF7500] border-0 text-[#FF7500] text-xs font-bold bg-white cursor-pointer
-                rounded-none data-[state=active]:bg-[#FF7500] data-[state=active]:text-white !hover:bg-[#FF7500]/10 data-[state=active]:hover:bg-[#FF7500] transition-colors duration-200
+                w-[70px] px-[10px] py-2 !border-r !border-[#FF7500] border-0 text-[#FF7500] text-xs font-bold bg-white hover:!bg-white cursor-pointer
+                rounded-none data-[state=active]:bg-[#FF7500] data-[state=active]:text-white data-[state=active]:hover:!bg-[#FF7500] transition-colors duration-200
               `}
             >
               3D MAP
@@ -184,7 +88,7 @@ export default function CesiumMap() {
               value="bim"
               className={`
                 w-[70px] px-[10px] py-2 text-[#FF7500] text-xs font-bold rounded-none last:rounded-r-[7px] data-[state=active]:bg-[#FF7500] data-[state=active]:text-white
-                !hover:bg-[#FF7500]/10 data-[state=active]:hover:bg-[#FF7500] transition-colors duration-200 bg-white cursor-pointer
+                data-[state=active]:hover:!bg-[#FF7500] transition-colors duration-200 bg-white hover:!bg-white cursor-pointer
               `}
             >
               BIM
