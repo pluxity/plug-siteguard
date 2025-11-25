@@ -81,7 +81,7 @@ const SideMenuContent = React.forwardRef<
       "rounded-xl border bg-white shadow-xl w-72",
       className
     )}>
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col h-full px-4">
         {children}
       </div>
     </div>
@@ -109,7 +109,7 @@ const SideMenuHeader = React.forwardRef<HTMLDivElement, SideMenuHeaderProps>(
   ({ className, children, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("px-4 py-3 border-b", className)}
+      className={cn("py-3 border-b", className)}
       {...props}
     >
       {children}

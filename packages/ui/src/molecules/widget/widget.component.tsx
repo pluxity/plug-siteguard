@@ -13,6 +13,7 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps>(
       contentClassName,
       className,
       style,
+      border = true,
       ...props
     },
     ref
@@ -21,7 +22,8 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps>(
       <div
         ref={ref}
         className={cn(
-          "bg-white rounded-lg border shadow-sm overflow-hidden",
+          "bg-transparent rounded-lg overflow-hidden",
+          border && "border shadow-sm",
           className
         )}
         style={{
@@ -32,7 +34,7 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps>(
         {...props}
       >
         {title && (
-          <div className={cn("px-4 py-3 border-b bg-gray-50/50", headerClassName)}>
+          <div className={cn("px-4 py-3 bg-gray-50/50", border && "border-b", headerClassName)}>
             <h3 className="text-sm font-semibold text-gray-900">{title}</h3>
           </div>
         )}
