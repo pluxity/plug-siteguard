@@ -77,6 +77,8 @@ export default function CesiumMap() {
   useEffect(() => {
     if (!cesiumContainerRef.current) return;
 
+    let removeCameraListener: Cesium.Event.RemoveCallback | undefined;
+
     const initializeViewer = async () => {
       try {
         setIsLoading(true);
@@ -85,11 +87,11 @@ export default function CesiumMap() {
         const viewer = createViewer(cesiumContainerRef.current!);
         viewerRef.current = viewer;
 
-        const controller = viewer.scene.screenSpaceCameraController
-        controller.minimumZoomDistance = 10
-        controller.maximumZoomDistance = 50000000
-        controller.inertiaZoom = 0.3
-        controller.zoomEventTypes = [CameraEventType.WHEEL, CameraEventType.PINCH]
+        const controller = viewer.scene.screenSpaceCameraController;
+        controller.minimumZoomDistance = 10;
+        controller.maximumZoomDistance = 50000000;
+        controller.inertiaZoom = 0.3;
+        controller.zoomEventTypes = [CameraEventType.WHEEL, CameraEventType.PINCH];
 
         // 초기 카메라 위치 설정 (용인시 근처)
         viewer.camera.setView({
@@ -102,49 +104,50 @@ export default function CesiumMap() {
         });
 
         // Pitch/Roll 제한 이벤트 리스너
-        viewer.camera.changed.addEventListener(() => {
-          const cameraHeight = viewer.camera.positionCartographic.height
-          const maximumPitch = -0.1 // 약 -5.7도 (거의 수평)
+        removeCameraListener = viewer.camera.changed.addEventListener(() => {
+          const cameraHeight = viewer.camera.positionCartographic.height;
+          const MAX_PITCH_FAR = -0.1; // 약 -5.7도
+          const MAX_PITCH_MID = -0.2; // 약 -11도
+          const MAX_PITCH_NEAR = -0.3; // 약 -17도
+          const NEAR_HEIGHT_THRESHOLD = 1000;
+          const MID_HEIGHT_THRESHOLD = 5000;
+          const ROLL_THRESHOLD = 0.01;
 
-          // 높이에 따라 최대 pitch 조정
-          let adjustedMaxPitch = maximumPitch
-          if (cameraHeight < 1000) {
-            // 낮은 고도에서는 더 많이 기울일 수 있음
-            adjustedMaxPitch = -0.3 // 약 -17도
-          } else if (cameraHeight < 5000) {
-            // 중간 고도
-            adjustedMaxPitch = -0.2 // 약 -11도
+          let adjustedMaxPitch = MAX_PITCH_FAR;
+          if (cameraHeight < NEAR_HEIGHT_THRESHOLD) {
+            adjustedMaxPitch = MAX_PITCH_NEAR;
+          } else if (cameraHeight < MID_HEIGHT_THRESHOLD) {
+            adjustedMaxPitch = MAX_PITCH_MID;
           }
 
-          const pitch = viewer.camera.pitch
-          const roll = viewer.camera.roll
+          const { pitch, roll } = viewer.camera;
 
-          // Pitch가 너무 수평이거나 Roll이 0이 아니면 조정
-          if (pitch > adjustedMaxPitch || Math.abs(roll) > 0.01) {
+          if (pitch > adjustedMaxPitch || Math.abs(roll) > ROLL_THRESHOLD) {
             viewer.camera.setView({
-              destination: viewer.camera.position, // 현재 위치 유지
+              destination: viewer.camera.position,
               orientation: {
                 heading: viewer.camera.heading,
-                pitch: pitch > adjustedMaxPitch ? adjustedMaxPitch : pitch,
-                roll: 0, // Roll은 항상 0으로 유지
+                pitch: Math.min(pitch, adjustedMaxPitch),
+                roll: 0,
               },
-            })
+            });
           }
-        })
+        });
 
         await setupTerrain(viewer);
 
         setIsLoading(false);
       } catch (err) {
-        console.error('Failed to initialize viewer:', err)
-        setError('지도를 로드하는 중 오류가 발생했습니다.')
-        setIsLoading(false)
+        console.error('Failed to initialize viewer:', err);
+        setError('지도를 로드하는 중 오류가 발생했습니다.');
+        setIsLoading(false);
       }
     };
 
     initializeViewer();
 
     return () => {
+      removeCameraListener?.();
       if (viewerRef.current) {
         viewerRef.current.destroy();
         viewerRef.current = null;
