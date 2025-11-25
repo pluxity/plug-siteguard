@@ -55,7 +55,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Yongin Smart City
-        run: pnpm build:yongin
+        run: pnpm build:yongin --mode staging
 
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
