@@ -55,7 +55,7 @@ export default function AppSideMenu() {
       <SideMenu defaultOpen={true} collapsible={false} className="flex flex-col gap-3 h-full">
         {({ open }) => (
           <>
-            <SideMenuTrigger open={open} showChevron={false} className="h-10 shrink-0  shadow-md">
+            <SideMenuTrigger open={open} showChevron={false} className="h-10 shadow-md">
               <img src="/assets/images/ci.png" alt="HOBAN CI" className="h-5 aspect-[504/87]" />
               <span className="font-semibold text-md">용인 스마트시티</span>
             </SideMenuTrigger>
