@@ -40,8 +40,8 @@ interface WebRTCActions {
 
 type WebRTCStore = WebRTCState & WebRTCActions;
 
-const WS_URL = 'ws://dev.pluxity.com:8107/ws';
-const CCTV_API_URL = '/sample/streams.json';
+const WS_URL = import.meta.env.VITE_WS_URL;
+const CCTV_API_URL = import.meta.env.VITE_CCTV_API_URL;
 
 const ICE_SERVERS: RTCConfiguration = {
   iceServers: [
