@@ -1,7 +1,9 @@
 import { Skeleton } from '@plug-siteguard/ui';
 
 import { useCCTVList } from '../../lib/webrtc';
-import { CCTV } from '../dashboard/components';
+
+// import { default as CCTV } from '../dashboard/components/CCTV-HLS';
+import { default as CCTV } from '../dashboard/components/CCTV-WebRTC';
 
 export default function CctvPage() {
   const { cctvList, loading } = useCCTVList();
