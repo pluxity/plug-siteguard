@@ -13,7 +13,7 @@ export default function Weather() {
   const currentTemp = data ? Math.round(data.main.temp * 10) / 10 : 0;
   const minTemp = data ? Math.round(data.main.temp_min) : 0;
   const maxTemp = data ? Math.round(data.main.temp_max) : 0;
-  const weatherIcon = getWeatherIconName(data?.weather[0]?.icon || '');
+  const weatherIcon = getWeatherIconName(data?.weather[0]?.id || 800);
   const weatherDescription = getWeatherDescription(
     data?.weather[0]?.id || 800,
     data?.weather[0]?.description || ''

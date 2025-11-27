@@ -19,26 +19,18 @@ export const formatDate = (timestamp: number): string => {
   });
 };
 
-export const getWeatherIconName = (iconCode: string): string => {
-  if (!iconCode) {
-    return 'sunny';
+export const getWeatherIconName = (weatherId: number): string => {
+  if (weatherId >= 200 && weatherId < 300) return 'thunderstorm-rain';
+  if (weatherId >= 300 && weatherId < 400) return 'rainy';
+  if (weatherId >= 500 && weatherId < 600) return 'rainy';
+  if (weatherId >= 600 && weatherId < 700) return 'snow';
+  if (weatherId >= 700 && weatherId < 800) return 'mist';
+  if (weatherId === 800) return 'sunny';
+  if (weatherId >= 801 && weatherId <= 804) {
+    return weatherId === 801 ? 'partly-cloudy' : 'cloudy';
   }
-
-  const prefix = iconCode.substring(0, 2);
   
-  const iconMap: Record<string, string> = {
-    '01': 'sunny',
-    '02': 'partly-cloudy',
-    '03': 'cloudy',
-    '04': 'cloudy',
-    '09': 'rainy',
-    '10': 'rainy',
-    '11': 'thunderstorm-rain',
-    '13': 'snow',
-    '50': 'mist',
-  };
-  
-  return iconMap[prefix];
+  return 'sunny';
 };
 
 export const weatherIdMap: Record<number, string> = {
