@@ -15,6 +15,7 @@ export function useCCTVStream(streamId: string, autoConnect = true): UseCCTVStre
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const streamState = useWebRTCStore((state) => state.streams.get(streamId));
+  const wsConnected = useWebRTCStore((state) => state.wsConnected);
   const connectStream = useWebRTCStore((state) => state.connectStream);
   const disconnectStream = useWebRTCStore((state) => state.disconnectStream);
 
@@ -23,10 +24,10 @@ export function useCCTVStream(streamId: string, autoConnect = true): UseCCTVStre
   const error = streamState?.error ?? null;
 
   useEffect(() => {
-    if (autoConnect && streamId) {
+    if (autoConnect && streamId && wsConnected) {
       connectStream(streamId);
     }
-  }, [streamId, autoConnect, connectStream]);
+  }, [streamId, autoConnect, wsConnected, connectStream]);
 
   useEffect(() => {
     const video = videoRef.current;

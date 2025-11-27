@@ -15,9 +15,9 @@ export default function ProgressChart() {
   const currentData = chartData[chartRange];
 
   return (
-    <div className="h-64 bg-[#303741] rounded-lg">
-      <div className="w-full h-55 rounded-lg px-4 pt-4">
-        <ResponsiveContainer width="100%" height="100%">
+    <div className="bg-[#303741] rounded-lg px-4 pt-4">
+      <div className="w-full">
+        <ResponsiveContainer width="100%" height={240}>
           <AreaChart data={currentData} margin={{ right: 5, left: -35 }}>
             <defs>
               <linearGradient id="gradientPlanned" x1="0" y1="0" x2="0" y2="1">
@@ -66,7 +66,9 @@ export default function ProgressChart() {
                 dataKey={id}
                 stroke={getProgressColor(id)}
                 strokeWidth={2}
+                strokeOpacity={1}
                 fill={`url(#gradient${id.charAt(0).toUpperCase() + id.slice(1)})`}
+                fillOpacity={0.6}
                 dot={{ r: 2.5, fill: "#FFFFFF", stroke: getProgressColor(id), strokeWidth: 1.5 }}
                 activeDot={{ r: 4, fill: "#FFFFFF", stroke: getProgressColor(id), strokeWidth: 2 }}
               />

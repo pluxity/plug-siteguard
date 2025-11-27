@@ -21,8 +21,8 @@ export const progressRows: ProgressProps[] = [
   ];
 
 const COLORS = {
-    planned: "#2276fcab",
-    current: "#5fd4ec91",
+    planned: "#2276fc",
+    current: "#5fd4ec",
     difference: "#FC8181"
   };
 export const getProgressColor = (id: keyof ProgressData) => {

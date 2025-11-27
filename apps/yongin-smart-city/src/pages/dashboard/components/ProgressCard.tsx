@@ -46,7 +46,7 @@ export default function ProgressCard() {
     };
 
     return (
-        <div className="h-64 flex flex-col justify-between bg-[#303741] rounded-lg p-4">
+        <div className="h-72 flex flex-col justify-between bg-[#303741] rounded-lg p-4">
             <div className="flex flex-col gap-4">
                 {progressRows.map(row => <Progress key={row.id} {...row} />)}
             </div>
