@@ -87,22 +87,13 @@ jobs:
             apps/yongin-smart-city/dist.tar.gz \
             ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }}:${{ secrets.VITE_DEPLOY_PATH }}/
 
-          # 서버에서 압축 해제 및 Cesium 재배치
+          # 서버에서 압축 해제
           sshpass -e ssh -o StrictHostKeyChecking=no -p ${{ secrets.PLX_DEV_SSH_PORT }} \
             ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }} \
             "cd ${{ secrets.VITE_DEPLOY_PATH }} && \
-             rm -rf assets index.html *.js *.css 2>/dev/null || true && \
+             rm -rf assets index.html *.js *.css yongin 2>/dev/null || true && \
              tar -xzf dist.tar.gz && \
-             rm dist.tar.gz && \
-             # Cesium을 상위 디렉토리로 이동 (yongin/Cesium → ../Cesium)
-             if [ -d 'yongin/Cesium' ]; then \
-               rm -rf ../Cesium 2>/dev/null || true && \
-               mv yongin/Cesium ../Cesium && \
-               rmdir yongin 2>/dev/null || true && \
-               # index.html에서 Cesium 경로 수정
-               sed -i 's|/yongin/cesium/|/Cesium/|g' index.html && \
-               echo 'Cesium relocated to /Cesium'; \
-             fi"
+             rm dist.tar.gz"
 
       - name: Verify Deployment
         env:
