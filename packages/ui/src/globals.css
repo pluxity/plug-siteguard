@@ -166,10 +166,6 @@
   --color-ring: hsl(223 75% 53%);
 }
 
-* {
-  border-color: var(--color-border);
-}
-
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
@@ -467,4 +463,10 @@ body {
   .ring-gray-700 { --tw-ring-color: var(--color-gray-700); }
   .ring-gray-800 { --tw-ring-color: var(--color-gray-800); }
   .ring-gray-900 { --tw-ring-color: var(--color-gray-900); }
+}
+
+@layer utilities {
+  .font-ds-digital {
+    font-family: "DS-Digital";
+  }
 }
