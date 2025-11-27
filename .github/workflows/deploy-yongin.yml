@@ -69,6 +69,17 @@ jobs:
           VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
         run: pnpm build:yongin
 
+      - name: Relocate Cesium to root
+        run: |
+          cd apps/yongin-smart-city/dist
+          # Cesium을 yongin 하위에서 루트로 이동
+          if [ -d "yongin/Cesium" ]; then
+            mv yongin/Cesium ./Cesium
+            rmdir yongin 2>/dev/null || true
+            echo "Cesium moved to dist/Cesium"
+          fi
+          ls -la
+
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
