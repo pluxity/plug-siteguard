@@ -1,4 +1,7 @@
+import { useCallback, useRef } from 'react';
+
 import { Skeleton } from '@plug-siteguard/ui';
+import { Maximize } from 'lucide-react';
 
 import { useCCTVStream } from '../../../lib/webrtc';
 
@@ -9,14 +12,28 @@ interface CCTVProps {
 }
 
 export default function CCTVWebRTC({ streamId, className, autoConnect = true }: CCTVProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const { videoRef, status, error } = useCCTVStream(streamId, autoConnect);
 
   const isConnected = status === 'connected';
   const isConnecting = status === 'connecting' || status === 'idle';
   const isFailed = status === 'failed';
 
+  const handleFullscreen = useCallback(() => {
+    if (!containerRef.current) return;
+
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      containerRef.current.requestFullscreen();
+    }
+  }, []);
+
   return (
-    <div className={`aspect-video bg-gray-900 rounded-lg overflow-hidden relative ${className ?? ''}`}>
+    <div
+      ref={containerRef}
+      className={`aspect-video bg-gray-900 rounded-lg overflow-hidden relative group ${className ?? ''}`}
+    >
       <video ref={videoRef} className="w-full h-full object-cover" autoPlay playsInline muted />
 
       {isConnecting && (
@@ -33,9 +50,19 @@ export default function CCTVWebRTC({ streamId, className, autoConnect = true }: 
       )}
 
       {isConnected && (
-        <div className="absolute bottom-1 left-1 bg-black/50 px-1.5 py-0.5 rounded text-xs text-white">
-          {streamId}
-        </div>
+        <>
+          <div className="absolute bottom-1 left-1 bg-black/50 px-1.5 py-0.5 rounded text-xs text-white">
+            {streamId}
+          </div>
+
+          <button
+            onClick={handleFullscreen}
+            className="absolute bottom-1 right-1 bg-black/50 p-1 rounded text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70"
+            title="전체화면"
+          >
+            <Maximize size={14} />
+          </button>
+        </>
       )}
     </div>
   );

@@ -1,4 +1,7 @@
+import { useCallback, useRef } from 'react';
+
 import { Skeleton } from '@plug-siteguard/ui';
+import { Maximize } from 'lucide-react';
 
 import { useHLSStream } from '../../../lib/hls';
 
@@ -15,6 +18,7 @@ export default function CCTVHLS({
   autoLoad = true,
   showStats = false,
 }: CCTVHLSProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const { videoRef, status, error, stats } = useHLSStream(streamId, autoLoad);
 
   const isPlaying = status === 'playing';
@@ -22,9 +26,20 @@ export default function CCTVHLS({
   const isBuffering = status === 'buffering';
   const isError = status === 'error';
 
+  const handleFullscreen = useCallback(() => {
+    if (!containerRef.current) return;
+
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      containerRef.current.requestFullscreen();
+    }
+  }, []);
+
   return (
     <div
-      className={`aspect-video bg-gray-900 rounded-lg overflow-hidden relative ${className ?? ''}`}
+      ref={containerRef}
+      className={`aspect-video bg-gray-900 rounded-lg overflow-hidden relative group ${className ?? ''}`}
     >
       <video ref={videoRef} className="w-full h-full object-cover" autoPlay playsInline muted />
 
@@ -53,6 +68,14 @@ export default function CCTVHLS({
             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
             {streamId}
           </div>
+
+          <button
+            onClick={handleFullscreen}
+            className="absolute bottom-1 right-1 bg-black/50 p-1 rounded text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70"
+            title="전체화면"
+          >
+            <Maximize size={14} />
+          </button>
 
           {showStats && (
             <div className="absolute top-1 right-1 bg-black/70 px-2 py-1 rounded text-xs text-white space-y-0.5">

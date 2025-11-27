@@ -1,4 +1,4 @@
-import Hls from 'hls.js';
+import Hls, { ErrorData, FragLoadedData } from 'hls.js';
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 
@@ -223,7 +223,7 @@ function loadHlsJs(
     });
   });
 
-  hls.on(Hls.Events.FRAG_LOADED, (_, data) => {
+  hls.on(Hls.Events.FRAG_LOADED, (_event: string, data: FragLoadedData) => {
     const streams = new Map(get().streams);
     const stream = streams.get(streamId);
     if (stream) {
@@ -236,7 +236,7 @@ function loadHlsJs(
     }
   });
 
-  hls.on(Hls.Events.ERROR, (_, data) => {
+  hls.on(Hls.Events.ERROR, (_event: string, data: ErrorData) => {
     handleHlsError(streamId, data, config, get, set);
   });
 
@@ -304,7 +304,7 @@ function loadNativeHLS(
 
 function handleHlsError(
   streamId: string,
-  data: { fatal: boolean; type: string; details: string },
+  data: ErrorData,
   config: Required<HLSConfig>,
   get: () => HLSStore,
   set: (partial: Partial<HLSState>) => void
