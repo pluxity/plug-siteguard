@@ -33,7 +33,7 @@ export default function Dashboard() {
         <Weather />
       </Widget>
 
-      <Widget colSpan={6} rowSpan={3} className="bg-white">
+      <Widget colSpan={6} rowSpan={3} className="bg-white" contentClassName="p-0">
         <CesiumMap />
       </Widget>
 
