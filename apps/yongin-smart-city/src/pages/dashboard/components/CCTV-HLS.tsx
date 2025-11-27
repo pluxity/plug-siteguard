@@ -66,6 +66,8 @@ export default function CCTVHLS({
         <>
           <div className="absolute bottom-1 left-1 bg-black/50 px-1.5 py-0.5 rounded text-xs text-white flex items-center gap-1">
             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+            <span className="text-blue-400 font-semibold">HLS</span>
+            <span>|</span>
             {streamId}
           </div>
 

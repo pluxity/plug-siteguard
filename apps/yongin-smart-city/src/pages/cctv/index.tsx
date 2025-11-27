@@ -1,9 +1,9 @@
-import { Skeleton } from '@plug-siteguard/ui';
+import { GridLayout, Skeleton } from '@plug-siteguard/ui';
 
 import { useCCTVList } from '../../lib/webrtc';
 
-// import { default as CCTV } from '../dashboard/components/CCTV-HLS';
-import { default as CCTV } from '../dashboard/components/CCTV-WebRTC';
+import { default as HLSCCTV } from '../dashboard/components/CCTV-HLS';
+import { default as WEBRTCCCTV } from '../dashboard/components/CCTV-WebRTC';
 
 export default function CctvPage() {
   const { cctvList, loading } = useCCTVList();
@@ -25,17 +25,20 @@ export default function CctvPage() {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 h-full flex flex-col">
       <div className="mb-4">
         <h1 className="text-2xl font-bold">CCTV 모니터링</h1>
-        <p className="text-gray-600">전체 {cctvList.length}개 스트림</p>
+        <p className="text-gray-600">전체 {cctvList.length * 2}개 스트림 (HLS + WebRTC)</p>
       </div>
 
-      <div className="grid grid-cols-5 gap-4">
+      <GridLayout columns={4} gap={20} className="flex-1">
         {cctvList.map((cctv) => (
-          <CCTV key={cctv.id} streamId={cctv.id} />
+          <>
+            <HLSCCTV key={`hls-${cctv.id}`} streamId={cctv.id} />
+            <WEBRTCCCTV key={`webrtc-${cctv.id}`} streamId={cctv.id} />
+          </>
         ))}
-      </div>
+      </GridLayout>
     </div>
   );
 }

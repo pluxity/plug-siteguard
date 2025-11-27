@@ -1,815 +1,599 @@
 {
-  "count": 45,
+  "count": 33,
   "streams": [
     {
-      "created_at": "2025-11-25T11:34:50.249050997+09:00",
-      "id": "CCTV-Cheonan-28",
-      "name": "CCTV-Cheonan-28",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 550853038,
-        "bytes_sent": 1149292332,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 464938,
-        "packets_sent": 967629,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.158.235.7:28554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-25T11:34:50.249050997+09:00"
-    },
-    {
-      "created_at": "2025-11-25T11:34:50.006813455+09:00",
-      "id": "CCTV-Cheonan-31",
-      "name": "CCTV-Cheonan-31",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1127785035,
-        "bytes_sent": 2351084583,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 831203,
-        "packets_sent": 1732962,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.158.235.7:31554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-25T11:34:50.006813455+09:00"
-    },
-    {
-      "created_at": "2025-11-25T11:34:49.814690125+09:00",
-      "id": "CCTV-Cheonan-30",
-      "name": "CCTV-Cheonan-30",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 0,
-        "bytes_sent": 0,
-        "codec": "",
-        "is_active": true,
-        "packets_received": 0,
-        "packets_sent": 0,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.158.235.7:30554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-25T11:34:49.814690125+09:00"
-    },
-    {
-      "created_at": "2025-11-25T11:34:49.606252294+09:00",
-      "id": "CCTV-Cheonan-24",
-      "name": "CCTV-Cheonan-24",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 92121140,
-        "bytes_sent": 202521783,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 66892,
-        "packets_sent": 147109,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.158.235.7:24554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-25T11:34:49.606252294+09:00"
-    },
-    {
-      "created_at": "2025-11-25T11:34:49.380683779+09:00",
-      "id": "CCTV-Cheonan-21",
-      "name": "CCTV-Cheonan-21",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 781155828,
-        "bytes_sent": 1616960216,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 580066,
-        "packets_sent": 1201124,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.158.235.7:21554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-25T11:34:49.380683779+09:00"
-    },
-    {
-      "created_at": "2025-11-25T11:34:49.172129547+09:00",
-      "id": "CCTV-Cheonan-22",
-      "name": "CCTV-Cheonan-22",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 385898656,
-        "bytes_sent": 871179925,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 280613,
-        "packets_sent": 633615,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.158.235.7:22554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-25T11:34:49.172129547+09:00"
-    },
-    {
-      "created_at": "2025-11-25T11:34:48.938068973+09:00",
-      "id": "CCTV-Cheonan-23",
-      "name": "CCTV-Cheonan-23",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 350605768,
-        "bytes_sent": 780224255,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 256474,
-        "packets_sent": 571158,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.158.235.7:23554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-25T11:34:48.938068973+09:00"
-    },
-    {
-      "created_at": "2025-11-25T11:34:48.704214783+09:00",
-      "id": "CCTV-Cheonan-29",
-      "name": "CCTV-Cheonan-29",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 0,
-        "bytes_sent": 0,
-        "codec": "",
-        "is_active": true,
-        "packets_received": 0,
-        "packets_sent": 0,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.158.235.7:29554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-25T11:34:48.704214783+09:00"
-    },
-    {
-      "created_at": "2025-11-25T11:34:48.453898971+09:00",
-      "id": "CCTV-Cheonan-27",
-      "name": "CCTV-Cheonan-27",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 474520023,
-        "bytes_sent": 1084519566,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 340910,
-        "packets_sent": 779391,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.158.235.7:27554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-25T11:34:48.453898971+09:00"
-    },
-    {
-      "created_at": "2025-11-25T11:34:48.211831263+09:00",
-      "id": "CCTV-Cheonan-26",
-      "name": "CCTV-Cheonan-26",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 546242556,
-        "bytes_sent": 1139513710,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 457552,
-        "packets_sent": 956234,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.158.235.7:26554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-25T11:34:48.211831263+09:00"
-    },
-    {
-      "created_at": "2025-11-25T11:34:47.978951392+09:00",
-      "id": "CCTV-Cheonan-25",
-      "name": "CCTV-Cheonan-25",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 551392315,
-        "bytes_sent": 1150086191,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 482379,
-        "packets_sent": 1005505,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.158.235.7:25554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-25T11:34:47.978951392+09:00"
-    },
-    {
-      "created_at": "2025-11-25T11:34:47.630915272+09:00",
-      "id": "CCTV-Cheonan-32",
-      "name": "CCTV-Cheonan-32",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1358906157,
-        "bytes_sent": 2837785266,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 986260,
-        "packets_sent": 2059522,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.158.235.7:32554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-25T11:34:47.630915272+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:11.744444028+09:00",
-      "id": "CCTV-JEJU2-40",
-      "name": "CCTV-JEJU2-40",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1114295331,
-        "bytes_sent": 2317660776,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 807357,
-        "packets_sent": 1679402,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:40554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:11.744444028+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:11.602546699+09:00",
-      "id": "CCTV-JEJU2-38",
-      "name": "CCTV-JEJU2-38",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1124299188,
-        "bytes_sent": 2344893983,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 814627,
-        "packets_sent": 1699058,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:38554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:11.602546699+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:11.443610213+09:00",
-      "id": "CCTV-JEJU2-42",
-      "name": "CCTV-JEJU2-42",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1131344343,
-        "bytes_sent": 2359497042,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 819420,
-        "packets_sent": 1708934,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:42554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:11.443610213+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:11.242988377+09:00",
-      "id": "CCTV-JEJU2-39",
-      "name": "CCTV-JEJU2-39",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1103648079,
-        "bytes_sent": 2300401687,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 800000,
-        "packets_sent": 1667517,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:39554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:11.242988377+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:11.084222926+09:00",
-      "id": "CCTV-JEJU2-35",
-      "name": "CCTV-JEJU2-35",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1131335949,
-        "bytes_sent": 2359219920,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 819568,
-        "packets_sent": 1709038,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:35554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:11.084222926+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:10.882660362+09:00",
-      "id": "CCTV-JEJU2-33",
-      "name": "CCTV-JEJU2-33",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1055113088,
-        "bytes_sent": 2151727222,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 766069,
-        "packets_sent": 1562446,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:33554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:10.882660362+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:10.682039858+09:00",
-      "id": "CCTV-JEJU2-32",
-      "name": "CCTV-JEJU2-32",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 863513141,
-        "bytes_sent": 1776219818,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 626635,
-        "packets_sent": 1288983,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:32554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:10.682039858+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:10.23063482+09:00",
-      "id": "CCTV-JEJU2-36",
-      "name": "CCTV-JEJU2-36",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1011784145,
-        "bytes_sent": 2112806759,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 735853,
-        "packets_sent": 1536532,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:36554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:10.23063482+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:09.753224586+09:00",
-      "id": "CCTV-JEJU2-41",
-      "name": "CCTV-JEJU2-41",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1129843109,
-        "bytes_sent": 2356189584,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 818380,
-        "packets_sent": 1706672,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:41554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:09.753224586+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:09.114667003+09:00",
-      "id": "CCTV-JEJU2-37",
-      "name": "CCTV-JEJU2-37",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1131438220,
-        "bytes_sent": 2358233821,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 819734,
-        "packets_sent": 1708572,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:37554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:09.114667003+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:08.531855626+09:00",
-      "id": "CCTV-JEJU2-45",
-      "name": "CCTV-JEJU2-45",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1131184141,
-        "bytes_sent": 2358886338,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 819384,
-        "packets_sent": 1708692,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:45554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:08.531855626+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:07.422237428+09:00",
-      "id": "CCTV-JEJU2-44",
-      "name": "CCTV-JEJU2-44",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1095855682,
-        "bytes_sent": 2291476844,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 794598,
-        "packets_sent": 1661417,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:44554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:07.422237428+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:32:06.575504456+09:00",
+      "created_at": "2025-11-27T14:58:42.059754935+09:00",
       "id": "CCTV-JEJU2-43",
       "name": "CCTV-JEJU2-43",
       "rtsp_transport": "tcp",
       "runtime_info": {
-        "bytes_received": 1114960586,
-        "bytes_sent": 2317971376,
+        "bytes_received": 21262640,
+        "bytes_sent": 28197776,
         "codec": "H264",
         "is_active": true,
-        "packets_received": 807932,
-        "packets_sent": 1679833,
-        "subscriber_count": 2
+        "packets_received": 15426,
+        "packets_sent": 20458,
+        "subscriber_count": 1
       },
       "source": "rtsp://admin:live0416@121.189.117.243:43554/profile1/media.smp",
       "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:06.575504456+09:00"
+      "updated_at": "2025-11-27T14:58:42.059754935+09:00"
     },
     {
-      "created_at": "2025-11-19T10:32:06.058013284+09:00",
-      "id": "CCTV-JEJU2-34",
-      "name": "CCTV-JEJU2-34",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 171811645,
-        "bytes_sent": 401811799,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 124617,
-        "packets_sent": 291517,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:34554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:32:06.058013284+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:25:11.187584341+09:00",
-      "id": "CCTV-JEJU2-31",
-      "name": "CCTV-JEJU2-31",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 50694418,
-        "bytes_sent": 91982240,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 36788,
-        "packets_sent": 66814,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@121.189.117.243:31554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:11.187584341+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:25:10.987241635+09:00",
+      "created_at": "2025-11-27T14:58:41.458563196+09:00",
       "id": "CCTV-JEJU1-41",
       "name": "CCTV-JEJU1-41",
       "rtsp_transport": "tcp",
       "runtime_info": {
-        "bytes_received": 628173768,
-        "bytes_sent": 1312648464,
+        "bytes_received": 12180592,
+        "bytes_sent": 21921288,
         "codec": "H264",
         "is_active": true,
-        "packets_received": 529071,
-        "packets_sent": 1104767,
+        "packets_received": 10383,
+        "packets_sent": 18714,
         "subscriber_count": 2
       },
       "source": "rtsp://admin:live0416@221.162.21.246:41554/profile1/media.smp",
       "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:10.987241635+09:00"
+      "updated_at": "2025-11-27T14:58:41.458563196+09:00"
     },
     {
-      "created_at": "2025-11-19T10:25:10.786899498+09:00",
-      "id": "CCTV-JEJU1-40",
-      "name": "CCTV-JEJU1-40",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 623623673,
-        "bytes_sent": 1303664331,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 528104,
-        "packets_sent": 1103221,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.162.21.246:40554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:10.786899498+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:25:10.586515281+09:00",
-      "id": "CCTV-JEJU1-39",
-      "name": "CCTV-JEJU1-39",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 800684916,
-        "bytes_sent": 1674715808,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 643156,
-        "packets_sent": 1344851,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.162.21.246:39554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:10.586515281+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:25:10.394394798+09:00",
-      "id": "CCTV-JEJU1-42",
-      "name": "CCTV-JEJU1-42",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 956478883,
-        "bytes_sent": 2001653247,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 754612,
-        "packets_sent": 1578565,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.162.21.246:42554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:10.394394798+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:25:10.202585366+09:00",
-      "id": "CCTV-JEJU1-38",
-      "name": "CCTV-JEJU1-38",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 627789782,
-        "bytes_sent": 1313541524,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 522208,
-        "packets_sent": 1091736,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.162.21.246:38554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:10.202585366+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:25:10.027221265+09:00",
+      "created_at": "2025-11-27T14:58:41.26633525+09:00",
       "id": "CCTV-JEJU1-35",
       "name": "CCTV-JEJU1-35",
       "rtsp_transport": "tcp",
       "runtime_info": {
-        "bytes_received": 627664155,
-        "bytes_sent": 1504043673,
+        "bytes_received": 12269896,
+        "bytes_sent": 16525610,
         "codec": "H264",
         "is_active": true,
-        "packets_received": 531466,
-        "packets_sent": 1273555,
-        "subscriber_count": 2
+        "packets_received": 10405,
+        "packets_sent": 14073,
+        "subscriber_count": 1
       },
       "source": "rtsp://admin:live0416@221.162.21.246:35554/profile1/media.smp",
       "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:10.027221265+09:00"
+      "updated_at": "2025-11-27T14:58:41.26633525+09:00"
     },
     {
-      "created_at": "2025-11-19T10:25:09.835126368+09:00",
-      "id": "CCTV-TEST3",
-      "name": "CCTV-TEST3",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1832203610,
-        "bytes_sent": 3822664283,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 1322657,
-        "packets_sent": 2759397,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@192.168.10.55:554/Streaming/Channels/101",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:09.835126368+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:25:09.576086818+09:00",
-      "id": "CCTV-TEST2",
-      "name": "CCTV-TEST2",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 1932758922,
-        "bytes_sent": 4022852639,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 1394368,
-        "packets_sent": 2902239,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@192.168.10.54:554/Streaming/Channels/101",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:09.576086818+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:25:09.392574981+09:00",
-      "id": "CCTV-JEJU1-44",
-      "name": "CCTV-JEJU1-44",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 627855270,
-        "bytes_sent": 1309565977,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 536171,
-        "packets_sent": 1117734,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.162.21.246:44554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:09.392574981+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:25:09.208984295+09:00",
-      "id": "CCTV-JEJU1-43",
-      "name": "CCTV-JEJU1-43",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 809295350,
-        "bytes_sent": 1691110434,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 650104,
-        "packets_sent": 1358170,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.162.21.246:43554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:09.208984295+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:25:08.964777935+09:00",
+      "created_at": "2025-11-27T14:58:41.065926081+09:00",
       "id": "CCTV-JEJU1-34",
       "name": "CCTV-JEJU1-34",
       "rtsp_transport": "tcp",
       "runtime_info": {
-        "bytes_received": 705424405,
-        "bytes_sent": 1686609819,
+        "bytes_received": 11808043,
+        "bytes_sent": 21734703,
         "codec": "H264",
         "is_active": true,
-        "packets_received": 585994,
-        "packets_sent": 1401413,
+        "packets_received": 10007,
+        "packets_sent": 18396,
         "subscriber_count": 2
       },
       "source": "rtsp://admin:live0416@221.162.21.246:34554/profile1/media.smp",
       "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:08.964777935+09:00"
+      "updated_at": "2025-11-27T14:58:41.065926081+09:00"
     },
     {
-      "created_at": "2025-11-19T10:25:08.63835349+09:00",
-      "id": "CCTV-JEJU1-32",
-      "name": "CCTV-JEJU1-32",
+      "created_at": "2025-11-27T14:58:40.873996412+09:00",
+      "id": "CCTV-TEST2",
+      "name": "CCTV-TEST2",
       "rtsp_transport": "tcp",
       "runtime_info": {
-        "bytes_received": 975176870,
-        "bytes_sent": 2323153524,
+        "bytes_received": 38243422,
+        "bytes_sent": 51299940,
         "codec": "H264",
         "is_active": true,
-        "packets_received": 767732,
-        "packets_sent": 1829807,
-        "subscriber_count": 2
+        "packets_received": 27670,
+        "packets_sent": 37112,
+        "subscriber_count": 1
       },
-      "source": "rtsp://admin:live0416@221.162.21.246:32554/profile1/media.smp",
+      "source": "rtsp://admin:live0416@192.168.10.54:554/Streaming/Channels/101",
       "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:08.63835349+09:00"
+      "updated_at": "2025-11-27T14:58:40.873996412+09:00"
     },
     {
-      "created_at": "2025-11-19T10:25:08.303666172+09:00",
-      "id": "CCTV-JEJU1-31",
-      "name": "CCTV-JEJU1-31",
+      "created_at": "2025-11-27T14:58:40.682047195+09:00",
+      "id": "CCTV-JEJU2-42",
+      "name": "CCTV-JEJU2-42",
       "rtsp_transport": "tcp",
       "runtime_info": {
-        "bytes_received": 626993954,
-        "bytes_sent": 1609843333,
+        "bytes_received": 21101612,
+        "bytes_sent": 28101986,
         "codec": "H264",
         "is_active": true,
-        "packets_received": 532028,
-        "packets_sent": 1365912,
-        "subscriber_count": 2
+        "packets_received": 15266,
+        "packets_sent": 20328,
+        "subscriber_count": 1
       },
-      "source": "rtsp://admin:live0416@221.162.21.246:31554/profile1/media.smp",
+      "source": "rtsp://admin:live0416@121.189.117.243:42554/profile1/media.smp",
       "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:08.303666172+09:00"
+      "updated_at": "2025-11-27T14:58:40.682047195+09:00"
     },
     {
-      "created_at": "2025-11-19T10:25:08.027488039+09:00",
-      "id": "CCTV-JEJU1-45",
-      "name": "CCTV-JEJU1-45",
+      "created_at": "2025-11-27T14:58:40.47336051+09:00",
+      "id": "CCTV-JEJU2-34",
+      "name": "CCTV-JEJU2-34",
       "rtsp_transport": "tcp",
       "runtime_info": {
-        "bytes_received": 627707978,
-        "bytes_sent": 1308914306,
+        "bytes_received": 20190189,
+        "bytes_sent": 37950870,
         "codec": "H264",
         "is_active": true,
-        "packets_received": 531625,
-        "packets_sent": 1107535,
+        "packets_received": 14610,
+        "packets_sent": 27450,
         "subscriber_count": 2
       },
-      "source": "rtsp://admin:live0416@221.162.21.246:45554/profile1/media.smp",
+      "source": "rtsp://admin:live0416@121.189.117.243:34554/profile1/media.smp",
       "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:08.027488039+09:00"
+      "updated_at": "2025-11-27T14:58:40.47336051+09:00"
     },
     {
-      "created_at": "2025-11-19T10:25:07.818975652+09:00",
-      "id": "CCTV-JEJU1-37",
-      "name": "CCTV-JEJU1-37",
+      "created_at": "2025-11-27T14:58:40.255531366+09:00",
+      "id": "CCTV-JEJU2-32",
+      "name": "CCTV-JEJU2-32",
       "rtsp_transport": "tcp",
       "runtime_info": {
-        "bytes_received": 627807260,
-        "bytes_sent": 1309178475,
+        "bytes_received": 20478109,
+        "bytes_sent": 27755590,
         "codec": "H264",
         "is_active": true,
-        "packets_received": 513876,
-        "packets_sent": 1071500,
-        "subscriber_count": 2
+        "packets_received": 14839,
+        "packets_sent": 20104,
+        "subscriber_count": 1
       },
-      "source": "rtsp://admin:live0416@221.162.21.246:37554/profile1/media.smp",
+      "source": "rtsp://admin:live0416@121.189.117.243:32554/profile1/media.smp",
       "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:07.818975652+09:00"
+      "updated_at": "2025-11-27T14:58:40.255531366+09:00"
     },
     {
-      "created_at": "2025-11-19T10:25:07.635019487+09:00",
+      "created_at": "2025-11-27T14:58:39.429592374+09:00",
       "id": "CCTV-JEJU1-36",
       "name": "CCTV-JEJU1-36",
       "rtsp_transport": "tcp",
       "runtime_info": {
-        "bytes_received": 627847115,
-        "bytes_sent": 1309280982,
+        "bytes_received": 12276186,
+        "bytes_sent": 16407055,
         "codec": "H264",
         "is_active": true,
-        "packets_received": 532288,
-        "packets_sent": 1109772,
-        "subscriber_count": 2
+        "packets_received": 10643,
+        "packets_sent": 14255,
+        "subscriber_count": 1
       },
       "source": "rtsp://admin:live0416@221.162.21.246:36554/profile1/media.smp",
       "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:07.635019487+09:00"
+      "updated_at": "2025-11-27T14:58:39.429592374+09:00"
     },
     {
-      "created_at": "2025-11-19T10:25:07.451333116+09:00",
-      "id": "CCTV-JEJU1-33",
-      "name": "CCTV-JEJU1-33",
-      "rtsp_transport": "tcp",
-      "runtime_info": {
-        "bytes_received": 642679754,
-        "bytes_sent": 1538786022,
-        "codec": "H264",
-        "is_active": true,
-        "packets_received": 542032,
-        "packets_sent": 1297764,
-        "subscriber_count": 2
-      },
-      "source": "rtsp://admin:live0416@221.162.21.246:33554/profile1/media.smp",
-      "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:07.451333116+09:00"
-    },
-    {
-      "created_at": "2025-11-19T10:25:07.137775579+09:00",
+      "created_at": "2025-11-27T14:58:39.237606999+09:00",
       "id": "CCTV-TEST1",
       "name": "CCTV-TEST1",
       "rtsp_transport": "tcp",
       "runtime_info": {
-        "bytes_received": 726491935,
-        "bytes_sent": 1512708301,
+        "bytes_received": 13685574,
+        "bytes_sent": 18362843,
         "codec": "H264",
         "is_active": true,
-        "packets_received": 552818,
-        "packets_sent": 1150921,
-        "subscriber_count": 2
+        "packets_received": 10377,
+        "packets_sent": 13924,
+        "subscriber_count": 1
       },
       "source": "rtsp://admin:live0416@192.168.10.53:554/Streaming/Channels/101",
       "source_on_demand": true,
-      "updated_at": "2025-11-19T10:25:07.137775579+09:00"
+      "updated_at": "2025-11-27T14:58:39.237606999+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:39.053639368+09:00",
+      "id": "CCTV-JEJU2-45",
+      "name": "CCTV-JEJU2-45",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 21721537,
+        "bytes_sent": 28566610,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 15744,
+        "packets_sent": 20705,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@121.189.117.243:45554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:39.053639368+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:38.761501803+09:00",
+      "id": "CCTV-JEJU2-35",
+      "name": "CCTV-JEJU2-35",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 22054880,
+        "bytes_sent": 29612542,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 15963,
+        "packets_sent": 21442,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@121.189.117.243:35554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:38.761501803+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:38.460803113+09:00",
+      "id": "CCTV-JEJU1-43",
+      "name": "CCTV-JEJU1-43",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 12188460,
+        "bytes_sent": 16574204,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 10166,
+        "packets_sent": 13772,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@221.162.21.246:43554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:38.460803113+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:38.218666295+09:00",
+      "id": "CCTV-JEJU2-41",
+      "name": "CCTV-JEJU2-41",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 21040983,
+        "bytes_sent": 28131119,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 15246,
+        "packets_sent": 20376,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@121.189.117.243:41554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:38.218666295+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:37.99325868+09:00",
+      "id": "CCTV-JEJU2-38",
+      "name": "CCTV-JEJU2-38",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 21959871,
+        "bytes_sent": 39610096,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 15908,
+        "packets_sent": 28695,
+        "subscriber_count": 2
+      },
+      "source": "rtsp://admin:live0416@121.189.117.243:38554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:37.99325868+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:37.809406909+09:00",
+      "id": "CCTV-JEJU2-37",
+      "name": "CCTV-JEJU2-37",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 21984474,
+        "bytes_sent": 31198139,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 15926,
+        "packets_sent": 22601,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@121.189.117.243:37554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:37.809406909+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:37.60911398+09:00",
+      "id": "CCTV-JEJU1-39",
+      "name": "CCTV-JEJU1-39",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 18491389,
+        "bytes_sent": 26729257,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 14543,
+        "packets_sent": 20978,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@221.162.21.246:39554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:37.60911398+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:37.39197713+09:00",
+      "id": "CCTV-JEJU2-40",
+      "name": "CCTV-JEJU2-40",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 21158698,
+        "bytes_sent": 20020002,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 15342,
+        "packets_sent": 14517,
+        "subscriber_count": 0
+      },
+      "source": "rtsp://admin:live0416@121.189.117.243:40554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:37.39197713+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:37.166520392+09:00",
+      "id": "CCTV-JEJU2-36",
+      "name": "CCTV-JEJU2-36",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 22011981,
+        "bytes_sent": 31178204,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 15938,
+        "packets_sent": 22575,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@121.189.117.243:36554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:37.166520392+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:36.840199433+09:00",
+      "id": "CCTV-JEJU2-31",
+      "name": "CCTV-JEJU2-31",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 21340602,
+        "bytes_sent": 20041118,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 15469,
+        "packets_sent": 14524,
+        "subscriber_count": 0
+      },
+      "source": "rtsp://admin:live0416@121.189.117.243:31554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:36.840199433+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:36.439092206+09:00",
+      "id": "CCTV-JEJU1-40",
+      "name": "CCTV-JEJU1-40",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 12283638,
+        "bytes_sent": 11659147,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 10513,
+        "packets_sent": 9976,
+        "subscriber_count": 0
+      },
+      "source": "rtsp://admin:live0416@221.162.21.246:40554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:36.439092206+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:35.736519523+09:00",
+      "id": "CCTV-JEJU1-38",
+      "name": "CCTV-JEJU1-38",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 12319216,
+        "bytes_sent": 17490798,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 10362,
+        "packets_sent": 14647,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@221.162.21.246:38554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:35.736519523+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:35.11687634+09:00",
+      "id": "CCTV-JEJU1-33",
+      "name": "CCTV-JEJU1-33",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 14274966,
+        "bytes_sent": 19631127,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 11757,
+        "packets_sent": 16212,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@221.162.21.246:33554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:35.11687634+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:33.735693764+09:00",
+      "id": "CCTV-JEJU2-44",
+      "name": "CCTV-JEJU2-44",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 19876801,
+        "bytes_sent": 27752308,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 14450,
+        "packets_sent": 20174,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@121.189.117.243:44554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:33.735693764+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:32.080213222+09:00",
+      "id": "CCTV-JEJU2-39",
+      "name": "CCTV-JEJU2-39",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 20479038,
+        "bytes_sent": 28940714,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 14847,
+        "packets_sent": 20980,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@121.189.117.243:39554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:32.080213222+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:31.628575652+09:00",
+      "id": "CCTV-JEJU2-33",
+      "name": "CCTV-JEJU2-33",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 21475950,
+        "bytes_sent": 30777956,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 15568,
+        "packets_sent": 22312,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@121.189.117.243:33554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:31.628575652+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:31.14426771+09:00",
+      "id": "CCTV-JEJU1-45",
+      "name": "CCTV-JEJU1-45",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 12345410,
+        "bytes_sent": 11717514,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 10672,
+        "packets_sent": 10115,
+        "subscriber_count": 0
+      },
+      "source": "rtsp://admin:live0416@221.162.21.246:45554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:31.14426771+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:30.968845513+09:00",
+      "id": "CCTV-JEJU1-32",
+      "name": "CCTV-JEJU1-32",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 12183400,
+        "bytes_sent": 11580921,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 10112,
+        "packets_sent": 9630,
+        "subscriber_count": 0
+      },
+      "source": "rtsp://admin:live0416@221.162.21.246:32554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:30.968845513+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:30.668548414+09:00",
+      "id": "CCTV-JEJU1-31",
+      "name": "CCTV-JEJU1-31",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 12134077,
+        "bytes_sent": 17136460,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 10124,
+        "packets_sent": 14313,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@221.162.21.246:31554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:30.668548414+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:30.468154553+09:00",
+      "id": "CCTV-TEST3",
+      "name": "CCTV-TEST3",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 38037854,
+        "bytes_sent": 53749693,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 27533,
+        "packets_sent": 38903,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@192.168.10.55:554/Streaming/Channels/101",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:30.468154553+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:30.27617563+09:00",
+      "id": "CCTV-JEJU1-44",
+      "name": "CCTV-JEJU1-44",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 12356798,
+        "bytes_sent": 17531435,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 10464,
+        "packets_sent": 14853,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@221.162.21.246:44554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:30.27617563+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:30.100767289+09:00",
+      "id": "CCTV-JEJU1-42",
+      "name": "CCTV-JEJU1-42",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 12319992,
+        "bytes_sent": 11690595,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 10191,
+        "packets_sent": 9677,
+        "subscriber_count": 0
+      },
+      "source": "rtsp://admin:live0416@221.162.21.246:42554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:30.100767289+09:00"
+    },
+    {
+      "created_at": "2025-11-27T14:58:29.9759678+09:00",
+      "id": "CCTV-JEJU1-37",
+      "name": "CCTV-JEJU1-37",
+      "rtsp_transport": "tcp",
+      "runtime_info": {
+        "bytes_received": 12315168,
+        "bytes_sent": 17340330,
+        "codec": "H264",
+        "is_active": true,
+        "packets_received": 10079,
+        "packets_sent": 14186,
+        "subscriber_count": 1
+      },
+      "source": "rtsp://admin:live0416@221.162.21.246:37554/profile1/media.smp",
+      "source_on_demand": true,
+      "updated_at": "2025-11-27T14:58:29.9759678+09:00"
     }
   ]
 }

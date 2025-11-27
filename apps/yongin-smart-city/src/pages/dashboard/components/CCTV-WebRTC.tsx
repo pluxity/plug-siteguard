@@ -51,7 +51,9 @@ export default function CCTVWebRTC({ streamId, className, autoConnect = true }: 
 
       {isConnected && (
         <>
-          <div className="absolute bottom-1 left-1 bg-black/50 px-1.5 py-0.5 rounded text-xs text-white">
+          <div className="absolute bottom-1 left-1 bg-black/50 px-1.5 py-0.5 rounded text-xs text-white flex items-center gap-1">
+            <span className="text-purple-400 font-semibold">WebRTC</span>
+            <span>|</span>
             {streamId}
           </div>
 
