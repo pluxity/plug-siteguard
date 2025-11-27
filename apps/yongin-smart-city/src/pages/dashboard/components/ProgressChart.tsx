@@ -1,130 +1,20 @@
 import { Tabs, TabsList, TabsTrigger } from '@plug-siteguard/ui';
-import { useState } from 'react';
+import {useMemo, useState} from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { getProgressColor, progressRows } from '../utils/progressUtils';
 import { ChartData, ChartPeriod } from '../types/progress';
 
+import chartDataSample from '../../../../data/sample_data.json';
+
 export default function ProgressChart() {
   const [chartRange, setChartRange] = useState<ChartPeriod>("MONTH-6");
-  const chartData: ChartData = {
-    "MONTH-6": [
-      {
-        "date": "2025-07-01",
-        "planned": 15,
-        "current": 23,
-        "deviation": 8
-      },
-      {
-        "date": "2025-08-01",
-        "planned": 19,
-        "current": 34,
-        "deviation": 15
-      },
-      {
-        "date": "2025-09-01",
-        "planned": 10,
-        "current": 15,
-        "deviation": 5
-      },
-      {
-        "date": "2025-10-01",
-        "planned": 18,
-        "current": 8,
-        "deviation": -10
-      },
-      {
-        "date": "2025-11-01",
-        "planned": 17,
-        "current": 27,
-        "deviation": 10
-      },
-      {
-        "date": "2025-12-01",
-        "planned": 22,
-        "current": 31,
-        "deviation": 9
-      }
-    ],
-    "MONTH-12": [
-      {
-        "date": "2025-07-01",
-        "planned": 15,
-        "current": 23,
-        "deviation": 8
-      },
-      {
-        "date": "2025-08-01",
-        "planned": 19,
-        "current": 34,
-        "deviation": 15
-      },
-      {
-        "date": "2025-09-01",
-        "planned": 30,
-        "current": 30,
-        "deviation": 5
-      },
-      {
-        "date": "2025-10-01",
-        "planned": 30,
-        "current": 30,
-        "deviation": -10
-      },
-      {
-        "date": "2025-11-01",
-        "planned": 30,
-        "current": 30,
-        "deviation": 10
-      },
-      {
-        "date": "2025-12-01",
-        "planned": 30,
-        "current": 30,
-        "deviation": 9
-      }
-    ],
-    "ALL": [
-      {
-        "date": "2025-07-01",
-        "planned": 15,
-        "current": 15,
-        "deviation": 8
-      },
-      {
-        "date": "2025-08-01",
-        "planned": 15,
-        "current": 15,
-        "deviation": 15
-      },
-      {
-        "date": "2025-09-01",
-        "planned": 15,
-        "current": 15,
-        "deviation": 5
-      },
-      {
-        "date": "2025-10-01",
-        "planned": 18,
-        "current": 8,
-        "deviation": -10
-      },
-      {
-        "date": "2025-11-01",
-        "planned": 17,
-        "current": 27,
-        "deviation": 10
-      },
-      {
-        "date": "2025-12-01",
-        "planned": 22,
-        "current": 31,
-        "deviation": 9
-      }
-    ]
-  };
+  const chartData = useMemo(
+      () => chartDataSample as ChartData, [chartDataSample]
+  );
 
   const handleTabChange = (value: string) => {
     setChartRange(value as ChartPeriod);
+    // 차트 그리기
   };
 
   return (
@@ -162,7 +52,7 @@ export default function ProgressChart() {
               labelStyle={{ color: "#FFFFFF" }}
             />
 
-            {progressRows.map(({id}) => 
+            {progressRows.filter(({id}) => id !== 'difference').map(({id}) =>
               <Line key={id} type="linear" dataKey={id} stroke={getProgressColor(id, 0)} strokeWidth={2} dot={{ r: 4}} activeDot={{ r: 5, stroke: "#FFFFFF" }} />
               )}
 

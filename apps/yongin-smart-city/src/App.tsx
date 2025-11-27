@@ -6,7 +6,7 @@ import { useWebRTCStore } from './lib/webrtc';
 import { BimPage, CctvPage, Dashboard, EnvironmentPage, EventsPage, MapPage } from './pages';
 
 function App() {
-  const initialized = useWebRTCStore((state) => state.initialized);
+  // const initialized = useWebRTCStore((state) => state.initialized);
   const initialize = useWebRTCStore((state) => state.initialize);
   const cleanup = useWebRTCStore((state) => state.cleanup);
 
@@ -15,13 +15,13 @@ function App() {
     return () => cleanup();
   }, [initialize, cleanup]);
 
-  if (!initialized) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-gray-900">
-        <div className="text-white text-lg">연결 중...</div>
-      </div>
-    );
-  }
+  // if (!initialized) {
+  //   return (
+  //     <div className="flex items-center justify-center h-screen bg-gray-900">
+  //       <div className="text-white text-lg">연결 중...</div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <BrowserRouter basename={import.meta.env.VITE_BASE_URL || '/'}>

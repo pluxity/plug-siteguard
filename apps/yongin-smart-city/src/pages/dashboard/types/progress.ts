@@ -1,3 +1,4 @@
+// ProgressChart
 export interface ChartItem {
   date: string;
   planned: number;
@@ -13,6 +14,7 @@ export interface ChartData {
 
 export type ChartPeriod = "MONTH-6" | "MONTH-12" | "ALL";
 
+// ProgressCard
 export interface ProgressData {
   planned: number;
   current: number;
@@ -23,4 +25,10 @@ export interface ProgressProps {
   id: keyof ProgressData;
   header: string;
   getProgress: (v: number) => string;
+}
+
+// SafetyCard
+export interface StatusCircleProps {
+  label: string;
+  color: string;
 }

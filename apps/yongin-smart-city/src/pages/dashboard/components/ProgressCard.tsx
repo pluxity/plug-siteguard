@@ -29,10 +29,10 @@ export default function ProgressCard() {
 
             <div className="grid grid-cols-2 gap-3 py-3">
                 <Button className="text-xs text-gray-300 bg-[#303741] hover:bg-[#444c67] border !border-gray-700 transition">
-                    <span>Phase 진행 상세</span> <ExternalLink />
+                    <span>Phase 진행 상세</span> <ExternalLink size={4} />
                 </Button>
                 <Button className="text-xs text-gray-300 bg-[#303741] hover:bg-[#444c67] border !border-gray-700 transition">
-                    <span>시공 진행 상세</span> <ExternalLink />
+                    <span>시공 진행 상세</span> <ExternalLink size={4} />
                 </Button>
             </div>
         </div>
