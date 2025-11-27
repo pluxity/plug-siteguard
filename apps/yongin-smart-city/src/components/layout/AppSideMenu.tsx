@@ -55,13 +55,13 @@ export default function AppSideMenu() {
       <SideMenu defaultOpen={true} collapsible={false} className="flex flex-col gap-3 h-full">
         {({ open }) => (
           <>
-            <SideMenuTrigger open={open} showChevron={false} className="h-10 shadow-md">
+            <SideMenuTrigger open={open} showChevron={false} className="h-10 shadow-md p-4">
               <img src="/assets/images/ci.png" alt="HOBAN CI" className="h-5 aspect-[504/87]" />
               <span className="font-semibold text-md">용인 스마트시티</span>
             </SideMenuTrigger>
 
             <SideMenuContent className="w-72 h-[calc(100vh-5.2rem)] shrink-0 rounded-xl bg-white shadow-xl">
-              <SideMenuHeader className="py-2 shrink-0">
+              <SideMenuHeader className="py-2 shrink-0 p-4">
                 <div className="flex items-center gap-2">
                   <Avatar className="size-8 rounded-lg">
                     <AvatarFallback className="rounded-lg bg-primary-50 text-primary-600 text-xs font-medium">
@@ -85,7 +85,7 @@ export default function AppSideMenu() {
                 </div>
               </SideMenuHeader>
 
-              <SideMenuNav className="flex-1 overflow-y-auto">
+              <SideMenuNav className="flex-1 overflow-y-auto p-4">
                 <div className="space-y-4">
                   <div className="space-y-0.5">
                     {MAIN_MENU_ITEMS.map(renderMenuItem)}
