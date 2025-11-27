@@ -2,6 +2,10 @@ import * as React from "react"
 
 export interface WidgetProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
+   * 위젯 고유 ID (템플릿 모드에서 필수)
+   */
+  id?: string
+  /**
    * 위젯 타이틀
    */
   title?: string
