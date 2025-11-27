@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react"
+import * as React from "react"
 import { GridLayout } from "./grid-layout.component"
+import { GridTemplate } from "./grid-layout.types"
 import { Widget } from "../../molecules/widget"
 import { Badge } from "../../atoms/badge"
+import { Button } from "../../atoms/button"
 import {
   TrendingUp,
   TrendingDown,
@@ -10,6 +13,7 @@ import {
   Calendar,
   AlertCircle,
   Activity,
+  GripVertical,
 } from "lucide-react"
 
 const meta: Meta<typeof GridLayout> = {
@@ -309,4 +313,226 @@ export const WithoutTitle: Story = {
       </GridLayout>
     </div>
   ),
+}
+
+/**
+ * 스토리북용 템플릿 정의 (실제 사용 시에는 app에서 정의)
+ */
+const DEMO_TEMPLATES: Record<string, GridTemplate> = {
+  "2x2": {
+    id: "2x2",
+    name: "2x2 Grid",
+    columns: 2,
+    rows: 2,
+    cells: [
+      { id: "cell-1", colStart: 1, colSpan: 1, rowStart: 1, rowSpan: 1 },
+      { id: "cell-2", colStart: 2, colSpan: 1, rowStart: 1, rowSpan: 1 },
+      { id: "cell-3", colStart: 1, colSpan: 1, rowStart: 2, rowSpan: 1 },
+      { id: "cell-4", colStart: 2, colSpan: 1, rowStart: 2, rowSpan: 1 },
+    ],
+  },
+  "1-2": {
+    id: "1-2",
+    name: "Top 1, Bottom 2",
+    columns: 2,
+    rows: 2,
+    cells: [
+      { id: "cell-1", colStart: 1, colSpan: 2, rowStart: 1, rowSpan: 1 },
+      { id: "cell-2", colStart: 1, colSpan: 1, rowStart: 2, rowSpan: 1 },
+      { id: "cell-3", colStart: 2, colSpan: 1, rowStart: 2, rowSpan: 1 },
+    ],
+  },
+  "sidebar": {
+    id: "sidebar",
+    name: "Sidebar Layout",
+    columns: 3,
+    rows: 1,
+    cells: [
+      { id: "cell-sidebar", colStart: 1, colSpan: 1, rowStart: 1, rowSpan: 1 },
+      { id: "cell-main", colStart: 2, colSpan: 2, rowStart: 1, rowSpan: 1 },
+    ],
+  },
+}
+
+/**
+ * 템플릿 시스템 데모 컴포넌트
+ */
+const TemplateDemo = () => {
+  const [selectedTemplateId, setSelectedTemplateId] = React.useState<string>("2x2")
+  const selectedTemplate = DEMO_TEMPLATES[selectedTemplateId]
+
+  return (
+    <div className="h-screen bg-gray-100 flex flex-col">
+      <div className="p-4 bg-white border-b flex items-center gap-4">
+        <span className="text-sm font-medium">템플릿 선택:</span>
+        <div className="flex gap-2">
+          {Object.entries(DEMO_TEMPLATES).map(([id, template]) => (
+            <Button
+              key={id}
+              variant={selectedTemplateId === id ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedTemplateId(id)}
+            >
+              {template.name}
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex-1 p-6">
+        <GridLayout template={selectedTemplate} gap={16} className="h-full">
+          <Widget id="widget-1" title="위젯 1" className="bg-blue-50">
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <Users className="w-8 h-8 mx-auto text-blue-600" />
+                <p className="mt-2 text-sm text-blue-700">사용자 통계</p>
+              </div>
+            </div>
+          </Widget>
+          <Widget id="widget-2" title="위젯 2" className="bg-green-50">
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <MapPin className="w-8 h-8 mx-auto text-green-600" />
+                <p className="mt-2 text-sm text-green-700">위치 정보</p>
+              </div>
+            </div>
+          </Widget>
+          <Widget id="widget-3" title="위젯 3" className="bg-yellow-50">
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <Calendar className="w-8 h-8 mx-auto text-yellow-600" />
+                <p className="mt-2 text-sm text-yellow-700">일정 관리</p>
+              </div>
+            </div>
+          </Widget>
+          <Widget id="widget-4" title="위젯 4" className="bg-purple-50">
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <Activity className="w-8 h-8 mx-auto text-purple-600" />
+                <p className="mt-2 text-sm text-purple-700">활동 로그</p>
+              </div>
+            </div>
+          </Widget>
+        </GridLayout>
+      </div>
+    </div>
+  )
+}
+
+export const TemplateSystem: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: "템플릿 시스템을 사용한 레이아웃입니다. 상단에서 다른 템플릿을 선택하면 레이아웃이 변경됩니다. 실제 사용 시에는 app에서 템플릿을 정의합니다.",
+      },
+    },
+  },
+  render: () => <TemplateDemo />,
+}
+
+/**
+ * Drag & Drop Swap 데모 컴포넌트
+ */
+const DragDropDemo = () => {
+  const [layoutChanges, setLayoutChanges] = React.useState<string[]>([])
+
+  const template: GridTemplate = {
+    id: "drag-drop-demo",
+    name: "Drag Drop Demo",
+    columns: 2,
+    rows: 2,
+    cells: [
+      { id: "cell-1", colStart: 1, colSpan: 1, rowStart: 1, rowSpan: 1 },
+      { id: "cell-2", colStart: 2, colSpan: 1, rowStart: 1, rowSpan: 1 },
+      { id: "cell-3", colStart: 1, colSpan: 1, rowStart: 2, rowSpan: 1 },
+      { id: "cell-4", colStart: 2, colSpan: 1, rowStart: 2, rowSpan: 1 },
+    ],
+  }
+
+  return (
+    <div className="h-screen bg-gray-100 flex flex-col">
+      <div className="p-4 bg-white border-b">
+        <div className="flex items-center gap-2 text-sm">
+          <GripVertical className="w-4 h-4 text-gray-500" />
+          <span className="font-medium">편집 모드 활성화</span>
+          <span className="text-gray-500">- 위젯을 드래그하여 위치를 교환할 수 있습니다</span>
+        </div>
+      </div>
+
+      <div className="flex-1 p-6">
+        <GridLayout
+          template={template}
+          editable={true}
+          gap={16}
+          onLayoutChange={(event) => {
+            if (event.type === "swap" && event.swappedWidgets) {
+              setLayoutChanges((prev) => [
+                ...prev,
+                `${event.swappedWidgets![0]} ↔ ${event.swappedWidgets![1]}`,
+              ])
+            }
+          }}
+          className="h-full"
+        >
+          <Widget id="weather" title="날씨" className="bg-sky-50">
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-4xl">☀️</div>
+                <p className="mt-2 text-lg font-bold">24°C</p>
+                <p className="text-sm text-gray-500">맑음</p>
+              </div>
+            </div>
+          </Widget>
+          <Widget id="map" title="지도" className="bg-emerald-50">
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <MapPin className="w-12 h-12 mx-auto text-emerald-600" />
+                <p className="mt-2 text-sm text-emerald-700">지도 위젯</p>
+              </div>
+            </div>
+          </Widget>
+          <Widget id="stats" title="통계" className="bg-violet-50">
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <TrendingUp className="w-12 h-12 mx-auto text-violet-600" />
+                <p className="mt-2 text-sm text-violet-700">통계 위젯</p>
+              </div>
+            </div>
+          </Widget>
+          <Widget id="alerts" title="알림" className="bg-rose-50">
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <AlertCircle className="w-12 h-12 mx-auto text-rose-600" />
+                <p className="mt-2 text-sm text-rose-700">알림 위젯</p>
+              </div>
+            </div>
+          </Widget>
+        </GridLayout>
+      </div>
+
+      {layoutChanges.length > 0 && (
+        <div className="p-4 bg-white border-t">
+          <p className="text-sm font-medium mb-2">변경 이력:</p>
+          <div className="flex gap-2 flex-wrap">
+            {layoutChanges.map((change, i) => (
+              <Badge key={i} variant="secondary">
+                {change}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export const DragDropSwap: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: "Widget Drag & Drop Swap 기능입니다. 위젯을 드래그하여 다른 위젯과 위치를 교환할 수 있습니다.",
+      },
+    },
+  },
+  render: () => <DragDropDemo />,
 }
