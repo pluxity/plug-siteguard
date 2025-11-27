@@ -56,7 +56,7 @@ export default function AppSideMenu() {
         {({ open }) => (
           <>
             <SideMenuTrigger open={open} showChevron={false} className="h-10 shadow-md p-4">
-              <img src="/assets/images/ci.png" alt="HOBAN CI" className="h-5 aspect-[504/87]" />
+              <img src="./assets/images/ci.png" alt="HOBAN CI" className="h-5 aspect-[504/87]" />
               <span className="font-semibold text-md">용인 스마트시티</span>
             </SideMenuTrigger>
 
