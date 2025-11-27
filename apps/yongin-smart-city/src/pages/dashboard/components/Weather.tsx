@@ -40,8 +40,8 @@ export default function Weather() {
         <>
           <div className="flex items-center gap-4 bg-white rounded-lg">
             <div className="bg-[#dcedfc] rounded p-2">
-              <img 
-                src={`assets/icons/${weatherIcon}.svg`}
+              <img
+                src={`${import.meta.env.BASE_URL}assets/icons/${weatherIcon}.svg`}
                 alt={weatherDescription}
                 className="w-12 h-12"
               />
@@ -105,15 +105,15 @@ export default function Weather() {
 
       <div className="flex justify-between gap-4">
         <img
-          src="assets/images/weather-warning.png"
+          src={`${import.meta.env.BASE_URL}assets/images/weather-warning.png`}
           alt="경고 날씨 알림"
         />
         <img
-          src="assets/images/weather-notice.png"
+          src={`${import.meta.env.BASE_URL}assets/images/weather-notice.png`}
           alt="주의 날씨 알림"
         />
         <img
-          src="assets/images/weather-danger.png"
+          src={`${import.meta.env.BASE_URL}assets/images/weather-danger.png`}
           alt="위험 날씨 알림"
         />
       </div>
