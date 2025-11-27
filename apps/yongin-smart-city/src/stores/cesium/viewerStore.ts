@@ -123,7 +123,7 @@ export const useViewerStore = create<ViewerFactory>(() => ({
   setupImagery: async (viewer: CesiumViewer, provider?: number) => {
     if (viewer.isDestroyed()) return;
 
-    const assetId = provider || Number(import.meta.env.VITE_CESIUM_GOOGLE_MAP_ASSET_ID);
+    const assetId = provider || Number(import.meta.env.VITE_CESIUM_MAP_ASSET_ID);
 
     try {
       const imageryProvider = await IonImageryProvider.fromAssetId(assetId);
