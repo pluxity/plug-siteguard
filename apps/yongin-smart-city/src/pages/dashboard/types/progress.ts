@@ -3,7 +3,7 @@ export interface ChartItem {
   date: string;
   planned: number;
   current: number;
-  deviation: number;
+  deviation?: number;
 }
 
 export interface ChartData {

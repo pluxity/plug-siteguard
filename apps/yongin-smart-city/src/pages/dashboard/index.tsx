@@ -15,11 +15,11 @@ export default function Dashboard() {
     <GridLayout columns={10} gap={16}>
       <Widget colSpan={10} className="bg-[#303741]">
         <GridLayout columns={12} gap={12}>
-          <Widget colSpan={8} border={false}>
+          <Widget colSpan={7} border={false}>
             <ProgressChart />
           </Widget>
 
-          <Widget colSpan={2} border={false}>
+          <Widget colSpan={3} border={false}>
             <ProgressCard />
           </Widget>
 

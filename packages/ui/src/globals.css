@@ -166,10 +166,6 @@
   --color-ring: hsl(223 75% 53%);
 }
 
-* {
-  border-color: var(--color-border);
-}
-
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);

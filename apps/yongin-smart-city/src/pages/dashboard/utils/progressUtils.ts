@@ -21,13 +21,12 @@ export const progressRows: ProgressProps[] = [
   ];
 
 const COLORS = {
-    planned: "#2276FC",
-    current: "#5FD5EC",
+    planned: "#2276fcab",
+    current: "#5fd4ec91",
     difference: "#FC8181"
   };
-export const getProgressColor = (id: keyof ProgressData, value: number = 0) => {
-  if (id !== "difference") return COLORS[id];
-  return value < 0 ? COLORS.difference : COLORS.planned;
+export const getProgressColor = (id: keyof ProgressData) => {
+  return COLORS[id];
 };
 
 // SafetyCard

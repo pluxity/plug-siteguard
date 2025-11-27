@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import { Widget } from "./widget.component"
 import { Badge } from "../../atoms/badge"
-import { MapPin, Users, Calendar, AlertCircle, TrendingUp, MoreHorizontal } from "lucide-react"
+import { MapPin, Users, Calendar, AlertCircle, TrendingUp } from "lucide-react"
 
 const meta: Meta<typeof Widget> = {
   title: "Molecules/Widget",

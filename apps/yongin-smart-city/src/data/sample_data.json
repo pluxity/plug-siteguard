@@ -1,0 +1,39 @@
+{
+  "MONTH-6": [
+    { "date": "7월", "planned": 39.5, "current": 35.2 },
+    { "date": "8월", "planned": 42.8, "current": 37.9 },
+    { "date": "9월", "planned": 45.2, "current": 39.8 },
+    { "date": "10월", "planned": 48.6, "current": 42.5 },
+    { "date": "11월", "planned": 50.8, "current": 44.5 },
+    { "date": "12월", "planned": 52.34, "current": 45.21 }
+  ],
+  "MONTH-12": [
+    { "date": "1월", "planned": 23.0, "current": 21.2 },
+    { "date": "2월", "planned": 26.2, "current": 23.8 },
+    { "date": "3월", "planned": 28.5, "current": 26.0 },
+    { "date": "4월", "planned": 31.2, "current": 28.1 },
+    { "date": "5월", "planned": 34.0, "current": 30.5 },
+    { "date": "6월", "planned": 36.8, "current": 32.6 },
+    { "date": "7월", "planned": 39.5, "current": 35.2 },
+    { "date": "8월", "planned": 42.8, "current": 37.9 },
+    { "date": "9월", "planned": 45.2, "current": 39.8 },
+    { "date": "10월", "planned": 48.6, "current": 42.5 },
+    { "date": "11월", "planned": 50.8, "current": 44.5 },
+    { "date": "12월", "planned": 52.34, "current": 45.21 }
+  ],
+  "ALL": [
+    { "date": "24.01", "planned": 2.5, "current": 2.5 },
+    { "date": "24.03", "planned": 5.8, "current": 5.6 },
+    { "date": "24.05", "planned": 9.2, "current": 8.8 },
+    { "date": "24.07", "planned": 12.6, "current": 11.9 },
+    { "date": "24.09", "planned": 16.0, "current": 15.0 },
+    { "date": "24.11", "planned": 19.5, "current": 18.2 },
+    { "date": "25.01", "planned": 23.0, "current": 21.2 },
+    { "date": "25.03", "planned": 28.5, "current": 26.0 },
+    { "date": "25.05", "planned": 34.0, "current": 30.5 },
+    { "date": "25.07", "planned": 39.5, "current": 35.2 },
+    { "date": "25.09", "planned": 45.2, "current": 39.8 },
+    { "date": "25.11", "planned": 50.8, "current": 44.5 },
+    { "date": "25.12", "planned": 52.34, "current": 45.21 }
+  ]
+}

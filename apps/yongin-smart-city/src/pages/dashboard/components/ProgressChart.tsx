@@ -1,27 +1,34 @@
 import { Tabs, TabsList, TabsTrigger } from '@plug-siteguard/ui';
-import {useMemo, useState} from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useState } from 'react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { getProgressColor, progressRows } from '../utils/progressUtils';
-import { ChartData, ChartPeriod } from '../types/progress';
-
-import chartDataSample from '../../../../data/sample_data.json';
+import { ChartPeriod } from '../types/progress';
+import chartData from '../../../data/sample_data.json';
 
 export default function ProgressChart() {
   const [chartRange, setChartRange] = useState<ChartPeriod>("MONTH-6");
-  const chartData = useMemo(
-      () => chartDataSample as ChartData, [chartDataSample]
-  );
 
   const handleTabChange = (value: string) => {
     setChartRange(value as ChartPeriod);
-    // 차트 그리기
   };
+
+  const currentData = chartData[chartRange];
 
   return (
     <div className="h-64 bg-[#303741] rounded-lg">
       <div className="w-full h-55 rounded-lg px-4 pt-4">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData[chartRange]} margin={{  right: 5, left: -35, }}>
+          <AreaChart data={currentData} margin={{ right: 5, left: -35 }}>
+            <defs>
+              <linearGradient id="gradientPlanned" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#2276fc" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#2276fc" stopOpacity={0.05} />
+              </linearGradient>
+              <linearGradient id="gradientCurrent" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#5fd4ec" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#5fd4ec" stopOpacity={0.05} />
+              </linearGradient>
+            </defs>
             <CartesianGrid vertical={false} horizontal={true} stroke="#3C4458" />
 
             <XAxis
@@ -45,7 +52,7 @@ export default function ProgressChart() {
                 return [value, labelMap[name] ?? name];
               }}
               contentStyle={{
-                backgroundColor: "#2B3344",
+                backgroundColor: "#2b334452",
                 border: "1px solid #4D566B",
                 borderRadius: "6px",
               }}
@@ -53,10 +60,19 @@ export default function ProgressChart() {
             />
 
             {progressRows.filter(({id}) => id !== 'difference').map(({id}) =>
-              <Line key={id} type="linear" dataKey={id} stroke={getProgressColor(id, 0)} strokeWidth={2} dot={{ r: 4}} activeDot={{ r: 5, stroke: "#FFFFFF" }} />
-              )}
+              <Area
+                key={id}
+                type="linear"
+                dataKey={id}
+                stroke={getProgressColor(id)}
+                strokeWidth={2}
+                fill={`url(#gradient${id.charAt(0).toUpperCase() + id.slice(1)})`}
+                dot={{ r: 2.5, fill: "#FFFFFF", stroke: getProgressColor(id), strokeWidth: 1.5 }}
+                activeDot={{ r: 4, fill: "#FFFFFF", stroke: getProgressColor(id), strokeWidth: 2 }}
+              />
+            )}
 
-          </LineChart>
+          </AreaChart>
         </ResponsiveContainer>
       </div>
       
@@ -77,7 +93,7 @@ export default function ProgressChart() {
           </div>
 
           <Tabs defaultValue="MONTH-6" size="sm" onValueChange={handleTabChange}>
-            <TabsList>
+            <TabsList className="bg-transparent border-2 p-0 text-white rounded-lg">
               <TabsTrigger value="MONTH-6">6개월</TabsTrigger>
               <TabsTrigger value="MONTH-12">12개월</TabsTrigger>
               <TabsTrigger value="ALL">전체</TabsTrigger>
