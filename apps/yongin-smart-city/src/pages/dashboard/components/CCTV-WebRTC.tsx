@@ -8,7 +8,7 @@ interface CCTVProps {
   autoConnect?: boolean;
 }
 
-export default function CCTV({ streamId, className, autoConnect = true }: CCTVProps) {
+export default function CCTVWebRTC({ streamId, className, autoConnect = true }: CCTVProps) {
   const { videoRef, status, error } = useCCTVStream(streamId, autoConnect);
 
   const isConnected = status === 'connected';

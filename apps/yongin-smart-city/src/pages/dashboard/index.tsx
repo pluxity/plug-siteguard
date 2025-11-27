@@ -1,6 +1,6 @@
 import { GridLayout, Widget } from '@plug-siteguard/ui';
 
-import { CCTV, CesiumMap, ProgressCard, ProgressChart, SafetyCard, Weather } from './components';
+import { CCTVWebRTC, CesiumMap, ProgressCard, ProgressChart, SafetyCard, Weather } from './components';
 
 const DASHBOARD_STREAM_IDS = [
   'CCTV-JEJU1-31',
@@ -40,7 +40,7 @@ export default function Dashboard() {
       <Widget colSpan={10} className="bg-white">
         <div className="grid grid-cols-5 gap-4">
           {DASHBOARD_STREAM_IDS.map((streamId) => (
-            <CCTV key={streamId} streamId={streamId} />
+            <CCTVWebRTC key={streamId} streamId={streamId} />
           ))}
         </div>
       </Widget>
