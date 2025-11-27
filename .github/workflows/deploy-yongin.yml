@@ -72,13 +72,28 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: Deploy to Server via SCP
+      - name: Compress build artifacts
+        run: |
+          cd apps/yongin-smart-city
+          tar -czf dist.tar.gz -C dist .
+          echo "Compressed size: $(du -h dist.tar.gz | cut -f1)"
+
+      - name: Deploy to Server
         env:
           SSHPASS: ${{ secrets.PLX_DEV_PASSWORD }}
         run: |
+          # 압축 파일 전송
           sshpass -e scp -o StrictHostKeyChecking=no -P ${{ secrets.PLX_DEV_SSH_PORT }} \
-            -r apps/yongin-smart-city/dist/* \
-            ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }}:${{ secrets.VITE_DEPLOY_PATH }}
+            apps/yongin-smart-city/dist.tar.gz \
+            ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }}:${{ secrets.VITE_DEPLOY_PATH }}/
+
+          # 서버에서 압축 해제
+          sshpass -e ssh -o StrictHostKeyChecking=no -p ${{ secrets.PLX_DEV_SSH_PORT }} \
+            ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }} \
+            "cd ${{ secrets.VITE_DEPLOY_PATH }} && \
+             rm -rf assets index.html *.js *.css 2>/dev/null || true && \
+             tar -xzf dist.tar.gz && \
+             rm dist.tar.gz"
 
       - name: Verify Deployment
         env:
