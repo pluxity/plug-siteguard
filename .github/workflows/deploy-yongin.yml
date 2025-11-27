@@ -56,10 +56,17 @@ jobs:
 
       - name: Build Yongin Smart City
         env:
+          # Variables
           VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
           VITE_CCTV_API_URL: ${{ vars.VITE_CCTV_API_URL }}
+          VITE_WEATHER_CITY: ${{ vars.VITE_WEATHER_CITY }}
+          VITE_WEATHER_UPDATE_INTERVAL: ${{ vars.VITE_WEATHER_UPDATE_INTERVAL }}
+          VITE_ION_CESIUM_MAP_ASSET_ID: ${{ vars.VITE_ION_CESIUM_MAP_ASSET_ID }}
+          VITE_ION_CESIUM_TERRAIN_ASSET_ID: ${{ vars.VITE_ION_CESIUM_TERRAIN_ASSET_ID }}
+          # Secrets
           VITE_WS_URL: ${{ secrets.VITE_WS_URL }}
-          VITE_CESIUM_ION_ACCESS_TOKEN: ${{ secrets.VITE_CESIUM_ION_ACCESS_TOKEN }}
+          VITE_ION_CESIUM_ACCESS_TOKEN: ${{ secrets.VITE_ION_CESIUM_ACCESS_TOKEN }}
+          VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
         run: pnpm build:yongin
 
       - name: Install sshpass
