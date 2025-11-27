@@ -20,6 +20,10 @@ export const formatDate = (timestamp: number): string => {
 };
 
 export const getWeatherIconName = (iconCode: string): string => {
+  if (!iconCode) {
+    return 'sunny';
+  }
+
   const prefix = iconCode.substring(0, 2);
   
   const iconMap: Record<string, string> = {

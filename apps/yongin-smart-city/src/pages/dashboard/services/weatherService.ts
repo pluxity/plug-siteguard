@@ -16,22 +16,21 @@ export const parseWeatherLocation = (location: string): WeatherLocation => {
 };
 
 export const getWeather = async (
-  location: string | { lat: number; lon: number },
-  countryCode?: string
+  location: WeatherLocation
 ): Promise<WeatherData> => {
   if (!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY === 'undefined') {
     throw new Error('OpenWeather API 키가 설정되지 않았습니다.');
   }
 
   let url: string;
-  
+
   // 좌표인 경우
-  if (typeof location === 'object') {
+  if ('lat' in location) {
     url = `${OPENWEATHER_BASE_URL}/weather?lat=${location.lat}&lon=${location.lon}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=kr`;
   } 
   // 도시 이름인 경우
   else {
-    const query = countryCode ? `${location},${countryCode}` : location;
+    const query = location.countryCode ? `${location.cityName},${location.countryCode}` : location.cityName;
     url = `${OPENWEATHER_BASE_URL}/weather?q=${encodeURIComponent(query)}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=kr`;
   }
 

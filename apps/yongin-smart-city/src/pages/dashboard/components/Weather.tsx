@@ -13,7 +13,7 @@ export default function Weather() {
   const currentTemp = data ? Math.round(data.main.temp * 10) / 10 : 0;
   const minTemp = data ? Math.round(data.main.temp_min) : 0;
   const maxTemp = data ? Math.round(data.main.temp_max) : 0;
-  const weatherIcon = data ? getWeatherIconName(data.weather[0]?.icon) : '01';
+  const weatherIcon = getWeatherIconName(data?.weather[0]?.icon || '');
   const weatherDescription = getWeatherDescription(
     data?.weather[0]?.id || 800,
     data?.weather[0]?.description || ''
@@ -24,7 +24,7 @@ export default function Weather() {
   return (
     <div className="h-full min-h-[400px] flex flex-col justify-between rounded-lg">
       {loading ? (
-        <div className="flex items-center justify-center  h-full">
+        <div className="flex items-center justify-center h-full">
          <div className="text-gray-500">날씨 정보를 불러오는 중...</div>
        </div>
       ) : error || !data ? (
@@ -100,8 +100,6 @@ export default function Weather() {
               </div>
             </div>
           </div>
-
-
 
           <div className="flex justify-between gap-4">
             <img

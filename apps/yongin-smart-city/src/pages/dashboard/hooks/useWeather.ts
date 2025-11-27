@@ -10,7 +10,6 @@ export const useWeather = () => {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        setLoading(true);
         setError(null);
         
         const weatherCity = import.meta.env.VITE_WEATHER_CITY;
@@ -20,26 +19,27 @@ export const useWeather = () => {
         }
         const location = parseWeatherLocation(weatherCity);
         
-        let weatherData: WeatherData;
-        
-        if ('lat' in location && 'lon' in location) {
-          weatherData = await getWeather(location);
-        } else {
-          weatherData = await getWeather(location.cityName, location.countryCode);
-        }
+        const weatherData = 'lat' in location && 'lon' in location
+          ? await getWeather(location)
+          : await getWeather({ cityName: location.cityName, countryCode: location.countryCode });
         
         setData(weatherData);
       } catch (err) {
         setError(err instanceof Error ? err.message : '날씨 정보를 불러올 수 없습니다.');
-      } finally {
-        setLoading(false);
       }
     };
 
-    fetchWeather();
+    const initialFetch = async () => {
+      setLoading(true);
+      await fetchWeather();
+      setLoading(false);
+    };
+
+    initialFetch();
     
     const updateInterval = parseInt(import.meta.env.VITE_WEATHER_UPDATE_INTERVAL || '600000', 10);
     const interval = setInterval(fetchWeather, updateInterval);
+    
     return () => clearInterval(interval);
   }, []);
 
