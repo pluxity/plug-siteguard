@@ -29,11 +29,11 @@ export default function Dashboard() {
         </GridLayout>
       </Widget>
 
-      <Widget colSpan={3} rowSpan={3} className="bg-white">
+      <Widget colSpan={4} rowSpan={3} className="bg-white">
         <Weather />
       </Widget>
 
-      <Widget colSpan={7} rowSpan={3} className="bg-white">
+      <Widget colSpan={6} rowSpan={3} className="bg-white" contentClassName="p-0">
         <CesiumMap />
       </Widget>
 
