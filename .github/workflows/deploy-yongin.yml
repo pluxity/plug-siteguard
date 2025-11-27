@@ -65,6 +65,7 @@ jobs:
           VITE_ION_CESIUM_TERRAIN_ASSET_ID: ${{ vars.VITE_ION_CESIUM_TERRAIN_ASSET_ID }}
           # Secrets
           VITE_WS_URL: ${{ secrets.VITE_WS_URL }}
+          VITE_HLS_URL: ${{ secrets.VITE_HLS_URL }}
           VITE_ION_CESIUM_ACCESS_TOKEN: ${{ secrets.VITE_ION_CESIUM_ACCESS_TOKEN }}
           VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
         run: pnpm build:yongin
