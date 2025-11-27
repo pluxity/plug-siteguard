@@ -69,17 +69,6 @@ jobs:
           VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
         run: pnpm build:yongin
 
-      - name: Relocate Cesium to root
-        run: |
-          cd apps/yongin-smart-city/dist
-          # Cesium을 yongin 하위에서 루트로 이동
-          if [ -d "yongin/Cesium" ]; then
-            mv yongin/Cesium ./Cesium
-            rmdir yongin 2>/dev/null || true
-            echo "Cesium moved to dist/Cesium"
-          fi
-          ls -la
-
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
@@ -98,13 +87,22 @@ jobs:
             apps/yongin-smart-city/dist.tar.gz \
             ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }}:${{ secrets.VITE_DEPLOY_PATH }}/
 
-          # 서버에서 압축 해제
+          # 서버에서 압축 해제 및 Cesium 재배치
           sshpass -e ssh -o StrictHostKeyChecking=no -p ${{ secrets.PLX_DEV_SSH_PORT }} \
             ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }} \
             "cd ${{ secrets.VITE_DEPLOY_PATH }} && \
              rm -rf assets index.html *.js *.css 2>/dev/null || true && \
              tar -xzf dist.tar.gz && \
-             rm dist.tar.gz"
+             rm dist.tar.gz && \
+             # Cesium을 상위 디렉토리로 이동 (yongin/Cesium → ../Cesium)
+             if [ -d 'yongin/Cesium' ]; then \
+               rm -rf ../Cesium 2>/dev/null || true && \
+               mv yongin/Cesium ../Cesium && \
+               rmdir yongin 2>/dev/null || true && \
+               # index.html에서 Cesium 경로 수정
+               sed -i 's|/yongin/cesium/|/Cesium/|g' index.html && \
+               echo 'Cesium relocated to /Cesium'; \
+             fi"
 
       - name: Verify Deployment
         env:
