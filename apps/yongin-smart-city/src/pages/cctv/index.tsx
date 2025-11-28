@@ -188,7 +188,7 @@ export default function CctvPage() {
         template={template}
         editable={true}
         gap={16}
-        className="flex-1"
+        className="flex-1 !overflow-hidden"
       >
         {template.cells.map((cell, index) => {
           const cctv = currentCCTVs[index];
@@ -202,9 +202,9 @@ export default function CctvPage() {
               contentClassName="p-0 h-full flex items-center justify-center"
             >
               {cctv ? (
-                <WEBRTCCCTV streamId={cctv.id} className="w-full" />
+                <WEBRTCCCTV streamId={cctv.id} className="w-full h-full" />
               ) : (
-                <div className="w-full flex items-center justify-center text-gray-500 aspect-video">
+                <div className="w-full h-full flex items-center justify-center text-gray-500">
                   <span className="text-sm">No Signal</span>
                 </div>
               )}

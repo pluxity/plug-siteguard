@@ -39,7 +39,7 @@ export default function CCTVHLS({
   return (
     <div
       ref={containerRef}
-      className={`aspect-video bg-gray-900 rounded-lg overflow-hidden relative group ${className ?? ''}`}
+      className={`h-full bg-gray-900 rounded-lg overflow-hidden relative group ${className ?? ''}`}
     >
       <video ref={videoRef} className="w-full h-full object-cover" autoPlay playsInline muted />
 

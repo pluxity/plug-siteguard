@@ -5,7 +5,7 @@
 - **Organization**: pluxity
 - **Repository**: plug-siteguard
 - **프로젝트명**: plug-siteguard
-- **설명**: 용인 스마트시티를 위한 디자인시스템 및 애플리케이션 개발
+- **설명**: 용인 플랫폼 시티를 위한 디자인시스템 및 애플리케이션 개발
 
 ---
 
@@ -29,7 +29,7 @@ https://github.com/pluxity/plug-siteguard/milestones/new
 - **Due Date**: 2024-12-10
 - **Description**:
   ```
-  용인 스마트시티 프로토타입 개발
+  용인 플랫폼 시티 프로토타입 개발
   - 프로젝트 셋업 (apps/yongin-smart-city)
   - 기본 레이아웃 및 라우팅
   - 핵심 화면 3-4개 (목업 수준)
@@ -41,7 +41,7 @@ https://github.com/pluxity/plug-siteguard/milestones/new
 - **Due Date**: 2024-12-31
 - **Description**:
   ```
-  용인 스마트시티 베타 버전
+  용인 플랫폼 시티 베타 버전
   - API 연동 완료
   - 핵심 기능 구현
   - 디자인시스템 개선 (실사용 피드백 반영)
@@ -53,7 +53,7 @@ https://github.com/pluxity/plug-siteguard/milestones/new
 - **Due Date**: 2025-03-31
 - **Description**:
   ```
-  용인 스마트시티 정식 릴리즈
+  용인 플랫폼 시티 정식 릴리즈
   - 전체 기능 완성
   - 성능 최적화
   - E2E 테스트 완료
@@ -71,7 +71,7 @@ https://github.com/pluxity/plug-siteguard/milestones/new
    - https://github.com/orgs/pluxity/projects/new
    - Template: Board
    - Project name: `plug-siteguard`
-   - Description: `용인 스마트시티를 위한 디자인시스템 및 애플리케이션 통합 관리`
+   - Description: `용인 플랫폼 시티를 위한 디자인시스템 및 애플리케이션 통합 관리`
 
 2. **Repository 연결**:
    - Settings → Linked repositories

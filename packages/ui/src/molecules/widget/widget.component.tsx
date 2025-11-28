@@ -57,7 +57,7 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps>(
       <div
         ref={ref}
         className={cn(
-          "bg-transparent rounded-lg overflow-hidden transition-all duration-200",
+          "bg-transparent rounded-lg overflow-hidden transition-all duration-200 h-full flex flex-col",
           border && "border shadow-sm",
           isDraggable && "cursor-grab",
           isDragging && "opacity-50 cursor-grabbing ring-2 ring-primary-500 scale-[0.98]",
@@ -73,7 +73,7 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps>(
         {title && (
           <div
             className={cn(
-              "px-4 py-3 bg-gray-50/50",
+              "px-4 py-3 bg-gray-50/50 flex-shrink-0",
               border && "border-b",
               headerClassName
             )}
@@ -81,7 +81,7 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps>(
             <h3 className="text-sm font-semibold text-gray-900">{title}</h3>
           </div>
         )}
-        <div className={cn("p-4", contentClassName)}>
+        <div className={cn("p-4 flex-1 min-h-0", contentClassName)}>
           {children}
         </div>
       </div>

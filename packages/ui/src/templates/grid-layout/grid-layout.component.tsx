@@ -113,10 +113,10 @@ export const GridLayout = React.forwardRef<HTMLDivElement, GridLayoutProps>(
               {...props}
             >
               <div
-                className="grid"
+                className="grid h-full"
                 style={{
                   gridTemplateColumns: `repeat(${template.columns}, 1fr)`,
-                  gridTemplateRows: `repeat(${template.rows}, auto)`,
+                  gridTemplateRows: `repeat(${template.rows}, 1fr)`,
                   gap: `${gap}px`,
                 }}
               >

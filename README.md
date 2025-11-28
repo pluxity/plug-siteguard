@@ -7,7 +7,7 @@ A modern monorepo project for site guard management built with React, TypeScript
 ```
 plug-siteguard/
 ├── apps/
-│   └── yongin-smart-city/  # 용인 스마트시티 애플리케이션
+│   └── yongin-smart-city/  # 용인 플랫폼 시티 애플리케이션
 ├── packages/
 │   └── ui/                 # Shared UI design system
 ├── pnpm-workspace.yaml     # pnpm workspace configuration
@@ -87,7 +87,7 @@ pnpm clean
 
 ### Apps
 
-- **@plug-siteguard/yongin** - 용인 스마트시티 웹 애플리케이션
+- **@plug-siteguard/yongin** - 용인 플랫폼 시티 웹 애플리케이션
 
 ### Shared Packages
 
