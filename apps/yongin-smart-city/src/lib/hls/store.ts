@@ -31,8 +31,8 @@ type HLSStore = HLSState & HLSActions;
 const DEFAULT_CONFIG: Required<HLSConfig> = {
   serverUrl: import.meta.env.VITE_HLS_URL || window.location.origin,
   autoReconnect: true,
-  reconnectDelay: 3000,
-  maxReconnectAttempts: 5,
+  reconnectDelay: 5000,
+  maxReconnectAttempts: 3,
 };
 
 const createStreamState = (streamId: string): HLSStreamState => ({
@@ -192,8 +192,23 @@ function loadHlsJs(
   const hls = new Hls({
     debug: false,
     enableWorker: true,
+    // 저지연 모드
     lowLatencyMode: true,
-    backBufferLength: 90,
+    // 버퍼 설정 최적화 (다중 스트림용)
+    backBufferLength: 30, // 뒤로 버퍼 (기본 90 → 30)
+    maxBufferLength: 10, // 최대 버퍼 길이 (초)
+    maxMaxBufferLength: 30, // 절대 최대 버퍼
+    maxBufferSize: 30 * 1000 * 1000, // 30MB 버퍼 제한
+    maxBufferHole: 0.5, // 버퍼 갭 허용치
+    // 라이브 스트리밍 최적화
+    liveSyncDuration: 3, // 라이브 동기화 지점
+    liveMaxLatencyDuration: 10, // 최대 지연 허용
+    liveDurationInfinity: true, // 라이브 스트림 무한 재생
+    // 로딩 최적화
+    manifestLoadingTimeOut: 10000, // 매니페스트 타임아웃
+    manifestLoadingMaxRetry: 3,
+    levelLoadingTimeOut: 10000,
+    fragLoadingTimeOut: 20000,
   });
 
   // 엔진 인스턴스 업데이트
