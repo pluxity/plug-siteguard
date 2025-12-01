@@ -1,22 +1,32 @@
 import { Button } from "@plug-siteguard/ui";
 import { ExternalLink } from 'lucide-react'
-import { useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { ProgressData, ProgressProps } from "../types/progress";
 import { getProgressColor, progressRows } from "../utils/progressUtils";
-import chartData from '../../../data/sample_data.json';
-
+import { getProgressData } from '@/services';
 
 export default function ProgressCard() {
-    // 최신 데이터 (12월) 사용
-    const data: ProgressData = useMemo(() => {
-        const latestData = chartData["MONTH-6"].at(-1);
-        const planned = latestData?.planned ?? 0;
-        const current = latestData?.current ?? 0;
-        return {
-            planned,
-            current,
-            difference: Math.abs(planned - current),
-        };
+    const [data, setData] = useState<ProgressData>({
+        planned: 0,
+        current: 0,
+        difference: 0,
+    });
+
+    useEffect(() => {
+        getProgressData('MONTH-6')
+            .then((progressData) => {
+                const latestData = progressData.at(-1);
+                const planned = latestData?.planned ?? 0;
+                const current = latestData?.current ?? 0;
+                setData({
+                    planned,
+                    current,
+                    difference: Math.abs(planned - current),
+                });
+            })
+            .catch((error) => {
+                console.error('Failed to fetch progress data:', error);
+            });
     }, []);
 
     const Progress = ({ id, header, getProgress }: ProgressProps) => {
