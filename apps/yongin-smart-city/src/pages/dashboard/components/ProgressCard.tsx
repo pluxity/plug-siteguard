@@ -13,16 +13,20 @@ export default function ProgressCard() {
     });
 
     useEffect(() => {
-        getProgressData('MONTH-6').then((progressData) => {
-            const latestData = progressData.at(-1);
-            const planned = latestData?.planned ?? 0;
-            const current = latestData?.current ?? 0;
-            setData({
-                planned,
-                current,
-                difference: Math.abs(planned - current),
+        getProgressData('MONTH-6')
+            .then((progressData) => {
+                const latestData = progressData.at(-1);
+                const planned = latestData?.planned ?? 0;
+                const current = latestData?.current ?? 0;
+                setData({
+                    planned,
+                    current,
+                    difference: Math.abs(planned - current),
+                });
+            })
+            .catch((error) => {
+                console.error('Failed to fetch progress data:', error);
             });
-        });
     }, []);
 
     const Progress = ({ id, header, getProgress }: ProgressProps) => {

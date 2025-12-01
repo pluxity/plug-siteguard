@@ -4,7 +4,7 @@ export type { ApiClient } from './client';
 
 // Files API
 export { createFilesApi } from './files';
-export type { FilesApi, PresignedUrlResponse, FileUploadResponse } from './files';
+export type { FilesApi, PresignedUrlResponse } from './files';
 
 // Types
 export type {

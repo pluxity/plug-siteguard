@@ -10,7 +10,11 @@ export default function ProgressChart() {
   const [chartData, setChartData] = useState<ProgressResponse | null>(null);
 
   useEffect(() => {
-    getAllProgressData().then(setChartData);
+    getAllProgressData()
+      .then(setChartData)
+      .catch((error) => {
+        console.error('Failed to fetch progress data:', error);
+      });
   }, []);
 
   const handleTabChange = (value: string) => {

@@ -204,7 +204,7 @@ export function createApiClient(config: ApiClientConfig) {
                   resolve(responseData as T);
                 }
               } catch {
-                resolve(undefined as T);
+                reject(new ApiError(xhr.status, 'Failed to parse JSON response', 'PARSE_ERROR'));
               }
             } else {
               let errorResponse;

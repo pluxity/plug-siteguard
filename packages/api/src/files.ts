@@ -9,13 +9,6 @@ export interface PresignedUrlResponse {
 }
 
 /**
- * 파일 업로드 응답 (201 Created + Location 헤더)
- */
-export interface FileUploadResponse extends FileResponse {
-  location: string | null;
-}
-
-/**
  * Files API 인터페이스
  */
 export interface FilesApi {
