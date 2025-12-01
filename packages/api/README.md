@@ -271,4 +271,4 @@ packages/api/
 ## API 참조
 
 - [AIoT API Docs](http://dev.pluxity.com/aiot/api/swagger-ui/index.html)
-- [Auth API Docs](http://dev.pluxity.com/gs_auth/api/api-docs)
+- [Auth API Docs](http://dev.pluxity.com/gs_auth/api/swagger-ui/index.html)

@@ -30,6 +30,9 @@ importers:
 
   apps/yongin-smart-city:
     dependencies:
+      '@plug-siteguard/api':
+        specifier: workspace:*
+        version: link:../../packages/api
       '@plug-siteguard/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -85,6 +88,12 @@ importers:
       vite-plugin-cesium:
         specifier: ^1.2.23
         version: 1.2.23(cesium@1.135.0)(rollup@4.53.2)(vite@7.2.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.2))
+
+  packages/api:
+    devDependencies:
+      typescript:
+        specifier: ^5.8.2
+        version: 5.9.3
 
   packages/ui:
     dependencies:

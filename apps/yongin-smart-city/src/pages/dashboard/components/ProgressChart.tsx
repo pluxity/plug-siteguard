@@ -1,18 +1,23 @@
 import { Tabs, TabsList, TabsTrigger } from '@plug-siteguard/ui';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { getProgressColor, progressRows } from '../utils/progressUtils';
 import { ChartPeriod } from '../types/progress';
-import chartData from '../../../data/sample_data.json';
+import { getAllProgressData, type ProgressResponse, type ProgressDataPoint } from '@/services';
 
 export default function ProgressChart() {
   const [chartRange, setChartRange] = useState<ChartPeriod>("MONTH-6");
+  const [chartData, setChartData] = useState<ProgressResponse | null>(null);
+
+  useEffect(() => {
+    getAllProgressData().then(setChartData);
+  }, []);
 
   const handleTabChange = (value: string) => {
     setChartRange(value as ChartPeriod);
   };
 
-  const currentData = chartData[chartRange];
+  const currentData: ProgressDataPoint[] = chartData?.[chartRange] ?? [];
 
   return (
     <div className="bg-[#303741] rounded-lg px-4 pt-4">
