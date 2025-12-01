@@ -3,17 +3,17 @@ import { useCallback, useRef } from 'react';
 import { Skeleton } from '@plug-siteguard/ui';
 import { Maximize } from 'lucide-react';
 
-import { useCCTVStream } from '../../../lib/webrtc';
+import { useCCTVStream } from '@/lib/webrtc';
 
-interface CCTVProps {
+interface CCTVWebRTCProps {
   streamId: string;
   className?: string;
   autoConnect?: boolean;
 }
 
-export default function CCTVWebRTC({ streamId, className, autoConnect = true }: CCTVProps) {
+export default function CCTVWebRTC({ streamId, className, autoConnect = true }: CCTVWebRTCProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { videoRef, status, error } = useCCTVStream(streamId, autoConnect);
+  const { videoRef, status } = useCCTVStream(streamId, autoConnect);
 
   const isConnected = status === 'connected';
   const isConnecting = status === 'connecting' || status === 'idle';
@@ -44,8 +44,8 @@ export default function CCTVWebRTC({ streamId, className, autoConnect = true }: 
 
       {isFailed && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900">
-          <span className="text-red-400 text-xs block">연결 실패</span>
-          <span className="text-gray-600 text-xs">{error || streamId}</span>
+          <span className="text-red-400 text-sm font-medium">연결 실패</span>
+          <span className="text-gray-500 text-xs mt-1">현장 접속 장애</span>
         </div>
       )}
 
