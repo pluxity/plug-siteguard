@@ -33,10 +33,10 @@ export default function CesiumMap() {
 
         // 초기 카메라 위치 설정 (구성역)
         viewer.camera.setView({
-          destination: Cesium.Cartesian3.fromDegrees(127.1056, 37.2989, 1000),
+          destination: Cesium.Cartesian3.fromDegrees(127.1038, 37.2842, 500),
           orientation: {
             heading: Cesium.Math.toRadians(0),
-            pitch: Cesium.Math.toRadians(-90),
+            pitch: Cesium.Math.toRadians(-10),
             roll: 0.0,
           },
         });
