@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 
 import { WebSocketMessage } from './types';
+import { getStreams } from '@/services/sample';
 
 const RETRY_DELAY = 5000;
 const MAX_RETRIES = 3;
@@ -9,7 +10,6 @@ const MAX_RETRIES = 3;
 export interface CCTVInfo {
   id: string;
   name: string;
-  source: string;
 }
 
 export type StreamStatus = 'idle' | 'connecting' | 'connected' | 'failed';
@@ -46,7 +46,6 @@ interface WebRTCActions {
 type WebRTCStore = WebRTCState & WebRTCActions;
 
 const WS_URL = import.meta.env.VITE_WS_URL;
-const CCTV_API_URL = import.meta.env.VITE_CCTV_API_URL;
 
 const ICE_SERVERS: RTCConfiguration = {
   iceServers: [
@@ -147,16 +146,12 @@ export const useWebRTCStore = create<WebRTCStore>()(
       set({ cctvLoading: true });
 
       try {
-        const res = await fetch(CCTV_API_URL);
-        const data = await res.json();
+        const streams = await getStreams();
 
-        const list: CCTVInfo[] = data.streams
-          .filter((s: { runtime_info?: { is_active?: boolean } }) => s.runtime_info?.is_active)
-          .map((s: { id: string; name: string; source: string }) => ({
-            id: s.id,
-            name: s.name,
-            source: s.source,
-          }));
+        const list: CCTVInfo[] = streams.map((s) => ({
+          id: s.name,
+          name: s.name,
+        }));
 
         set({ cctvList: list, cctvLoading: false });
       } catch {
@@ -168,7 +163,9 @@ export const useWebRTCStore = create<WebRTCStore>()(
       const { streams, wsConnected, ws } = get();
 
       const existing = streams.get(streamId);
-      if (existing && existing.status === 'connected') {
+
+      // 이미 연결 중이거나 연결된 경우 스킵
+      if (existing && (existing.status === 'connected' || existing.status === 'connecting')) {
         return;
       }
 
@@ -176,7 +173,7 @@ export const useWebRTCStore = create<WebRTCStore>()(
         return;
       }
 
-      // 기존 연결 정리 (재시도 타이머는 유지)
+      // 기존 연결 정리 (failed 상태에서 재시도할 때만)
       if (existing?.pc) {
         existing.pc.close();
       }

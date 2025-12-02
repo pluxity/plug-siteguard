@@ -3,12 +3,12 @@ import { subscribeWithSelector } from 'zustand/middleware';
 
 import { buildWhepUrl, performWhepNegotiation } from './client';
 import type { CCTVInfo } from './types';
+import { getStreams } from '@/services/sample';
 
 const RETRY_DELAY = 5000;
 const MAX_RETRIES = 3;
 
 const WHEP_URL = import.meta.env.VITE_WHEP_URL;
-const CCTV_API_URL = import.meta.env.VITE_CCTV_API_URL;
 
 const ICE_SERVERS: RTCConfiguration = {
   iceServers: [
@@ -102,15 +102,12 @@ export const useWHEPStore = create<WHEPStore>()(
       set({ cctvLoading: true });
 
       try {
-        const res = await fetch(CCTV_API_URL);
-        const data = await res.json();
+        const streams = await getStreams();
 
-        const list: CCTVInfo[] = data.streams
-          .filter((s: { runtime_info?: { is_active?: boolean } }) => s.runtime_info?.is_active)
-          .map((s: { id: string; name: string }) => ({
-            id: s.id,
-            name: s.name,
-          }));
+        const list: CCTVInfo[] = streams.map((s) => ({
+          id: s.name,
+          name: s.name,
+        }));
 
         set({ cctvList: list, cctvLoading: false });
       } catch {
@@ -123,12 +120,12 @@ export const useWHEPStore = create<WHEPStore>()(
 
       const existing = streams.get(streamId);
 
-      // 이미 연결된 경우 스킵
-      if (existing && existing.status === 'connected') {
+      // 이미 연결 중이거나 연결된 경우 스킵
+      if (existing && (existing.status === 'connected' || existing.status === 'connecting')) {
         return;
       }
 
-      // 기존 연결 정리
+      // 기존 연결 정리 (failed 상태에서 재시도할 때만)
       if (existing) {
         if (existing.pc) {
           existing.pc.close();
