@@ -110,9 +110,10 @@ function FloorModel({ config, onHoverMesh, setOutline }: FloorModelProps) {
 interface MultiFloorSceneProps {
   floors: FloorConfig[];
   onHoverMesh?: (info: MeshInfo | null) => void;
+  shadowEnabled: boolean;
 }
 
-function MultiFloorScene({ floors, onHoverMesh }: MultiFloorSceneProps) {
+function MultiFloorScene({ floors, onHoverMesh, shadowEnabled }: MultiFloorSceneProps) {
   const { scene, size } = useThree();
   const outlineRef = useRef<LineSegments2 | null>(null);
 
@@ -169,35 +170,34 @@ function MultiFloorScene({ floors, onHoverMesh }: MultiFloorSceneProps) {
     <>
       <CameraControls />
 
-      {/* 환경광 - 전체적인 밝기 */}
-      <ambientLight intensity={0.3} />
-
-      {/* 태양광 - 그림자 포함 */}
-      <directionalLight
-        position={[200, 300, 100]}
-        intensity={1.5}
-        castShadow
-        shadow-mapSize-width={4096}
-        shadow-mapSize-height={4096}
-        shadow-camera-far={1000}
-        shadow-camera-left={-200}
-        shadow-camera-right={200}
-        shadow-camera-top={200}
-        shadow-camera-bottom={-200}
-        shadow-bias={-0.0001}
-      />
-
-      {/* 보조 조명 - 그림자 부드럽게 */}
-      <directionalLight
-        position={[-100, 100, -100]}
-        intensity={0.3}
-      />
-
-      {/* 바닥면 - 그림자 받기용 */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]} receiveShadow>
-        <planeGeometry args={[1000, 1000]} />
-        <shadowMaterial opacity={0.3} />
-      </mesh>
+      {shadowEnabled ? (
+        <>
+          <ambientLight intensity={0.3} />
+          <directionalLight
+            position={[200, 300, 100]}
+            intensity={1.5}
+            castShadow
+            shadow-mapSize-width={4096}
+            shadow-mapSize-height={4096}
+            shadow-camera-far={1000}
+            shadow-camera-left={-200}
+            shadow-camera-right={200}
+            shadow-camera-top={200}
+            shadow-camera-bottom={-200}
+            shadow-bias={-0.0001}
+          />
+          <directionalLight position={[-100, 100, -100]} intensity={0.3} />
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]} receiveShadow>
+            <planeGeometry args={[1000, 1000]} />
+            <shadowMaterial opacity={0.3} />
+          </mesh>
+        </>
+      ) : (
+        <>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[10, 10, 5]} intensity={1} />
+        </>
+      )}
 
       <Environment preset="city" />
 
@@ -230,6 +230,7 @@ export function MultiFBXViewer({ basePath, files }: MultiFBXViewerProps) {
   );
 
   const [hoveredMesh, setHoveredMesh] = useState<MeshInfo | null>(null);
+  const [shadowEnabled, setShadowEnabled] = useState(true);
 
   const toggleFloor = (floorId: string) => {
     setFloors((prev) =>
@@ -262,7 +263,7 @@ export function MultiFBXViewer({ basePath, files }: MultiFBXViewerProps) {
             </Html>
           }
         >
-          <MultiFloorScene floors={floors} onHoverMesh={setHoveredMesh} />
+          <MultiFloorScene floors={floors} onHoverMesh={setHoveredMesh} shadowEnabled={shadowEnabled} />
         </Suspense>
       </Canvas>
 
@@ -289,6 +290,16 @@ export function MultiFBXViewer({ basePath, files }: MultiFBXViewerProps) {
             전체 숨김
           </button>
         </div>
+
+        <label className="mb-3 flex cursor-pointer items-center gap-2 border-b border-gray-600 pb-3">
+          <input
+            type="checkbox"
+            checked={shadowEnabled}
+            onChange={() => setShadowEnabled(!shadowEnabled)}
+            className="h-4 w-4 accent-yellow-500"
+          />
+          <span className="text-sm">그림자 효과</span>
+        </label>
 
         <div className="space-y-1">
           {floors.map((floor) => (
