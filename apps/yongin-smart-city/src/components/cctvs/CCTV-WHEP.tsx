@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import { Skeleton } from '@plug-siteguard/ui';
 import { Maximize } from 'lucide-react';
@@ -14,10 +14,12 @@ interface CCTVWHEPProps {
 export default function CCTVWHEP({ streamPath, className, autoConnect = true }: CCTVWHEPProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { videoRef, status } = useWHEPStream(streamPath, autoConnect);
+  const [videoReady, setVideoReady] = useState(false);
 
   const isConnected = status === 'connected';
   const isConnecting = status === 'connecting' || status === 'idle';
   const isError = status === 'failed';
+  const isLoading = isConnecting || (isConnected && !videoReady);
 
   const handleFullscreen = useCallback(() => {
     if (!containerRef.current) return;
@@ -34,9 +36,16 @@ export default function CCTVWHEP({ streamPath, className, autoConnect = true }: 
       ref={containerRef}
       className={`h-full bg-gray-900 rounded-lg overflow-hidden relative group ${className ?? ''}`}
     >
-      <video ref={videoRef} className="w-full h-full object-cover" autoPlay playsInline muted />
+      <video
+        ref={videoRef}
+        className="w-full h-full object-cover"
+        autoPlay
+        playsInline
+        muted
+        onLoadedData={() => setVideoReady(true)}
+      />
 
-      {isConnecting && (
+      {isLoading && (
         <div className="absolute inset-0">
           <Skeleton className="w-full h-full rounded-lg" />
         </div>
