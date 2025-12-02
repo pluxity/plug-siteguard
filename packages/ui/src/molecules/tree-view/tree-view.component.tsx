@@ -72,7 +72,7 @@ const TreeView = React.forwardRef<HTMLDivElement, TreeViewProps>(({
             <div  
                 ref={ref} 
                 role="tree"
-                className={cn("flex flex-col gap-2", className)} 
+                className={cn("flex flex-col gap-2 border border-gray-200 rounded-md p-3", className)} 
                 {...props}
             >
                 {children}
@@ -174,10 +174,10 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
             onKeyDown={keydownHandler} 
             className={cn(
                 "flex flex-col gap-2 cursor-pointer outline-none rounded-md",
-                "focus:ring-2 focus:ring-zinc-200",
-                "hover:bg-gray-100 dark:hover:bg-gray-800",
-                isSelected && "bg-gray-100 dark:bg-gray-800",
-                disabled && "opacity-50 cursor-not-allowed hover:bg-transparent dark:hover:bg-transparent",
+                "focus:ring-1 focus:ring-gray-200 focus:ring-offset-1",
+                "hover:bg-primary-100/50 dark:hover:bg-primary-800/50",
+                isSelected && "bg-primary-100/50 dark:bg-primary-800/50",
+                disabled && "opacity-50 cursor-not-allowed hover:bg-transparent",
                 className
             )} 
             style={depthStyle}
