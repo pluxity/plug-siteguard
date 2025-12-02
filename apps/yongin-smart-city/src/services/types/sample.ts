@@ -1,27 +1,29 @@
-export interface StreamRuntimeInfo {
-  is_active: boolean;
-  codec: string;
-  bytes_received: number;
-  bytes_sent: number;
-  packets_received: number;
-  packets_sent: number;
-  subscriber_count: number;
+export interface StreamSource {
+  type: string;
+  id: string;
+}
+
+export interface StreamReader {
+  type: string;
+  id: string;
 }
 
 export interface Stream {
-  id: string;
   name: string;
-  source: string;
-  rtsp_transport: string;
-  source_on_demand: boolean;
-  runtime_info: StreamRuntimeInfo;
-  created_at: string;
-  updated_at: string;
+  confName: string;
+  source: StreamSource;
+  ready: boolean;
+  readyTime: string | null;
+  tracks: string[];
+  bytesReceived: number;
+  bytesSent: number;
+  readers: StreamReader[];
 }
 
 export interface StreamsResponse {
-  count: number;
-  streams: Stream[];
+  itemCount: number;
+  pageCount: number;
+  items: Stream[];
 }
 
 export interface ProgressDataPoint {

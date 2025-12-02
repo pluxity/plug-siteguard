@@ -9,7 +9,6 @@ const MAX_RETRIES = 3;
 export interface CCTVInfo {
   id: string;
   name: string;
-  source: string;
 }
 
 export type StreamStatus = 'idle' | 'connecting' | 'connected' | 'failed';
@@ -150,13 +149,10 @@ export const useWebRTCStore = create<WebRTCStore>()(
         const res = await fetch(CCTV_API_URL);
         const data = await res.json();
 
-        const list: CCTVInfo[] = data.streams
-          .filter((s: { runtime_info?: { is_active?: boolean } }) => s.runtime_info?.is_active)
-          .map((s: { id: string; name: string; source: string }) => ({
-            id: s.id,
-            name: s.name,
-            source: s.source,
-          }));
+        const list: CCTVInfo[] = data.items.map((s: { name: string }) => ({
+          id: s.name,
+          name: s.name,
+        }));
 
         set({ cctvList: list, cctvLoading: false });
       } catch {
@@ -168,7 +164,9 @@ export const useWebRTCStore = create<WebRTCStore>()(
       const { streams, wsConnected, ws } = get();
 
       const existing = streams.get(streamId);
-      if (existing && existing.status === 'connected') {
+
+      // 이미 연결 중이거나 연결된 경우 스킵
+      if (existing && (existing.status === 'connected' || existing.status === 'connecting')) {
         return;
       }
 
@@ -176,7 +174,7 @@ export const useWebRTCStore = create<WebRTCStore>()(
         return;
       }
 
-      // 기존 연결 정리 (재시도 타이머는 유지)
+      // 기존 연결 정리 (failed 상태에서 재시도할 때만)
       if (existing?.pc) {
         existing.pc.close();
       }

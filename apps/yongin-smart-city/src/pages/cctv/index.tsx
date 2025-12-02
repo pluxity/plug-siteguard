@@ -1,9 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Skeleton, GridLayout, Widget } from '@plug-siteguard/ui';
 import type { GridTemplate } from '@plug-siteguard/ui';
 import { ChevronLeft, ChevronRight, Square, Grid2X2, LayoutGrid, Grid3X3 } from 'lucide-react';
 
-import { useCCTVList } from '@/lib/whep';
+import { useCCTVList, useWHEPCleanup } from '@/lib/whep';
 import { CCTVWHEP } from '@/components/cctvs';
 
 /**
@@ -89,8 +89,16 @@ const TEMPLATE_ICONS: Record<TemplateId, typeof Square> = {
 
 export default function CctvPage() {
   const { cctvList, loading } = useCCTVList();
+  const cleanup = useWHEPCleanup();
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateId>('2x2');
   const [currentPage, setCurrentPage] = useState(0);
+
+  // 페이지 언마운트 시 모든 WHEP 스트림 연결 정리
+  useEffect(() => {
+    return () => {
+      cleanup();
+    };
+  }, [cleanup]);
 
   const template = GRID_TEMPLATES[selectedTemplate];
   const itemsPerPage = template.cells.length;
@@ -194,7 +202,7 @@ export default function CctvPage() {
           {template.cells.map((cell, index) => {
             const cctv = currentCCTVs[index];
             return (
-              <Widget key={cell.id} id={`cctv-${index}`} border={false} contentClassName="p-0">
+              <Widget key={cctv?.id ?? `empty-${cell.id}`} id={`cctv-${index}`} border={false} contentClassName="p-0">
                 {cctv ? (
                   <CCTVWHEP streamPath={cctv.id} className="w-full h-full" />
                 ) : (
