@@ -39,6 +39,15 @@ function FloorModel({ config, onHoverMesh, setOutline }: FloorModelProps) {
   const groupRef = useRef<THREE.Group>(null);
 
   useEffect(() => {
+    fbx.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [fbx]);
+
+  useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       const rect = gl.domElement.getBoundingClientRect();
       mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -159,8 +168,37 @@ function MultiFloorScene({ floors, onHoverMesh }: MultiFloorSceneProps) {
   return (
     <>
       <CameraControls />
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
+
+      {/* 환경광 - 전체적인 밝기 */}
+      <ambientLight intensity={0.3} />
+
+      {/* 태양광 - 그림자 포함 */}
+      <directionalLight
+        position={[200, 300, 100]}
+        intensity={1.5}
+        castShadow
+        shadow-mapSize-width={4096}
+        shadow-mapSize-height={4096}
+        shadow-camera-far={1000}
+        shadow-camera-left={-200}
+        shadow-camera-right={200}
+        shadow-camera-top={200}
+        shadow-camera-bottom={-200}
+        shadow-bias={-0.0001}
+      />
+
+      {/* 보조 조명 - 그림자 부드럽게 */}
+      <directionalLight
+        position={[-100, 100, -100]}
+        intensity={0.3}
+      />
+
+      {/* 바닥면 - 그림자 받기용 */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]} receiveShadow>
+        <planeGeometry args={[1000, 1000]} />
+        <shadowMaterial opacity={0.3} />
+      </mesh>
+
       <Environment preset="city" />
 
       {floors.map((floor) => (
@@ -208,6 +246,7 @@ export function MultiFBXViewer({ basePath, files }: MultiFBXViewerProps) {
   return (
     <div className="relative h-full w-full">
       <Canvas
+        shadows
         camera={{ position: [100, 100, 100], fov: 45, near: 0.1, far: 100000 }}
         gl={{ antialias: true }}
         onCreated={({ gl }) => {
