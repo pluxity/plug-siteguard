@@ -105,12 +105,10 @@ export const useWHEPStore = create<WHEPStore>()(
         const res = await fetch(CCTV_API_URL);
         const data = await res.json();
 
-        const list: CCTVInfo[] = data.streams
-          .filter((s: { runtime_info?: { is_active?: boolean } }) => s.runtime_info?.is_active)
-          .map((s: { id: string; name: string }) => ({
-            id: s.id,
-            name: s.name,
-          }));
+        const list: CCTVInfo[] = data.items.map((s: { name: string }) => ({
+          id: s.name,
+          name: s.name,
+        }));
 
         set({ cctvList: list, cctvLoading: false });
       } catch {
@@ -123,12 +121,12 @@ export const useWHEPStore = create<WHEPStore>()(
 
       const existing = streams.get(streamId);
 
-      // 이미 연결된 경우 스킵
-      if (existing && existing.status === 'connected') {
+      // 이미 연결 중이거나 연결된 경우 스킵
+      if (existing && (existing.status === 'connected' || existing.status === 'connecting')) {
         return;
       }
 
-      // 기존 연결 정리
+      // 기존 연결 정리 (failed 상태에서 재시도할 때만)
       if (existing) {
         if (existing.pc) {
           existing.pc.close();
