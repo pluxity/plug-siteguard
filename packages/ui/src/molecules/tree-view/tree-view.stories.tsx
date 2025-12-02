@@ -10,7 +10,7 @@ const meta: Meta<typeof TreeView> = {
     layout: 'centered',
     docs: {
       description: {
-        component: '계층 구조를 표시하는 트리 뷰 컴포넌트입니다. 데이터 계층을 시각적으로 표현하며 확장/축소, 선택 기능을 지원합니다.',
+        component: '계층 구조를 표시하는 트리 뷰 컴포넌트입니다. 데이터 계층을 시각적으로 표현하며 확장/축소, 선택, 체크박스 기능을 지원합니다.',
       },
     },
   },
@@ -69,6 +69,86 @@ export const WithIcons: Story = {
       </TreeItem>
     </TreeView>
   ),
+}
+
+// 체크박스 기본
+export const Checkable: Story = {
+  render: () => (
+    <TreeView checkable defaultExpanded={["features"]}>
+      <TreeItem value="features" label="Features">
+        <TreeItem value="auth" label="Authentication" />
+        <TreeItem value="dashboard" label="Dashboard" />
+        <TreeItem value="settings" label="Settings" />
+      </TreeItem>
+    </TreeView>
+  ),
+}
+
+// 체크박스 - Controlled
+export const CheckableControlled: Story = {
+  render: () => {
+    const [checked, setChecked] = useState<string[]>(["auth"])
+
+    return (
+      <div className="flex flex-col gap-4">
+        <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded">
+          <p className="font-medium mb-1">Checked Items:</p>
+          <p className="font-mono text-xs">{JSON.stringify(checked)}</p>
+        </div>
+        <TreeView 
+          checkable 
+          defaultExpanded={["features"]} 
+          checked={checked}
+          onCheckedChange={setChecked}
+        >
+          <TreeItem value="features" label="Features">
+            <TreeItem value="auth" label="Authentication" />
+            <TreeItem value="dashboard" label="Dashboard" />
+            <TreeItem value="settings" label="Settings" />
+          </TreeItem>
+        </TreeView>
+      </div>
+    )
+  },
+}
+
+// 체크박스 - 다중 레벨
+export const CheckableMultiLevel: Story = {
+  render: () => {
+    const [checked, setChecked] = useState<string[]>([])
+
+    return (
+      <div className="flex flex-col gap-4">
+        <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded">
+          <p className="font-medium mb-1">Checked Items:</p>
+          <p className="font-mono text-xs">{checked.length > 0 ? JSON.stringify(checked) : '(없음)'}</p>
+        </div>
+        <TreeView 
+          checkable 
+          defaultExpanded={["root", "frontend", "backend"]} 
+          checked={checked}
+          onCheckedChange={setChecked}
+        >
+          <TreeItem value="root" label="프로젝트" icon={<FolderIcon />}>
+            <TreeItem value="frontend" label="Frontend" icon={<FolderIcon />}>
+              <TreeItem value="react" label="React" icon={<FileIcon />} />
+              <TreeItem value="vue" label="Vue" icon={<FileIcon />} />
+              <TreeItem value="angular" label="Angular" icon={<FileIcon />} />
+            </TreeItem>
+            <TreeItem value="backend" label="Backend" icon={<FolderIcon />}>
+              <TreeItem value="node" label="Node.js" icon={<FileIcon />} />
+              <TreeItem value="python" label="Python" icon={<FileIcon />} />
+            </TreeItem>
+            <TreeItem value="database" label="Database" icon={<FolderIcon />}>
+              <TreeItem value="mysql" label="MySQL" icon={<FileIcon />} />
+              <TreeItem value="postgres" label="PostgreSQL" icon={<FileIcon />} />
+              <TreeItem value="mongodb" label="MongoDB" icon={<FileIcon />} />
+            </TreeItem>
+          </TreeItem>
+        </TreeView>
+      </div>
+    )
+  }, 
 }
 
 // Disabled 아이템

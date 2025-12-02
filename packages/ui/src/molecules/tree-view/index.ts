@@ -1,4 +1,7 @@
-export { TreeView } from './tree-view.component'
+export { 
+    TreeView,
+    TreeItem,
+ } from './tree-view.component'
 export type {
     TreeViewProps,
     TreeItemProps,

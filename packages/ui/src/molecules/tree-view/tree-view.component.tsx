@@ -1,12 +1,29 @@
 import * as React from "react"
 import { cn } from "../../lib/utils"
 import { TreeViewProps, TreeItemProps } from "./tree-view.types";
+import { Checkbox } from "../../atoms/checkbox";
+
+const collectChildValues = (children: React.ReactNode): string[] => {
+    const values: string[] = []
+    React.Children.forEach(children, child => {
+        if (React.isValidElement<TreeItemProps>(child)) {
+            values.push(child.props.value)
+            if (child.props.children) {
+                values.push(...collectChildValues(child.props.children))
+            }
+        }
+    })
+    return values
+}
 
 type TreeViewContextType = {
     expanded?: string[];
     selected?: string;
     onExpand?: (value: string) => void;
     onSelect?: (value: string) => void;
+    checkable?: boolean;
+    checkedValues?: string[];
+    onCheckWithChildren?: (value: string, childValues: string[], isCurrentlyChecked: boolean, isIndeterminate: boolean) => void;
 }
 
 const TreeViewContext = React.createContext<TreeViewContextType | null>(null);
@@ -29,14 +46,37 @@ const TreeView = React.forwardRef<HTMLDivElement, TreeViewProps>(({
     selected,
     onSelectedChange,
     children,
+    checkable,
+    checked,
+    defaultChecked,
+    onCheckedChange,
     ...props
 }, ref) => {
 
     const [internalExpanded, setInternalExpanded] = React.useState<string[]>(defaultExpanded);
     const [internalSelected, setInternalSelected] = React.useState<string | undefined>(defaultSelected)
-
+    const [internalChecked, setInternalChecked] = React.useState<string[]>(defaultChecked ?? []);
+ 
     const currentExpanded = expanded ?? internalExpanded;
     const currentSelected = selected ?? internalSelected;
+    const currentChecked = checked ?? internalChecked;
+
+    const handleCheckWithChildren = (value: string, childValues: string[], isCurrentlyChecked: boolean, isIndeterminate: boolean) => {
+        let newChecked = [...currentChecked];
+        const allValues = [value, ...childValues];
+
+        if (isCurrentlyChecked || isIndeterminate) {
+            newChecked = newChecked.filter(v => !allValues.includes(v));
+        } else {
+            newChecked = [...new Set([...newChecked, ...allValues])];
+        }
+
+        if (checked === undefined) {
+            setInternalChecked(newChecked);
+        }
+
+        onCheckedChange?.(newChecked);
+    }
 
     const handleToggleExpand = (value : string) => {
         let newExpanded = [...currentExpanded];
@@ -68,6 +108,9 @@ const TreeView = React.forwardRef<HTMLDivElement, TreeViewProps>(({
             selected: currentSelected,
             onExpand: handleToggleExpand,
             onSelect: handleSelect,
+            checkable,
+            checkedValues: currentChecked,
+            onCheckWithChildren: handleCheckWithChildren,
         }}>
             <div  
                 ref={ref} 
@@ -97,13 +140,23 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
     depth = 0,
     ...props
 }, ref) => {
-    const { expanded, selected, onExpand, onSelect } = useTreeView();
+    const { expanded, selected, onExpand, onSelect, checkable, checkedValues, onCheckWithChildren } = useTreeView();
 
     const isExpanded = expanded?.includes(value) ?? false;
     const isSelected = selected === value;
     const hasChildren = React.Children.count(children) > 0;
+    const childValues = hasChildren ? collectChildValues(children) : [];
     
-    const isRootLevel = depth === 0;
+    const isChecked = checkedValues?.includes(value) ?? false;
+    const checkedChildCount = childValues.filter(v => checkedValues?.includes(v)).length;
+    const allChildrenChecked = hasChildren && checkedChildCount === childValues.length;
+    const isIndeterminate = hasChildren && checkedChildCount > 0;
+    const isNodeChecked = isChecked;
+
+    const handleCheckedChange = () => {
+        if (disabled) return;
+        onCheckWithChildren?.(value, childValues, hasChildren ? allChildrenChecked : isChecked, isIndeterminate);
+    }
 
     const handleClick = () => {
         if(disabled) return;
@@ -121,7 +174,11 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
             case ' ':
                 if (disabled) return;
                 event.preventDefault();
-                handleClick();
+                if (checkable) {
+                    handleCheckedChange();
+                } else {
+                    handleClick();
+                }
                 break;
             case 'ArrowRight':
                 if(hasChildren && !isExpanded){
@@ -167,7 +224,7 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
         <div 
             ref={ref} 
             role="treeitem"
-            tabIndex={disabled ? -1 : (isRootLevel ? 0 : -1)}
+            tabIndex={disabled ? -1 : 0}
             aria-expanded={hasChildren ? isExpanded : undefined}
             aria-selected={isSelected}
             aria-disabled={disabled}
@@ -175,9 +232,8 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
             className={cn(
                 "flex flex-col gap-2 cursor-pointer outline-none rounded-md",
                 "focus:ring-1 focus:ring-gray-200 focus:ring-offset-1",
-                "hover:bg-primary-100/50 dark:hover:bg-primary-800/50",
                 isSelected && "bg-primary-100/50 dark:bg-primary-800/50",
-                disabled && "opacity-50 cursor-not-allowed hover:bg-transparent",
+                disabled && "opacity-50 cursor-not-allowed",
                 className
             )} 
             style={depthStyle}
@@ -190,6 +246,21 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
                     contentClassName
                 )}
             >
+                {checkable && (
+                    <Checkbox
+                        checked={
+                            hasChildren 
+                                ? (isIndeterminate ? "indeterminate" : allChildrenChecked)
+                                : isNodeChecked
+                        }
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleCheckedChange();
+                        }}
+                        disabled={disabled}
+                    />
+                )}
+                
                 {renderItem ? (
                     renderItem({
                         value,
@@ -200,10 +271,12 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
                         hasChildren,
                         disabled,
                         depth,
+                        isChecked: hasChildren ? allChildrenChecked : isChecked,
+                        isIndeterminate,
                     })
                 ) : (
                     <>
-                        <span>{icon}</span>
+                        {icon && <span>{icon}</span>}
                         <span>{label}</span>
                     </>
                 )}

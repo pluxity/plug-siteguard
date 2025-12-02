@@ -1,7 +1,7 @@
 import * as React from "react"
 
 export interface TreeViewProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   defaultExpanded?: string[];
   expanded?: string[];
@@ -9,6 +9,10 @@ export interface TreeViewProps {
   defaultSelected?: string;
   selected?: string;
   onSelectedChange?: (selected: string) => void;
+  checkable?: boolean;
+  checked?: string[];
+  defaultChecked?: string[];
+  onCheckedChange?: (checked: string[]) => void;
 }
 
 export interface TreeItemProps {
@@ -32,4 +36,6 @@ export interface TreeItemRenderProps {
   hasChildren: boolean;
   disabled?: boolean;
   depth: number;
+  isChecked?: boolean;
+  isIndeterminate?: boolean;
 }
