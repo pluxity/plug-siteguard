@@ -253,7 +253,7 @@ export function FBXViewer({ modelUrl, className = '' }: FBXViewerProps) {
   return (
     <div ref={containerRef} className={`relative w-full h-full bg-gray-900 rounded-lg overflow-hidden ${className}`}>
       <Canvas
-        camera={{ position: [0, 5, 10], fov: 50 }}
+        camera={{ position: [0, 5, 10], fov: 50, near: 0.1, far: 100000 }}
         onCreated={({ gl }) => {
           gl.setClearColor('#1a1a2e');
         }}
@@ -268,7 +268,6 @@ export function FBXViewer({ modelUrl, className = '' }: FBXViewerProps) {
         </Suspense>
 
         <CameraControls />
-        <gridHelper args={[100, 100, '#444', '#333']} />
       </Canvas>
 
       {/* Hover 메시 정보 패널 */}
