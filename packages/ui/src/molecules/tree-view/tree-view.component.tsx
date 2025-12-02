@@ -49,9 +49,8 @@ const TreeView = React.forwardRef<HTMLDivElement, TreeViewProps>(({
         if(expanded === undefined){
             setInternalExpanded(newExpanded);
         }
-        if(onExpandedChange){
-            onExpandedChange(newExpanded);
-        }
+
+        onExpandedChange?.(newExpanded);
     }
 
     const handleSelect = (value : string) => {
@@ -136,7 +135,9 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
                 break;
             case 'ArrowDown': {
                 event.preventDefault();
-                const allItems = document.querySelectorAll('[role="treeitem"]');
+                const treeRoot = event.currentTarget.closest('[role="tree"]');
+                if (!treeRoot) return;
+                const allItems = treeRoot.querySelectorAll('[role="treeitem"]');
                 const currentIndex = Array.from(allItems).indexOf(event.currentTarget);
                 const nextIndex = currentIndex + 1;
                 if(nextIndex < allItems.length){
@@ -146,7 +147,9 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
             }
             case 'ArrowUp': {
                 event.preventDefault();
-                const allItems = document.querySelectorAll('[role="treeitem"]');
+                const treeRoot = event.currentTarget.closest('[role="tree"]');
+                if (!treeRoot) return;
+                const allItems = treeRoot.querySelectorAll('[role="treeitem"]');
                 const currentIndex = Array.from(allItems).indexOf(event.currentTarget);
                 const prevIndex = currentIndex - 1;
                 if(prevIndex >= 0){
@@ -157,7 +160,8 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
         }
     }
     
-    const depthStyle = { paddingLeft: `${depth * 16}px` };
+    const INDENTATION_WIDTH = 16;
+    const depthStyle = { paddingLeft: `${depth * INDENTATION_WIDTH}px` };
     
     return (
         <div 
