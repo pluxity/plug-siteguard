@@ -62,3 +62,8 @@ docker-compose.override.yml
 apps/v1/vite.config.ts
 
 .turbo/
+
+# Large asset files (FBX, IFC models)
+**/public/assets/models/
+**/public/assets/bim/
+**/public/wasm/
