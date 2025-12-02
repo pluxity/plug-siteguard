@@ -3,7 +3,7 @@ import { useCallback, useRef } from 'react';
 import { Skeleton } from '@plug-siteguard/ui';
 import { Maximize } from 'lucide-react';
 
-import { useHLSStream } from '../../../lib/hls';
+import { useHLSStream } from '@/lib/hls';
 
 interface CCTVHLSProps {
   streamId: string;
@@ -19,7 +19,7 @@ export default function CCTVHLS({
   showStats = false,
 }: CCTVHLSProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { videoRef, status, error, stats } = useHLSStream(streamId, autoLoad);
+  const { videoRef, status, stats } = useHLSStream(streamId, autoLoad);
 
   const isPlaying = status === 'playing';
   const isLoading = status === 'loading' || status === 'idle';
@@ -57,8 +57,8 @@ export default function CCTVHLS({
 
       {isError && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900">
-          <span className="text-red-400 text-xs block">연결 실패</span>
-          <span className="text-gray-600 text-xs">{error || streamId}</span>
+          <span className="text-red-400 text-sm font-medium">연결 실패</span>
+          <span className="text-gray-500 text-xs mt-1">현장 접속 장애</span>
         </div>
       )}
 

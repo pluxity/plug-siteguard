@@ -12,6 +12,7 @@
     "clean": "rm -rf dist node_modules"
   },
   "dependencies": {
+    "@plug-siteguard/api": "workspace:*",
     "@plug-siteguard/ui": "workspace:*",
     "cesium": "^1.135.0",
     "hls.js": "^1.6.15",

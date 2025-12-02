@@ -3,6 +3,9 @@ import { subscribeWithSelector } from 'zustand/middleware';
 
 import { WebSocketMessage } from './types';
 
+const RETRY_DELAY = 5000;
+const MAX_RETRIES = 3;
+
 export interface CCTVInfo {
   id: string;
   name: string;
@@ -18,6 +21,8 @@ export interface StreamState {
   remoteStream: MediaStream | null;
   iceCandidates: RTCIceCandidateInit[];
   error: string | null;
+  retryCount: number;
+  retryTimer: ReturnType<typeof setTimeout> | null;
 }
 
 interface WebRTCState {
@@ -57,7 +62,21 @@ const createStreamState = (streamId: string): StreamState => ({
   remoteStream: null,
   iceCandidates: [],
   error: null,
+  retryCount: 0,
+  retryTimer: null,
 });
+
+function cleanupStreamState(stream: StreamState) {
+  if (stream.retryTimer) {
+    clearTimeout(stream.retryTimer);
+  }
+  if (stream.pc) {
+    stream.pc.close();
+  }
+  if (stream.remoteStream) {
+    stream.remoteStream.getTracks().forEach((t) => t.stop());
+  }
+}
 
 export const useWebRTCStore = create<WebRTCStore>()(
   subscribeWithSelector((set, get) => ({
@@ -111,10 +130,7 @@ export const useWebRTCStore = create<WebRTCStore>()(
       const { streams, ws } = get();
 
       streams.forEach((stream) => {
-        if (stream.pc) stream.pc.close();
-        if (stream.remoteStream) {
-          stream.remoteStream.getTracks().forEach((t) => t.stop());
-        }
+        cleanupStreamState(stream);
       });
 
       if (ws) ws.close();
@@ -152,7 +168,7 @@ export const useWebRTCStore = create<WebRTCStore>()(
       const { streams, wsConnected, ws } = get();
 
       const existing = streams.get(streamId);
-      if (existing && (existing.status === 'connecting' || existing.status === 'connected')) {
+      if (existing && existing.status === 'connected') {
         return;
       }
 
@@ -160,8 +176,18 @@ export const useWebRTCStore = create<WebRTCStore>()(
         return;
       }
 
+      // 기존 연결 정리 (재시도 타이머는 유지)
+      if (existing?.pc) {
+        existing.pc.close();
+      }
+
+      const retryCount = existing?.retryCount ?? 0;
       const newStreams = new Map(streams);
-      newStreams.set(streamId, { ...createStreamState(streamId), status: 'connecting' });
+      newStreams.set(streamId, {
+        ...createStreamState(streamId),
+        status: 'connecting',
+        retryCount,
+      });
       set({ streams: newStreams });
 
       const pc = new RTCPeerConnection(ICE_SERVERS);
@@ -186,18 +212,18 @@ export const useWebRTCStore = create<WebRTCStore>()(
       pc.oniceconnectionstatechange = () => {
         const state = pc.iceConnectionState;
 
-        set((s) => {
-          const streams = new Map(s.streams);
-          const st = streams.get(streamId);
-          if (!st) return s;
-
-          if (state === 'connected') {
-            streams.set(streamId, { ...st, status: 'connected' });
-          } else if (state === 'failed') {
-            streams.set(streamId, { ...st, status: 'failed', error: 'ICE failed' });
-          }
-          return { streams };
-        });
+        if (state === 'connected') {
+          set((s) => {
+            const streams = new Map(s.streams);
+            const st = streams.get(streamId);
+            if (st) {
+              streams.set(streamId, { ...st, status: 'connected', retryCount: 0 });
+            }
+            return { streams };
+          });
+        } else if (state === 'failed' || state === 'disconnected') {
+          scheduleRetry(streamId, get, set);
+        }
       };
 
       pc.ontrack = (e) => {
@@ -223,12 +249,7 @@ export const useWebRTCStore = create<WebRTCStore>()(
 
         get().send('offer', streamId, { sdp: offer.sdp, streamId });
       } catch {
-        set((s) => {
-          const streams = new Map(s.streams);
-          const st = streams.get(streamId);
-          if (st) streams.set(streamId, { ...st, status: 'failed', error: 'Offer failed' });
-          return { streams };
-        });
+        scheduleRetry(streamId, get, set);
       }
     },
 
@@ -238,10 +259,7 @@ export const useWebRTCStore = create<WebRTCStore>()(
 
       if (!stream) return;
 
-      if (stream.pc) stream.pc.close();
-      if (stream.remoteStream) {
-        stream.remoteStream.getTracks().forEach((t) => t.stop());
-      }
+      cleanupStreamState(stream);
 
       const newStreams = new Map(streams);
       newStreams.delete(streamId);
@@ -259,6 +277,41 @@ export const useWebRTCStore = create<WebRTCStore>()(
     },
   }))
 );
+
+function scheduleRetry(
+  streamId: string,
+  get: () => WebRTCStore,
+  set: (partial: Partial<WebRTCState>) => void
+) {
+  const streams = new Map(get().streams);
+  const stream = streams.get(streamId);
+
+  if (!stream) return;
+
+  const newRetryCount = stream.retryCount + 1;
+
+  if (newRetryCount > MAX_RETRIES) {
+    streams.set(streamId, {
+      ...stream,
+      status: 'failed',
+      error: 'Max retries exceeded',
+    });
+    set({ streams });
+    return;
+  }
+
+  const retryTimer = setTimeout(() => {
+    get().connectStream(streamId);
+  }, RETRY_DELAY);
+
+  streams.set(streamId, {
+    ...stream,
+    status: 'connecting',
+    retryCount: newRetryCount,
+    retryTimer,
+  });
+  set({ streams });
+}
 
 function handleMessage(
   message: WebSocketMessage,
@@ -280,13 +333,7 @@ function handleMessage(
       handleIce(streamId, payload as RTCIceCandidateInit, get, set);
       break;
     case 'error':
-      set({
-        streams: new Map(get().streams).set(streamId, {
-          ...stream,
-          status: 'failed',
-          error: payload as string,
-        }),
-      });
+      scheduleRetry(streamId, get, set);
       break;
   }
 }
