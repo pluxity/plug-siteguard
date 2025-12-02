@@ -2,7 +2,6 @@
 
 interface ImportMetaEnv {
   readonly VITE_WS_URL: string;
-  readonly VITE_CCTV_API_URL: string;
   readonly VITE_HLS_URL: string;
   readonly VITE_WHEP_URL: string;
   readonly VITE_BASE_URL: string;

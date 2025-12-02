@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 
 import { WebSocketMessage } from './types';
+import { getStreams } from '@/services/sample';
 
 const RETRY_DELAY = 5000;
 const MAX_RETRIES = 3;
@@ -45,7 +46,6 @@ interface WebRTCActions {
 type WebRTCStore = WebRTCState & WebRTCActions;
 
 const WS_URL = import.meta.env.VITE_WS_URL;
-const CCTV_API_URL = import.meta.env.VITE_CCTV_API_URL;
 
 const ICE_SERVERS: RTCConfiguration = {
   iceServers: [
@@ -146,10 +146,9 @@ export const useWebRTCStore = create<WebRTCStore>()(
       set({ cctvLoading: true });
 
       try {
-        const res = await fetch(CCTV_API_URL);
-        const data = await res.json();
+        const streams = await getStreams();
 
-        const list: CCTVInfo[] = data.items.map((s: { name: string }) => ({
+        const list: CCTVInfo[] = streams.map((s) => ({
           id: s.name,
           name: s.name,
         }));
