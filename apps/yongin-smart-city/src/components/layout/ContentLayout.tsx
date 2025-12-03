@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppSideMenu } from './';
-import { useWeatherData } from '@/stores';
+import { useWeatherData } from '@/hooks/weather/useWeatherData';
 import { formatDate } from '@/services';
 
 const ContentLayout: React.FC<{ children: React.ReactNode, title: string }> = ({ children, title }) => {
@@ -13,9 +13,9 @@ const ContentLayout: React.FC<{ children: React.ReactNode, title: string }> = ({
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-2xl font-semibold">{title}</h1>
                 {loading ? (
-                    <div className="text-gray-500 text-sm">날씨 정보를 불러오는 중...</div>
+                    <div className="text-gray-500 text-xs">날씨 정보를 불러오는 중...</div>
                 ) : error || !data ? (
-                    <div className="text-red-500 text-sm">날씨 정보를 불러올 수 없습니다.</div>
+                    <div className="text-red-500 text-xs">날씨 정보를 불러올 수 없습니다.</div>
                 ) : (
                     <div className="flex items-center gap-2">
                         <span className="text-gray-700 text-xs font-bold mr-3">{formatDate(data.raw.dt)}</span>

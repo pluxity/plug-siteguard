@@ -1,5 +1,4 @@
-// stores/weather/useWeatherData.ts (또는 hooks/useWeatherData.ts)
-import { useWeatherStore } from './weatherStore';
+import { useWeatherStore } from '../../stores/weather/weatherStore';
 import { getWeatherIconName, getWeatherDescription, getWindDirection } from '@/services';
 
 export const useWeatherData = () => {

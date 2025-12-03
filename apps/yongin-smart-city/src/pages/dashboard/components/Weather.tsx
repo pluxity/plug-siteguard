@@ -1,4 +1,4 @@
-import { useWeatherData } from '@/stores';
+import { useWeatherData } from '@/hooks/weather/useWeatherData';
 import { 
   formatDate, 
 } from '@/services';
