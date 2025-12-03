@@ -9,7 +9,7 @@ export interface CameraPosition {
   roll?: number;
 }
 
-export interface MarkerOptions {
+export interface FeatureOptions {
   id: string;
   lon: number;
   lat: number;
