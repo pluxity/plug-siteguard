@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { DashboardLayout, ProtectedRoute } from './components';
+import { DashboardLayout, ContentLayout, ProtectedRoute } from './components';
 import { useWebRTCStore } from './lib/webrtc';
+import { useWeatherStore } from './stores/weather';
 import { BimPage, CctvPage, Dashboard, EnvironmentPage, EventsPage, MapPage } from './pages';
 
 function App() {
@@ -10,10 +11,19 @@ function App() {
   const initialize = useWebRTCStore((state) => state.initialize);
   const cleanup = useWebRTCStore((state) => state.cleanup);
 
+  const fetchWeather = useWeatherStore((state) => state.fetchWeather);
+  const startWeatherUpdates = useWeatherStore((state) => state.startWeatherUpdates);
+
   useEffect(() => {
     initialize();
     return () => cleanup();
   }, [initialize, cleanup]);
+
+  useEffect(() => {
+    fetchWeather();
+    const cleanupWeather = startWeatherUpdates();
+    return cleanupWeather;
+  }, [fetchWeather, startWeatherUpdates]);
 
   if (!initialized) {
     return (
@@ -40,9 +50,9 @@ function App() {
           path="/map"
           element={
             <ProtectedRoute>
-              <DashboardLayout>
+              <ContentLayout title="Map">
                 <MapPage />
-              </DashboardLayout>
+              </ContentLayout>
             </ProtectedRoute>
           }
         />

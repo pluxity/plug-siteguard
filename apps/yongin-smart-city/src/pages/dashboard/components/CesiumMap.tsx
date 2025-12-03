@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import * as Cesium from 'cesium';
 import { Tabs, TabsList, TabsTrigger, Spinner } from '@plug-siteguard/ui';
-import { useViewerStore } from '../../../stores/cesium/viewerStore';
+import { useViewerStore } from '@/stores';
 
 export default function CesiumMap() {
   const [activeTab, setActiveTab] = useState('3d-map');
