@@ -19,6 +19,7 @@ interface MeshInfo {
 
 interface FBXModelProps {
   url: string;
+  rotation?: [number, number, number];
   onHoverMesh?: (info: MeshInfo | null) => void;
 }
 
@@ -33,7 +34,7 @@ function getObjectDepth(obj: THREE.Object3D): number {
   return depth;
 }
 
-function FBXModel({ url, onHoverMesh }: FBXModelProps) {
+function FBXModel({ url, rotation, onHoverMesh }: FBXModelProps) {
   const fbx = useFBX(url);
   const { camera, gl, scene, size } = useThree();
   const raycaster = useRef(new THREE.Raycaster());
@@ -226,7 +227,7 @@ function FBXModel({ url, onHoverMesh }: FBXModelProps) {
     }
   }, [fbx, camera]);
 
-  return <primitive object={fbx} />;
+  return <primitive object={fbx} rotation={rotation} />;
 }
 
 function LoadingSpinner() {
@@ -243,10 +244,11 @@ function LoadingSpinner() {
 
 interface FBXViewerProps {
   modelUrl: string;
+  rotation?: [number, number, number];
   className?: string;
 }
 
-export function FBXViewer({ modelUrl, className = '' }: FBXViewerProps) {
+export function FBXViewer({ modelUrl, rotation, className = '' }: FBXViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hoveredMesh, setHoveredMesh] = useState<MeshInfo | null>(null);
 
@@ -263,7 +265,7 @@ export function FBXViewer({ modelUrl, className = '' }: FBXViewerProps) {
         <directionalLight position={[-10, -10, -5]} intensity={0.5} />
 
         <Suspense fallback={<LoadingSpinner />}>
-          <FBXModel url={modelUrl} onHoverMesh={setHoveredMesh} />
+          <FBXModel url={modelUrl} rotation={rotation} onHoverMesh={setHoveredMesh} />
           <Environment preset="city" />
         </Suspense>
 
