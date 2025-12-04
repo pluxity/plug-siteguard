@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import * as Cesium from 'cesium';
 import { Tabs, TabsList, TabsTrigger, Spinner } from '@plug-siteguard/ui';
-import { useViewerStore } from '../../../stores/cesium/viewerStore';
+import { useViewerStore } from '@/stores';
+import { DEFAULT_CAMERA_POSITION } from '@/stores/cesium/types';
 
 export default function CesiumMap() {
   const [activeTab, setActiveTab] = useState('3d-map');
@@ -32,14 +33,17 @@ export default function CesiumMap() {
         });
 
         // 초기 카메라 위치 설정 (구성역)
-        viewer.camera.setView({
-          destination: Cesium.Cartesian3.fromDegrees(127.1038, 37.2842, 500),
-          orientation: {
-            heading: Cesium.Math.toRadians(0),
-            pitch: Cesium.Math.toRadians(-10),
-            roll: 0.0,
-          },
-        });
+        const destination = Cesium.Cartesian3.fromDegrees(
+          DEFAULT_CAMERA_POSITION.lon,
+          DEFAULT_CAMERA_POSITION.lat,
+          DEFAULT_CAMERA_POSITION.height
+        );
+        const orientation = {
+          heading: Cesium.Math.toRadians(DEFAULT_CAMERA_POSITION.heading ?? 0),
+          pitch: Cesium.Math.toRadians(DEFAULT_CAMERA_POSITION.pitch ?? -45),
+          roll: Cesium.Math.toRadians(DEFAULT_CAMERA_POSITION.roll ?? 0),
+        };
+        viewer.camera.setView({ destination, orientation });
 
         setIsLoading(false);
       } catch (err) {

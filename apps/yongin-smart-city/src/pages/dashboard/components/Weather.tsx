@@ -1,25 +1,11 @@
-import { useWeather } from '../hooks/useWeather';
+import { useWeatherData } from '@/hooks/weather/useWeatherData';
 import { 
   formatDate, 
-  getWindDirection,
-  getWeatherIconName,
-  getWeatherDescription
-} from '../utils/weatherUtils';
+} from '@/services';
 import { MapPin } from 'lucide-react';
 
 export default function Weather() {
-  const { data, loading, error } = useWeather();
-
-  const currentTemp = data ? Math.round(data.main.temp * 10) / 10 : 0;
-  const minTemp = data ? Math.round(data.main.temp_min) : 0;
-  const maxTemp = data ? Math.round(data.main.temp_max) : 0;
-  const weatherIcon = getWeatherIconName(data?.weather[0]?.id || 800);
-  const weatherDescription = getWeatherDescription(
-    data?.weather[0]?.id || 800,
-    data?.weather[0]?.description || ''
-  );
-  const windDirection = getWindDirection(data?.wind.deg || 0);
-  const windSpeed = data?.wind.speed.toFixed(1) || '0.0';
+  const { data, loading, error } = useWeatherData();
 
   return (
     <div className="h-full min-h-[400px] flex flex-col justify-between rounded-lg">
@@ -41,8 +27,8 @@ export default function Weather() {
           <div className="flex items-center gap-4 bg-white rounded-lg">
             <div className="bg-[#dcedfc] rounded p-2">
               <img
-                src={`${import.meta.env.BASE_URL}assets/icons/${weatherIcon}.svg`}
-                alt={weatherDescription}
+                src={`${import.meta.env.BASE_URL}assets/icons/${data.weatherIcon}.svg`}
+                alt={data.weatherDescription}
                 className="w-12 h-12"
               />
             </div>
@@ -50,15 +36,15 @@ export default function Weather() {
             <div className="flex-1 flex flex-col gap-2">
               <div className="flex items-center gap-1 text-sm">
                 <MapPin className="w-4 h-4 text-gray-500" />
-                <span className="text-gray-500">{data.name}</span>
+                <span className="text-gray-500">{data.cityName}</span>
                 <span className="text-gray-500"> | </span>
-                <span className="text-gray-500">{formatDate(data.dt)}</span>
+                <span className="text-gray-500">{formatDate(data.raw.dt)}</span>
               </div>
               <div className="flex items-baseline gap-3 flex-wrap">
-                <span className="text-lg font-bold">{currentTemp}°</span>
-                <span className="text-lg font-bold">{weatherDescription}</span>
-                <span className="text-sm text-gray-600">최저 <span className="text-gray-800">{minTemp}°</span> | 최고 <span className="text-gray-800">{maxTemp}°</span></span>
-                <span className="text-sm text-gray-800">{windDirection} {windSpeed} m/s</span>
+                <span className="text-lg font-bold">{data.currentTemp}°</span>
+                <span className="text-lg font-bold">{data.weatherDescription}</span>
+                <span className="text-sm text-gray-600">최저 <span className="text-gray-800">{data.minTemp}°</span> | 최고 <span className="text-gray-800">{data.maxTemp}°</span></span>
+                <span className="text-sm text-gray-800">{data.windDirection} {data.windSpeed} m/s</span>
               </div>
             </div>
           </div>
