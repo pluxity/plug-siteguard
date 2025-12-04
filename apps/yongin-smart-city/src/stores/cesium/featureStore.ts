@@ -12,6 +12,7 @@ import {
   ConstantPositionProperty,
   ConstantProperty,
   Event,
+  CustomDataSource,
 } from 'cesium'
 import type { FeatureOptions } from './types'
 
@@ -59,7 +60,7 @@ interface FeatureActions {
   clearAllFeatures: (viewer: CesiumViewer) => void
   startFeatureBlink: (viewer: CesiumViewer, featureId: string, duration?: number) => void
   stopFeatureBlink: (viewer: CesiumViewer, featureId: string) => void
-  setFeatureHover: (viewer: CesiumViewer, featureId: string | null) => void
+  setFeatureHover: (viewer: CesiumViewer, featureId: string | null, dataSource?: CustomDataSource) => void
 }
 
 type FeatureStore = FeatureState & FeatureActions
@@ -76,7 +77,7 @@ export const useFeatureStore = create<FeatureStore>((set, get) => ({
 
     const featureHeight = options.heightValue || DEFAULT_FEATURE_CONFIG.height
 
-    const scaleByDistance = options.disableScaleByDistance
+    const scaleByDistance = options.disableScaleByDistance || options.dataSource
       ? undefined
       : new NearFarScalar(
           DEFAULT_FEATURE_CONFIG.scaleNear.distance,
@@ -89,7 +90,12 @@ export const useFeatureStore = create<FeatureStore>((set, get) => ({
       ? new Cartesian2(0, -(featureHeight / 2 + 10))
       : undefined
 
-    const entity = viewer.entities.add({
+    // dataSource가 있으면 dataSource.entities에 추가, 없으면 viewer.entities에 추가
+    const targetEntities = options.dataSource
+      ? options.dataSource.entities
+      : viewer.entities
+
+    const entity = targetEntities.add({
       id: options.id,
       position: position,
       billboard: {
@@ -98,6 +104,7 @@ export const useFeatureStore = create<FeatureStore>((set, get) => ({
         height: options.heightValue || 32,
         heightReference: options.heightReference ?? HeightReference.RELATIVE_TO_GROUND,
         scaleByDistance: scaleByDistance,
+        verticalOrigin: VerticalOrigin.BOTTOM,
         disableDepthTestDistance: options.disableDepthTest ? Number.POSITIVE_INFINITY : undefined,
       },
       label: options.label
@@ -112,7 +119,6 @@ export const useFeatureStore = create<FeatureStore>((set, get) => ({
             verticalOrigin: VerticalOrigin.BOTTOM,
             pixelOffset: labelPixelOffset,
             heightReference: options.heightReference,
-            // 기본 상태에서 라벨도 숨김
             show: false,
             disableDepthTestDistance: options.disableDepthTest ? Number.POSITIVE_INFINITY : undefined,
           }
@@ -207,12 +213,13 @@ export const useFeatureStore = create<FeatureStore>((set, get) => ({
     }
   },
 
-  setFeatureHover: (viewer: CesiumViewer, featureId: string | null) => {
+  setFeatureHover: (viewer: CesiumViewer, featureId: string | null, dataSource?: CustomDataSource) => {
     const { hoveredFeatureId } = get()
+    const targetEntities = dataSource ? dataSource.entities : viewer.entities
 
     // 이전 호버 피처 복원 (기본 상태로)
     if (hoveredFeatureId && hoveredFeatureId !== featureId) {
-      const prevEntity = viewer.entities.getById(hoveredFeatureId)
+      const prevEntity = targetEntities.getById(hoveredFeatureId)
       if (prevEntity) {
         // 빌보드(피처 이미지) 원래 크기로 복원
         if (prevEntity.billboard) {
@@ -229,7 +236,7 @@ export const useFeatureStore = create<FeatureStore>((set, get) => ({
 
     // 새로운 호버 피처 강조
     if (featureId) {
-      const entity = viewer.entities.getById(featureId)
+      const entity = targetEntities.getById(featureId)
       if (entity) {
         // 빌보드(피처 이미지) 확대
         if (entity.billboard) {

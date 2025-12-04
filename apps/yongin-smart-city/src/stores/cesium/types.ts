@@ -1,4 +1,4 @@
-import { HeightReference } from 'cesium';
+import { HeightReference, CustomDataSource } from 'cesium';
 
 export interface CameraPosition {
   lon: number;
@@ -22,6 +22,7 @@ export interface FeatureOptions {
   labelColor?: string;
   disableDepthTest?: boolean;
   disableScaleByDistance?: boolean;
+  dataSource?: CustomDataSource;
 }
 
 
