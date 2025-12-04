@@ -2,6 +2,7 @@ import { Badge, Button } from "@plug-siteguard/ui";
 import { XIcon } from "lucide-react";
 import { EventLevel, getLevelType } from "../utils/statisticsUtil";
 import { DateRange } from "react-day-picker";
+import { format } from "date-fns";
 
 interface StatisticsActiveFiltersProps {
     filters: {
@@ -95,7 +96,9 @@ export function StatisticsActiveFilters({
 
             {dateRange && (
                 <Badge variant="secondary" className="gap-1">
-                    {dateRange.from?.toDateString()} ~ {dateRange.to?.toDateString()}
+                    {dateRange.from && format(dateRange.from, 'yyyy-MM-dd')}
+                    ~
+                    {dateRange.to && format(dateRange.to, 'yyyy-MM-dd')}
                     <Button
                         onClick={() => onDateRangeChange(undefined)}
                         className="rounded-full h-4 w-4 !p-0 text-xs"

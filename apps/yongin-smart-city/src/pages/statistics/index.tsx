@@ -37,7 +37,6 @@ export default function StatisticsPage() {
     }, [currentPage]);
 
     const handleSearch = useCallback(async () => {
-        console.log('params!!!!!!!!!!!!!!', params)
         setCurrentPage(1);
         fetchStatistics(params);
     }, [params, fetchStatistics]);
@@ -56,7 +55,7 @@ export default function StatisticsPage() {
             setDateRange(undefined);
         }
         setCurrentPage(1);
-    }, [filters]);
+    }, []);
 
     return (
         <div className="h-auto p-9 space-y-8 bg-white rounded-xl border border-gray-200 shadow-sm">

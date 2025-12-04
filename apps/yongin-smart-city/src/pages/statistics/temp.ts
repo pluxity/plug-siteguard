@@ -1,11 +1,4 @@
-// TODO:: 삭제 예정
 import statisticsPageData from '../../../public/sample/statistics/base.json';
-
-export const useStatistics = () => {
-    return {
-        data: statisticsPageData.statistics.data,
-    };
-}
 
 export const useSite = () => {
     return {

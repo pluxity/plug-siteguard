@@ -1,3 +1,4 @@
+import { Statistics } from "@/services";
 import { Column } from "@plug-siteguard/ui";
 import { format } from "date-fns";
 
@@ -18,7 +19,7 @@ export const getLevelType = (level: EventLevel) => {
     }
 }
 
-export const statisticsColumns: Column<any>[] = [
+export const statisticsColumns: Column<Statistics>[] = [
     {
         key: 'id',
         header: '번호',
@@ -65,7 +66,7 @@ export const statisticsColumns: Column<any>[] = [
         key: 'severity',
         header: '위험도',
         cell: (_, row) => (
-            row.severity ? getLevelType(row.severity) : '-'
+            row.severity ? getLevelType(row.severity as EventLevel) : '-'
         )
     },
 ];
