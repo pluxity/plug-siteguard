@@ -33,5 +33,5 @@ export async function getAllProgressData(): Promise<ProgressResponse> {
 }
 
 export async function getStatisticsData(params: StatisticsRequest): Promise<StatisticsResponse> {
-  return api.get<StatisticsResponse>(`/sample/statistics/statistics_${params.page}.json`, { params });
+  return api.get<StatisticsResponse>(`sample/statistics_${params.page}.json`, { params });
 }

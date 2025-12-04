@@ -1,4 +1,4 @@
-import statisticsPageData from '../../../public/sample/statistics/base.json';
+import statisticsPageData from '../../../public/sample/base.json';
 
 export const useSite = () => {
     return {
