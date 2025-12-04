@@ -1,0 +1,1 @@
+export { FBXViewer } from './FBXViewer';
