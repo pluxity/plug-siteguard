@@ -77,7 +77,7 @@ export const applyZoomCluster = (
 ): Event.RemoveCallback => {
     const updatePixelRange = () => {
         const height = viewer.camera.positionCartographic.height;
-        if (height < 1500) {
+        if (height < 1000) {
             dataSource.clustering.enabled = false;
         } else {
             dataSource.clustering.enabled = true;

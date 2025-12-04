@@ -130,11 +130,12 @@ export const useFeatureStore = create<FeatureStore>((set, get) => ({
     return entity
   },
 
-  removeFeature: (viewer: CesiumViewer, id: string) => {
-    const entity = viewer.entities.getById(id)
+  removeFeature: (viewer: CesiumViewer, id: string, dataSource?: CustomDataSource) => {
+    const targetEntities = dataSource ? dataSource.entities : viewer.entities;
+    const entity = targetEntities.getById(id);
     if (entity) {
-      viewer.entities.remove(entity)
-      viewer.scene.requestRender()
+      targetEntities.remove(entity);
+      viewer.scene.requestRender();
     }
   },
 
