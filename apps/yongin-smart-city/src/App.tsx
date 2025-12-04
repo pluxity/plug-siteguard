@@ -60,9 +60,9 @@ function App() {
           path="/bim"
           element={
             <ProtectedRoute>
-              <DashboardLayout>
+              <ContentLayout title="BIM">
                 <BimPage />
-              </DashboardLayout>
+              </ContentLayout>
             </ProtectedRoute>
           }
         />
