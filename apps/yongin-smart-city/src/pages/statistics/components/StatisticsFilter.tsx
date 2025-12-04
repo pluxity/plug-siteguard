@@ -7,8 +7,8 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
+    type DateRange,
 } from "@plug-siteguard/ui";
-import { type DateRange } from "react-day-picker";
 
 interface Option {
     id: string | number;

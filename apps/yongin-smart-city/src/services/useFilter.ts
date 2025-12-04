@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { DateRange } from "react-day-picker";
+import { type DateRange } from "@plug-siteguard/ui";
 
 export const useFilter =
   <TFilters extends Record<string, unknown>,

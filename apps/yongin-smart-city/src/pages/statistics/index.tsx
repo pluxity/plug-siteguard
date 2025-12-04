@@ -1,7 +1,6 @@
-import { DataTable } from "@plug-siteguard/ui";
+import { DataTable, type DateRange } from "@plug-siteguard/ui";
 import { useSite, useProgress, useSeverity, useStatus } from "./temp";
 import { statisticsColumns } from "./utils/statisticsUtil";
-import { type DateRange } from "react-day-picker";
 import {useCallback, useEffect, useState} from "react";
 import { TablePagination } from "../../elements/Pagination";
 import { useStatisticsData } from "./hook/useStatisticsData";
@@ -9,7 +8,6 @@ import { StatisticsFilter } from "./components/StatisticsFilter";
 import { usePagination } from "@/services/usePagination";
 import { useFilter } from "@/services/useFilter";
 import { StatisticsRequest } from "@/services";
-import { StatisticsActiveFilters } from "./components/StatisticsActiveFilters";
 
 export default function StatisticsPage() {
     const [filters, setFilters] = useState({
@@ -58,11 +56,7 @@ export default function StatisticsPage() {
     }, []);
 
     return (
-        <div className="h-auto p-9 space-y-8 bg-white rounded-xl border border-gray-200 shadow-sm">
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold">통계</h1>
-            </div>
-
+        <div className="h-auto p-9 space-y-8 bg-white">
             <StatisticsFilter
                 filters={filters}
                 onFilterChange={handleFilterClear}
@@ -75,13 +69,6 @@ export default function StatisticsPage() {
                 severityOptions={severity}
             />
 
-            <StatisticsActiveFilters
-                filters={filters}
-                dateRange={dateRange}
-                onDateRangeChange={setDateRange}
-                onFilterChange={handleFilterClear}
-                onClearAll={handleFilterClear}
-            />
 
             <div className="flex flex-col h-full">
                 {statistics.length === 0 ? (
