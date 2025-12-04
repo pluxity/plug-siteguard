@@ -1,5 +1,4 @@
 import { DataTable, type DateRange } from "@plug-siteguard/ui";
-import { useSite, useProgress, useSeverity, useStatus } from "./temp";
 import { statisticsColumns } from "./utils/statisticsUtil";
 import {useCallback, useEffect, useState} from "react";
 import { TablePagination } from "../../elements/Pagination";
@@ -8,6 +7,13 @@ import { StatisticsFilter } from "./components/StatisticsFilter";
 import { usePagination } from "@/services/usePagination";
 import { useFilter } from "@/services/useFilter";
 import { StatisticsRequest } from "@/services";
+import {
+    getSiteOptions,
+    getProgressOptions,
+    getSeverityOptions,
+    getStatusOptions,
+} from "@/services/sample";
+import type { FilterOption } from "@/services/types/sample";
 
 export default function StatisticsPage() {
     const [filters, setFilters] = useState({
@@ -21,10 +27,17 @@ export default function StatisticsPage() {
     const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const { data: site } = useSite();
-    const { data: progress } = useProgress();
-    const { data: severity } = useSeverity();
-    const { data: status } = useStatus();
+    const [site, setSite] = useState<FilterOption[]>([]);
+    const [progress, setProgress] = useState<FilterOption[]>([]);
+    const [severity, setSeverity] = useState<FilterOption[]>([]);
+    const [status, setStatus] = useState<FilterOption[]>([]);
+
+    useEffect(() => {
+        getSiteOptions().then(setSite);
+        getProgressOptions().then(setProgress);
+        getSeverityOptions().then(setSeverity);
+        getStatusOptions().then(setStatus);
+    }, []);
     const { params } = useFilter<typeof filters, StatisticsRequest>(filters, dateRange, currentPage);
     const { statistics, totalPages, fetchStatistics } = useStatisticsData();
 

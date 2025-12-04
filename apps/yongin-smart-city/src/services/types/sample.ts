@@ -72,3 +72,25 @@ export interface StatisticsRequest
 }
 
 export type StatisticsResponse = PageResponse<Statistics>;
+
+export interface FilterOption {
+  id: number;
+  name: string;
+  description?: string;
+}
+
+export interface FilterDataWithMeta {
+  data: FilterOption[];
+  meta: {
+    total: number;
+    page: number;
+    pageSize: number;
+  };
+}
+
+export interface BaseDataResponse {
+  site: FilterDataWithMeta;
+  progress: FilterDataWithMeta;
+  severity: FilterDataWithMeta;
+  status: FilterDataWithMeta;
+}

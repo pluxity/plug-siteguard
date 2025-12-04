@@ -4,7 +4,6 @@ import {
   Building2,
   Video,
   ChartNoAxesColumn,
-  Leaf,
   BellRing,
 } from 'lucide-react';
 
@@ -42,12 +41,7 @@ export const MAIN_MENU_ITEMS: MenuItem[] = [
     path: '/statistics',
   },
   {
-    title: '환경관리',
-    icon: Leaf,
-    path: '/environment',
-  },
-  {
-    title: '알람 이벤트',
+    title: '이벤트',
     icon: BellRing,
     path: '/events',
   },
