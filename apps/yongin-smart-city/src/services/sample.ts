@@ -5,6 +5,8 @@ import type {
   ProgressDataPoint,
   ProgressPeriod,
   ProgressResponse,
+  StatisticsResponse,
+  StatisticsRequest,
 } from './types/sample';
 
 export async function getStreams(): Promise<Stream[]> {
@@ -28,4 +30,8 @@ export async function getProgressData(period: ProgressPeriod): Promise<ProgressD
 
 export async function getAllProgressData(): Promise<ProgressResponse> {
   return api.get<ProgressResponse>('sample/sample_data.json');
+}
+
+export async function getStatisticsData(params: StatisticsRequest): Promise<StatisticsResponse> {
+  return api.get<StatisticsResponse>(`/sample/statistics/statistics_${params.page}.json`, { params });
 }

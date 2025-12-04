@@ -3,6 +3,7 @@ import {
   Map,
   Building2,
   Video,
+  ChartNoAxesColumn,
   Leaf,
   BellRing,
 } from 'lucide-react';
@@ -34,6 +35,11 @@ export const MAIN_MENU_ITEMS: MenuItem[] = [
     title: 'CCTV',
     icon: Video,
     path: '/cctv',
+  },
+  {
+    title: '통계',
+    icon: ChartNoAxesColumn,
+    path: '/statistics',
   },
   {
     title: '환경관리',

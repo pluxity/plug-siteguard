@@ -1,0 +1,20 @@
+{
+    "data": {
+        "content": [
+            {"id": 1,"event_id": "EVT-011","type": "안전","category": "붕괴","location": "평촌","progress": "거푸집 설치","status": "처리완료","severity": "high","occurredAt": "2025-01-15T09:30:00Z","resolvedAt": "2025-01-15T10:15:00Z","description": "비인가 출입 감지"},
+            {"id": 2,"event_id": "EVT-012","type": "안전","category": "붕괴","location": "평촌","progress": "비계 설치","status": "처리완료","severity": "medium","occurredAt": "2025-01-16T11:20:00Z","resolvedAt": "2025-01-16T12:00:00Z","description": "안전난간 미설치 발견"},
+            {"id": 3,"event_id": "EVT-013","type": "장비","category": "붕괴","location": "평촌","progress": "자재 상차","status": "대기","severity": "low","occurredAt": "2025-01-17T08:40:00Z","resolvedAt": null,"description": "지게차 작업 반경 내 인원 접근"},
+            {"id": 4,"event_id": "EVT-014","type": "안전","category": "붕괴","location": "평촌","progress": "배선 공사","status": "처리중","severity": "high","occurredAt": "2025-01-18T14:05:00Z","resolvedAt": null,"description": "연기 감지 센서 트리거"},
+            {"id": 5,"event_id": "EVT-015","type": "작업자","category": "붕괴","location": "평촌","progress": "방수 공정","status": "처리완료","severity": "low","occurredAt": "2025-01-19T09:10:00Z","resolvedAt": "2025-01-19T09:30:00Z","description": "작업자 안전모 미착용"},
+            {"id": 6,"event_id": "EVT-016","type": "공정","category": "붕괴","location": "2페이지","progress": "석고보드 설치","status": "진행중","severity": "medium","occurredAt": "2025-01-20T13:22:00Z","resolvedAt": null,"description": "자재 공급 지연으로 일정 차질"},
+            {"id": 7,"event_id": "EVT-017","type": "환경","category": "붕괴","location": "현장 외곽","progress": "해머 드릴 작업","status": "처리중","severity": "low","occurredAt": "2025-01-21T15:50:00Z","resolvedAt": null,"description": "소음 기준 초과"},
+            {"id": 8,"event_id": "EVT-018","type": "안전","category": "낙하 위험","location": "4층 창호 설치구역","progress": "유리 설치","status": "처리완료","severity": "high","occurredAt": "2025-01-22T10:05:00Z","resolvedAt": "2025-01-22T10:45:00Z","description": "유리 자재 바인딩 불량"},
+            {"id": 9,"event_id": "EVT-019","type": "장비","category": "장비 오작동","location": "지상 주차장","progress": "크레인 작업","status": "대기","severity": "medium","occurredAt": "2025-01-23T07:55:00Z","resolvedAt": null,"description": "크레인 와이어 장력 이상"},
+            {"id": 10,"event_id": "EVT-020","type": "환경","category": "먼지 과다","location": "철골 절단 구역","progress": "절단 작업","status": "처리완료","severity": "low","occurredAt": "2025-01-24T16:30:00Z","resolvedAt": "2025-01-24T17:00:00Z","description": "비산먼지 증가로 작업 중지 지시"}
+        ],
+        "page": 2,
+        "size": 10,
+        "totalElements": 20,
+        "totalPages": 2
+    }
+}

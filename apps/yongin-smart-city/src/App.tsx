@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { DashboardLayout, ContentLayout, ProtectedRoute } from './components';
 import { useWebRTCStore } from './lib/webrtc';
 import { useWeatherStore } from './stores/weather';
-import { BimPage, CctvPage, Dashboard, EnvironmentPage, EventsPage, MapPage } from './pages';
+import { BimPage, CctvPage, Dashboard, EnvironmentPage, EventsPage, MapPage, StatisticsPage } from './pages';
 
 function App() {
   const initialized = useWebRTCStore((state) => state.initialized);
@@ -72,6 +72,16 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout>
                 <CctvPage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/statistics"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <StatisticsPage />
               </DashboardLayout>
             </ProtectedRoute>
           }

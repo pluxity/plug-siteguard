@@ -1,0 +1,36 @@
+{
+    "site": {
+        "data": [
+            {"id": 1,"name": "A-125","description": "A-125구역"},
+            {"id": 2,"name": "B-99999","description": "B-99999구역"},
+            {"id": 3,"name": "P-333","description": "P-333구역"}
+        ],
+        "meta": {"total": 100,"page": 1,"pageSize": 10}
+    },
+    "progress": {
+        "data": [
+            {"id": 1,"name": "거푸집 설치"},
+            {"id": 2,"name": "비계 설치"},
+            {"id": 3,"name": "자재 상차"}
+        ],
+        "meta": {"total": 100,"page": 1,"pageSize": 10}
+    },
+    "severity": {
+        "data": [
+            {"id": 2,"name": "medium","description": "중간"},
+            {"id": 3,"name": "low","description": "낮음"},
+            {"id": 1,"name": "high","description": "높음"},
+            {"id": 4,"name": "critical","description": "심각"}
+        ],
+        "meta": {"total": 100,"page": 1,"pageSize": 10}
+    },
+    "status": {
+        "data": [
+            {"id": 1,"name": "대기"},
+            {"id": 2,"name": "진행중"},
+            {"id": 3,"name": "처리중"},
+            {"id": 4,"name": "처리완료"}
+        ],
+        "meta": {"total": 100,"page": 1,"pageSize": 10}
+    }
+}
