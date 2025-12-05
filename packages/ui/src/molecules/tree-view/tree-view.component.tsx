@@ -282,15 +282,11 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
             >
                 {checkable && (
                     <Checkbox
-                        checked={
-                            hasChildren 
-                                ? (allChildrenChecked)
-                                    ? true
-                                    : (checkedChildCount > 0)
-                                        ? "indeterminate"
-                                        : false 
-                                : isChecked
-                        }
+                    checked={
+                        hasChildren
+                            ? allChildrenChecked ? true : isIndeterminate ? "indeterminate" : false
+                            : isChecked
+                    }
                         onClick={(e) => {
                             e.stopPropagation();
                             handleCheckedChange();
