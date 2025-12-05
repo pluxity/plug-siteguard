@@ -1,16 +1,14 @@
 import * as React from "react"
 import { cn } from "../../lib/utils"
-import { TreeViewProps, TreeItemProps } from "./tree-view.types";
+import { TreeViewProps, TreeItemProps, TreeItemData } from "./tree-view.types";
 import { Checkbox } from "../../atoms/checkbox";
 
-const collectChildValues = (children: React.ReactNode): string[] => {
+const collectChildValues = (items: TreeItemData[]): string[] => {
     const values: string[] = []
-    React.Children.forEach(children, child => {
-        if (React.isValidElement<TreeItemProps>(child)) {
-            values.push(child.props.value)
-            if (child.props.children) {
-                values.push(...collectChildValues(child.props.children))
-            }
+    items.forEach(item => {
+        values.push(item.value)
+        if (item.children) {
+            values.push(...collectChildValues(item.children))
         }
     })
     return values
@@ -23,6 +21,7 @@ type TreeViewContextType = {
     onSelect?: (value: string) => void;
     checkable?: boolean;
     checkedValues?: string[];
+    showExpandIcon?: boolean;
     onCheckWithChildren?: (value: string, childValues: string[], isCurrentlyChecked: boolean, isIndeterminate: boolean) => void;
 }
 
@@ -36,8 +35,7 @@ const useTreeView = () => {
     return context;
 };
 
-
-const TreeView = React.forwardRef<HTMLDivElement, TreeViewProps>(({
+const TreeView = ({
     className,
     defaultExpanded = [],
     expanded,
@@ -45,13 +43,15 @@ const TreeView = React.forwardRef<HTMLDivElement, TreeViewProps>(({
     defaultSelected,
     selected,
     onSelectedChange,
-    children,
     checkable,
     checked,
     defaultChecked,
     onCheckedChange,
+    items,
+    showExpandIcon = false,
+    ref,
     ...props
-}, ref) => {
+}: TreeViewProps) => {
 
     const [internalExpanded, setInternalExpanded] = React.useState<string[]>(defaultExpanded);
     const [internalSelected, setInternalSelected] = React.useState<string | undefined>(defaultSelected)
@@ -101,6 +101,23 @@ const TreeView = React.forwardRef<HTMLDivElement, TreeViewProps>(({
             onSelectedChange(value);
         }
     }
+
+    const renderTreeItems = (items: TreeItemData[], depth = 0) => {
+        return items.map((item) => (
+            <TreeItem
+                key={item.value}
+                value={item.value}
+                label={item.label}
+                disabled={item.disabled}
+                icon={item.icon}
+                renderItem={item.renderItem}
+                depth={depth}
+                childValues={item.children ? collectChildValues(item.children) : []}
+            >
+                {item.children && renderTreeItems(item.children, depth + 1)}
+            </TreeItem>
+        ));
+    };
     
     return (
         <TreeViewContext.Provider value={{
@@ -111,6 +128,7 @@ const TreeView = React.forwardRef<HTMLDivElement, TreeViewProps>(({
             checkable,
             checkedValues: currentChecked,
             onCheckWithChildren: handleCheckWithChildren,
+            showExpandIcon,
         }}>
             <div  
                 ref={ref} 
@@ -118,12 +136,11 @@ const TreeView = React.forwardRef<HTMLDivElement, TreeViewProps>(({
                 className={cn("flex flex-col gap-2 border border-gray-200 rounded-md p-3", className)} 
                 {...props}
             >
-                {children}
-
+                  {renderTreeItems(items)}
             </div>
         </TreeViewContext.Provider>
     )
-});
+};
 
 TreeView.displayName = "TreeView";
 
@@ -138,20 +155,34 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
     renderItem,
     children,
     depth = 0,
+    childValues: propChildValues,
     ...props
 }, ref) => {
-    const { expanded, selected, onExpand, onSelect, checkable, checkedValues, onCheckWithChildren } = useTreeView();
+    const { expanded, selected, onExpand, onSelect, checkable, checkedValues, onCheckWithChildren, showExpandIcon } = useTreeView();
 
     const isExpanded = expanded?.includes(value) ?? false;
     const isSelected = selected === value;
     const hasChildren = React.Children.count(children) > 0;
-    const childValues = hasChildren ? collectChildValues(children) : [];
+    const childValues = propChildValues ?? [];
     
     const isChecked = checkedValues?.includes(value) ?? false;
     const checkedChildCount = childValues.filter(v => checkedValues?.includes(v)).length;
     const allChildrenChecked = hasChildren && checkedChildCount === childValues.length;
-    const isIndeterminate = hasChildren && checkedChildCount > 0;
-    const isNodeChecked = isChecked;
+    const isIndeterminate = checkedChildCount > 0 && checkedChildCount < childValues.length;
+
+    const renderExpandIconElement = () => {
+        if (!showExpandIcon) return null;
+        
+        if (!hasChildren) {
+            return <span className="w-4 h-4 inline-flex" aria-hidden="true" />;
+        }
+        
+        return (
+            <span className="w-4 h-4 inline-flex items-center justify-center text-xs text-black-400">
+                {isExpanded ? "▼" : "▶"}
+            </span>
+        );
+    };
 
     const handleCheckedChange = () => {
         if (disabled) return;
@@ -230,10 +261,9 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
             aria-disabled={disabled}
             onKeyDown={keydownHandler} 
             className={cn(
-                "flex flex-col gap-2 cursor-pointer outline-none rounded-md",
-                "focus:ring-1 focus:ring-gray-200 focus:ring-offset-1",
-                isSelected && "bg-primary-100/50 dark:bg-primary-800/50",
-                disabled && "opacity-50 cursor-not-allowed",
+                "flex flex-col gap-2 cursor-pointer outline-none",
+                "group",
+                
                 className
             )} 
             style={depthStyle}
@@ -243,16 +273,20 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
                 onClick={handleClick}
                 className={cn(
                     "flex items-center gap-2 px-2 py-1.5 transition-colors",
+                    "group-focus-visible:ring-1 group-focus-visible:ring-gray-200 group-focus-visible:ring-offset-1 rounded-md",
+                    "hover:bg-[#f4f4f7]",
+                    isSelected && "bg-primary-100/50 dark:bg-primary-800/50 text-primary hover:text-black",
+                    disabled && "opacity-50 cursor-not-allowed",
                     contentClassName
                 )}
             >
                 {checkable && (
                     <Checkbox
-                        checked={
-                            hasChildren 
-                                ? (isIndeterminate ? "indeterminate" : allChildrenChecked)
-                                : isNodeChecked
-                        }
+                    checked={
+                        hasChildren
+                            ? allChildrenChecked ? true : isIndeterminate ? "indeterminate" : false
+                            : isChecked
+                    }
                         onClick={(e) => {
                             e.stopPropagation();
                             handleCheckedChange();
@@ -276,13 +310,14 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
                     })
                 ) : (
                     <>
+                        {renderExpandIconElement()}
                         {icon && <span>{icon}</span>}
                         <span>{label}</span>
                     </>
                 )}
             </div>
             {hasChildren && isExpanded && (
-                <div role="group" className="pl-4">
+                <div role="group" className="flex flex-col gap-2">
                     {React.Children.map(children, (child) => {
                         if (React.isValidElement<TreeItemProps>(child)) {
                             return React.cloneElement(child, { depth: depth + 1 });
@@ -296,4 +331,4 @@ const TreeItem = React.forwardRef<HTMLDivElement, TreeItemProps>(({
 })
 TreeItem.displayName = "TreeItem";
 
-export { TreeView, TreeItem };
+export { TreeView };
