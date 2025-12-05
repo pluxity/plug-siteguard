@@ -1,7 +1,7 @@
 import {
     Button,
     DatePicker,
-    Input,
+    SearchBar,
     Select,
     SelectContent,
     SelectItem,
@@ -129,11 +129,12 @@ export function StatisticsFilter({
                      />
                 </div>
 
-                <Input
+                <SearchBar
                     className="w-[220px]"
                     placeholder="검색어 입력"
                     value={filters.keyword}
-                    onChange={(e) => onFilterChange("keyword", e.target.value)}
+                    onChange={(value) => onFilterChange("keyword", value)}
+                    onSearch={onSearch}
                 />
 
                 <Button onClick={onSearch}>검색</Button>

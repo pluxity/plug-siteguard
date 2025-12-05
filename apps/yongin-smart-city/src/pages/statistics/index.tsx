@@ -1,10 +1,17 @@
-import { DataTable, type DateRange } from "@plug-siteguard/ui";
+import {
+    DataTable,
+    type DateRange,
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@plug-siteguard/ui";
 import { statisticsColumns } from "./utils/statisticsUtil";
-import {useCallback, useEffect, useState} from "react";
-import { TablePagination } from "../../elements/Pagination";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import { useStatisticsData } from "./hook/useStatisticsData";
 import { StatisticsFilter } from "./components/StatisticsFilter";
-import { usePagination } from "@/services/usePagination";
 import { useFilter } from "@/services/useFilter";
 import { StatisticsRequest } from "@/services";
 import {
@@ -41,7 +48,30 @@ export default function StatisticsPage() {
     const { params } = useFilter<typeof filters, StatisticsRequest>(filters, dateRange, currentPage);
     const { statistics, totalPages, fetchStatistics } = useStatisticsData();
 
-    const { nextPage, prevPage } = usePagination(currentPage, setCurrentPage, totalPages);
+    const visiblePages = useMemo(() => {
+        const maxVisible = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+        let endPage = startPage + maxVisible - 1;
+
+        if (endPage > totalPages) {
+            endPage = totalPages;
+            startPage = Math.max(1, endPage - maxVisible + 1);
+        }
+
+        const pages = [];
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(i);
+        }
+        return pages;
+    }, [currentPage, totalPages]);
+
+    const handlePrevPage = useCallback(() => {
+        if (currentPage > 1) setCurrentPage(p => p - 1);
+    }, [currentPage]);
+
+    const handleNextPage = useCallback(() => {
+        if (currentPage < totalPages) setCurrentPage(p => p + 1);
+    }, [currentPage, totalPages]);
 
     useEffect(() => {
         fetchStatistics(params);
@@ -93,13 +123,28 @@ export default function StatisticsPage() {
                 )}
             </div>
 
-            <TablePagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
-                onPrev={prevPage}
-                onNext={nextPage}
-            />
+            {totalPages > 0 && (
+                <Pagination>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious onClick={handlePrevPage} />
+                        </PaginationItem>
+                        {visiblePages.map((page) => (
+                            <PaginationItem key={page}>
+                                <PaginationLink
+                                    onClick={() => setCurrentPage(page)}
+                                    isActive={currentPage === page}
+                                >
+                                    {page}
+                                </PaginationLink>
+                            </PaginationItem>
+                        ))}
+                        <PaginationItem>
+                            <PaginationNext onClick={handleNextPage} />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            )}
         </div>
     );
 }
