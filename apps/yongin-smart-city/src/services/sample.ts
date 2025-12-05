@@ -5,6 +5,10 @@ import type {
   ProgressDataPoint,
   ProgressPeriod,
   ProgressResponse,
+  StatisticsResponse,
+  StatisticsRequest,
+  BaseDataResponse,
+  FilterOption,
 } from './types/sample';
 
 export async function getStreams(): Promise<Stream[]> {
@@ -28,4 +32,32 @@ export async function getProgressData(period: ProgressPeriod): Promise<ProgressD
 
 export async function getAllProgressData(): Promise<ProgressResponse> {
   return api.get<ProgressResponse>('sample/sample_data.json');
+}
+
+export async function getStatisticsData(params: StatisticsRequest): Promise<StatisticsResponse> {
+  return api.get<StatisticsResponse>(`sample/statistics_${params.page}.json`, { params });
+}
+
+export async function getBaseData(): Promise<BaseDataResponse> {
+  return api.get<BaseDataResponse>('sample/base.json');
+}
+
+export async function getSiteOptions(): Promise<FilterOption[]> {
+  const response = await api.get<BaseDataResponse>('sample/base.json');
+  return response.site.data;
+}
+
+export async function getProgressOptions(): Promise<FilterOption[]> {
+  const response = await api.get<BaseDataResponse>('sample/base.json');
+  return response.progress.data;
+}
+
+export async function getSeverityOptions(): Promise<FilterOption[]> {
+  const response = await api.get<BaseDataResponse>('sample/base.json');
+  return response.severity.data;
+}
+
+export async function getStatusOptions(): Promise<FilterOption[]> {
+  const response = await api.get<BaseDataResponse>('sample/base.json');
+  return response.status.data;
 }
