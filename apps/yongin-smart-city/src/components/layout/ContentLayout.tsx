@@ -32,7 +32,7 @@ const ContentLayout: React.FC<{ children: React.ReactNode, title: string }> = ({
                     </div>
                 )}  
             </div>
-            <div className="bg-white rounded-lg overflow-hidden h-[calc(100vh-5.5rem)] w-full">
+            <div className="bg-white rounded-lg overflow-hidden h-[calc(100vh-5.5rem)] w-full border border-gray-200 shadow-sm">
                 {children}
             </div>
         </main>
