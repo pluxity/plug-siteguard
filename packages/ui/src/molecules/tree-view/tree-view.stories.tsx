@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import { TreeItem, TreeView } from './tree-view.component'
+import { TreeView } from './tree-view.component'
 import { FileIcon, FolderIcon, KeyboardIcon } from 'lucide-react'
 
 const meta: Meta<typeof TreeView> = {
@@ -22,65 +22,95 @@ type Story = StoryObj<typeof TreeView>
 // 기본 사용
 export const Default: Story = {
   render: () => (
-    <TreeView>
-      <TreeItem value="1" label="Root">
-        <TreeItem value="1-1" label="Child 1" />
-        <TreeItem value="1-2" label="Child 2" />
-      </TreeItem>
-    </TreeView>
+    <TreeView 
+      items={[
+        { 
+          value: "1", 
+          label: "Root",
+          children: [
+            { value: "1-1", label: "Child 1" },
+            { value: "1-2", label: "Child 2" },
+          ]
+        }
+      ]} 
+    />
   ),
 }
 
 // 기본 확장 상태
 export const DefaultExpanded: Story = {
   render: () => (
-    <TreeView defaultExpanded={["1", "1-2"]}>
-      <TreeItem value="1" label="Documents">
-        <TreeItem value="1-1" label="resume.pdf" />
-        <TreeItem value="1-2" label="Projects">
-          <TreeItem value="1-2-1" label="project-a" />
-          <TreeItem value="1-2-2" label="project-b" />
-        </TreeItem>
-        <TreeItem value="1-3" label="notes.txt" />
-      </TreeItem>
-    </TreeView>
+    <TreeView 
+      defaultExpanded={["1", "1-2"]}
+      items={[
+        {
+          value: "1",
+          label: "Documents",
+          children: [
+            { value: "1-1", label: "resume.pdf" },
+            { 
+              value: "1-2", 
+              label: "Projects",
+              children: [
+                { value: "1-2-1", label: "project-a" },
+                { value: "1-2-2", label: "project-b" },
+              ]
+            },
+            { value: "1-3", label: "notes.txt" },
+          ]
+        }
+      ]}
+    />
   ),
 }
 
 // 아이콘 사용
 export const WithIcons: Story = {
   render: () => (
-    <TreeView defaultExpanded={["folder-1"]}>
-      <TreeItem 
-        value="folder-1" 
-        label="src" 
-        icon={<FolderIcon />}
-      >
-        <TreeItem value="file-1" label="index.ts" icon={<FileIcon />} />
-        <TreeItem value="file-2" label="utils.ts" icon={<FileIcon />} />
-        <TreeItem 
-          value="folder-2" 
-          label="components" 
-          icon={<FolderIcon />}
-        >
-          <TreeItem value="file-3" label="Button.tsx" icon={<FileIcon />} />
-          <TreeItem value="file-4" label="Input.tsx" icon={<FileIcon />} />
-        </TreeItem>
-      </TreeItem>
-    </TreeView>
+    <TreeView 
+      defaultExpanded={["folder-1"]}
+      items={[
+        {
+          value: "folder-1",
+          label: "src",
+          icon: <FolderIcon />,
+          children: [
+            { value: "file-1", label: "index.ts", icon: <FileIcon /> },
+            { value: "file-2", label: "utils.ts", icon: <FileIcon /> },
+            {
+              value: "folder-2",
+              label: "components",
+              icon: <FolderIcon />,
+              children: [
+                { value: "file-3", label: "Button.tsx", icon: <FileIcon /> },
+                { value: "file-4", label: "Input.tsx", icon: <FileIcon /> },
+              ]
+            },
+          ]
+        }
+      ]}
+    />
   ),
 }
 
 // 체크박스 기본
 export const Checkable: Story = {
   render: () => (
-    <TreeView checkable defaultExpanded={["features"]}>
-      <TreeItem value="features" label="Features">
-        <TreeItem value="auth" label="Authentication" />
-        <TreeItem value="dashboard" label="Dashboard" />
-        <TreeItem value="settings" label="Settings" />
-      </TreeItem>
-    </TreeView>
+    <TreeView 
+      checkable 
+      defaultExpanded={["features"]}
+      items={[
+        {
+          value: "features",
+          label: "Features",
+          children: [
+            { value: "auth", label: "Authentication" },
+            { value: "dashboard", label: "Dashboard" },
+            { value: "settings", label: "Settings" },
+          ]
+        }
+      ]}
+    />
   ),
 }
 
@@ -100,13 +130,18 @@ export const CheckableControlled: Story = {
           defaultExpanded={["features"]} 
           checked={checked}
           onCheckedChange={setChecked}
-        >
-          <TreeItem value="features" label="Features">
-            <TreeItem value="auth" label="Authentication" />
-            <TreeItem value="dashboard" label="Dashboard" />
-            <TreeItem value="settings" label="Settings" />
-          </TreeItem>
-        </TreeView>
+          items={[
+            {
+              value: "features",
+              label: "Features",
+              children: [
+                { value: "auth", label: "Authentication" },
+                { value: "dashboard", label: "Dashboard" },
+                { value: "settings", label: "Settings" },
+              ]
+            }
+          ]}
+        />
       </div>
     )
   },
@@ -128,24 +163,45 @@ export const CheckableMultiLevel: Story = {
           defaultExpanded={["root", "frontend", "backend"]} 
           checked={checked}
           onCheckedChange={setChecked}
-        >
-          <TreeItem value="root" label="프로젝트" icon={<FolderIcon />}>
-            <TreeItem value="frontend" label="Frontend" icon={<FolderIcon />}>
-              <TreeItem value="react" label="React" icon={<FileIcon />} />
-              <TreeItem value="vue" label="Vue" icon={<FileIcon />} />
-              <TreeItem value="angular" label="Angular" icon={<FileIcon />} />
-            </TreeItem>
-            <TreeItem value="backend" label="Backend" icon={<FolderIcon />}>
-              <TreeItem value="node" label="Node.js" icon={<FileIcon />} />
-              <TreeItem value="python" label="Python" icon={<FileIcon />} />
-            </TreeItem>
-            <TreeItem value="database" label="Database" icon={<FolderIcon />}>
-              <TreeItem value="mysql" label="MySQL" icon={<FileIcon />} />
-              <TreeItem value="postgres" label="PostgreSQL" icon={<FileIcon />} />
-              <TreeItem value="mongodb" label="MongoDB" icon={<FileIcon />} />
-            </TreeItem>
-          </TreeItem>
-        </TreeView>
+          items={[
+            {
+              value: "root",
+              label: "프로젝트",
+              icon: <span>📁</span>,
+              children: [
+                {
+                  value: "frontend",
+                  label: "Frontend",
+                  icon: <span>🌐</span>,
+                  children: [
+                    { value: "react", label: "React", icon: <span>⚛️</span> },
+                    { value: "vue", label: "Vue", icon: <span>💚</span> },
+                    { value: "angular", label: "Angular", icon: <span>🅰️</span> },
+                  ]
+                },
+                {
+                  value: "backend",
+                  label: "Backend",
+                  icon: <span>⚙️</span>,
+                  children: [
+                    { value: "node", label: "Node.js", icon: <span>🟢</span> },
+                    { value: "python", label: "Python", icon: <span>🐍</span> },
+                  ]
+                },
+                {
+                  value: "database",
+                  label: "Database",
+                  icon: <span>🗄️</span>,
+                  children: [
+                    { value: "mysql", label: "MySQL", icon: <span>🐬</span> },
+                    { value: "postgres", label: "PostgreSQL", icon: <span>🐘</span> },
+                    { value: "mongodb", label: "MongoDB", icon: <span>🍃</span> },
+                  ]
+                },
+              ]
+            }
+          ]}
+        />
       </div>
     )
   }, 
@@ -154,13 +210,20 @@ export const CheckableMultiLevel: Story = {
 // Disabled 아이템
 export const WithDisabled: Story = {
   render: () => (
-    <TreeView defaultExpanded={["1"]}>
-      <TreeItem value="1" label="Available Items">
-        <TreeItem value="1-1" label="Enabled Item" />
-        <TreeItem value="1-2" label="Disabled Item" disabled />
-        <TreeItem value="1-3" label="Another Enabled" />
-      </TreeItem>
-    </TreeView>
+    <TreeView 
+      defaultExpanded={["1"]}
+      items={[
+        {
+          value: "1",
+          label: "Available Items",
+          children: [
+            { value: "1-1", label: "Enabled Item" },
+            { value: "1-2", label: "Disabled Item", disabled: true },
+            { value: "1-3", label: "Another Enabled" },
+          ]
+        }
+      ]}
+    />
   ),
 }
 
@@ -174,58 +237,59 @@ export const Controlled: Story = {
         <div className="text-sm text-gray-500">
           <p>Expanded: {JSON.stringify(expanded)}</p>
         </div>
-        <TreeView expanded={expanded} onExpandedChange={setExpanded}>
-          <TreeItem value="1" label="Root">
-            <TreeItem value="1-1" label="Child 1" />
-            <TreeItem value="1-2" label="Child 2">
-              <TreeItem value="1-2-1" label="Grandchild 1" />
-              <TreeItem value="1-2-2" label="Grandchild 2" />
-            </TreeItem>
-          </TreeItem>
-        </TreeView>
+        <TreeView 
+          expanded={expanded} 
+          onExpandedChange={setExpanded}
+          items={[
+            {
+              value: "1",
+              label: "Root",
+              children: [
+                { value: "1-1", label: "Child 1" },
+                { 
+                  value: "1-2", 
+                  label: "Child 2",
+                  children: [
+                    { value: "1-2-1", label: "Grandchild 1" },
+                    { value: "1-2-2", label: "Grandchild 2" },
+                  ]
+                },
+              ]
+            }
+          ]}
+        />
       </div>
     )
   },
 }
 
-// renderItem 커스텀 렌더링
-export const CustomRenderItem: Story = {
+// 펼침/접힘 아이콘 사용
+export const WithExpandIcon: Story = {
   render: () => (
-    <TreeView defaultExpanded={["1"]}>
-      <TreeItem
-        value="1"
-        label="Custom Parent"
-        renderItem={({ label, isExpanded, hasChildren, isSelected }) => (
-          <div className={`flex items-center gap-2 p-2 rounded ${isSelected ? 'text-black' : 'hover:text-red-500'}`}>
-            {hasChildren && <span>{isExpanded ? '▼' : '▶'}</span>}
-            <span className="font-medium">{label}</span>
-          </div>
-        )}
-      >
-        <TreeItem
-          value="1-1"
-          label="Custom Child 1"
-          renderItem={({ label, isSelected }) => (
-            <div className={`flex items-center gap-2 p-2 rounded ${isSelected ? 'text-black' : 'hover:text-red-500'}`}>
-              <span>•</span>
-              <span>{label}</span>
-              {isSelected && <span className="ml-auto">✓</span>}
-            </div>
-          )}
-        />
-        <TreeItem
-          value="1-2"
-          label="Custom Child 2"
-          renderItem={({ label, isSelected }) => (
-            <div className={`flex items-center gap-2 p-2 rounded ${isSelected ? 'text-black' : 'hover:text-red-500'}`}>
-              <span>•</span>
-              <span>{label}</span>
-              {isSelected && <span className="ml-auto">✓</span>}
-            </div>
-          )}
-        />
-      </TreeItem>
-    </TreeView>
+    <TreeView 
+      showExpandIcon
+      defaultExpanded={["folder-1"]}
+      items={[
+        {
+          value: "folder-1",
+          label: "src",
+          icon: <FolderIcon className="w-4 h-4" />,
+          children: [
+            { value: "file-1", label: "index.ts", icon: <FileIcon className="w-4 h-4" /> },
+            { value: "file-2", label: "utils.ts", icon: <FileIcon className="w-4 h-4" /> },
+            {
+              value: "folder-2",
+              label: "components",
+              icon: <FolderIcon className="w-4 h-4" />,
+              children: [
+                { value: "file-3", label: "Button.tsx", icon: <FileIcon className="w-4 h-4" /> },
+                { value: "file-4", label: "Input.tsx", icon: <FileIcon className="w-4 h-4" /> },
+              ]
+            },
+          ]
+        }
+      ]}
+    />
   ),
 }
 
@@ -242,66 +306,37 @@ export const KeyboardNavigation: Story = {
           <li><kbd className="px-1 bg-white rounded border">Enter</kbd> / <kbd className="px-1 bg-white rounded border">Space</kbd> - 선택 및 토글</li>
         </ul>
       </div>
-      <TreeView defaultExpanded={["1"]}>
-        <TreeItem value="1" label="포커스 후 키보드로 조작해보세요" icon={<FolderIcon />}>
-          <TreeItem value="1-1" label="파일 1" icon={<FileIcon />} />
-          <TreeItem value="1-2" label="폴더" icon={<FolderIcon />}>
-            <TreeItem value="1-2-1" label="파일 2" icon={<FileIcon />} />
-            <TreeItem value="1-2-2" label="파일 3" icon={<FileIcon />} />
-          </TreeItem>
-          <TreeItem value="1-3" label="파일 4" icon={<FileIcon />} />
-        </TreeItem>
-        <TreeItem value="2" label="다른 루트" icon={<FolderIcon />}>
-          <TreeItem value="2-1" label="파일 5" icon={<FileIcon />} />
-        </TreeItem>
-      </TreeView>
-    </div>
-  ),
-}
-
-// Depth를 활용한 들여쓰기 조절
-export const CustomDepth: Story = {
-  render: () => (
-    <div className="flex flex-col gap-6">
-      <div className="text-sm text-gray-500 mb-2">
-        <p>depth 값을 변경하여 시작 들여쓰기 위치를 조절할 수 있습니다.</p>
-      </div>
-      
-      <div>
-        <p className="text-xs text-gray-400 mb-2">depth=0 (기본)</p>
-        <TreeView defaultExpanded={["a1"]}>
-          <TreeItem value="a1" label="Root" icon={<FolderIcon />}>
-            <TreeItem value="a1-1" label="Child" icon={<FileIcon />} />
-          </TreeItem>
-        </TreeView>
-      </div>
-
-      <div>
-        <p className="text-xs text-gray-400 mb-2">depth=1</p>
-        <TreeView defaultExpanded={["b1"]}>
-          <TreeItem value="b1" label="Root" icon={<FolderIcon />} depth={1}>
-            <TreeItem value="b1-1" label="Child" icon={<FileIcon />} />
-          </TreeItem>
-        </TreeView>
-      </div>
-
-      <div>
-        <p className="text-xs text-gray-400 mb-2">depth=2</p>
-        <TreeView defaultExpanded={["c1"]}>
-          <TreeItem value="c1" label="Root" icon={<FolderIcon />} depth={2}>
-            <TreeItem value="c1-1" label="Child" icon={<FileIcon />} />
-          </TreeItem>
-        </TreeView>
-      </div>
-
-      <div>
-        <p className="text-xs text-gray-400 mb-2">depth=3</p>
-        <TreeView defaultExpanded={["d1"]}>
-          <TreeItem value="d1" label="Root" icon={<FolderIcon />} depth={3}>
-            <TreeItem value="d1-1" label="Child" icon={<FileIcon />} />
-          </TreeItem>
-        </TreeView>
-      </div>
+      <TreeView 
+        defaultExpanded={["1"]}
+        items={[
+          {
+            value: "1",
+            label: "포커스 후 키보드로 조작해보세요",
+            icon: <FolderIcon />,
+            children: [
+              { value: "1-1", label: "파일 1", icon: <FileIcon /> },
+              { 
+                value: "1-2", 
+                label: "폴더", 
+                icon: <FolderIcon />,
+                children: [
+                  { value: "1-2-1", label: "파일 2", icon: <FileIcon /> },
+                  { value: "1-2-2", label: "파일 3", icon: <FileIcon /> },
+                ]
+              },
+              { value: "1-3", label: "파일 4", icon: <FileIcon /> },
+            ]
+          },
+          {
+            value: "2",
+            label: "다른 루트",
+            icon: <FolderIcon />,
+            children: [
+              { value: "2-1", label: "파일 5", icon: <FileIcon /> },
+            ]
+          }
+        ]}
+      />
     </div>
   ),
 }
