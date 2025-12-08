@@ -27,7 +27,7 @@ export default function SafetyCard() {
   };
 
   return (
-    <div className="h-full flex flex-col bg-[#102642] rounded-lg rounded-tl-none rounded-bl-none p-4">
+    <div className="h-full flex flex-col bg-[#102642] p-4">
       {/* 타이틀 */}
       <div className="flex items-center justify-center gap-2">
         <CirclePlus className="h-10 w-10 text-[#8FFF2D]" strokeWidth={2} />
@@ -35,7 +35,7 @@ export default function SafetyCard() {
       </div>
 
       {/* 디지털 카운터 */}
-      <div className="flex items-center justify-center gap-2 mb-4">
+      <div className="flex items-center justify-center gap-2 my-4">
         <div className="font-ds-digital text-primary-100 text-7xl font-bold tracking-[6px]">
           {difference}
         </div>
