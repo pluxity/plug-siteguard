@@ -67,6 +67,7 @@ export function CesiumMapViewer({ mode }: CesiumMapViewerProps) {
     if (!viewerRef.current) return;
 
     const viewer = viewerRef.current;
+    const controller = viewer.scene.screenSpaceCameraController;
 
     if (mode === '2d-map') {
       viewer.camera.flyTo({
@@ -82,6 +83,8 @@ export function CesiumMapViewer({ mode }: CesiumMapViewerProps) {
         },
         duration: 1.5,
       });
+
+      controller.enableTilt = false;
     } else if (mode === '3d-map') {
       viewer.camera.flyTo({
         destination: Cesium.Cartesian3.fromRadians(
@@ -96,6 +99,8 @@ export function CesiumMapViewer({ mode }: CesiumMapViewerProps) {
         },
         duration: 1.5,
       });
+
+      controller.enableTilt = true;
     }
   }, [mode]);
 
