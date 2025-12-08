@@ -80,7 +80,7 @@ function App() {
           path="/statistics"
           element={
             <ProtectedRoute>
-              <ContentLayout title="통계">
+              <ContentLayout title="작업">
                 <StatisticsPage />
               </ContentLayout>
             </ProtectedRoute>

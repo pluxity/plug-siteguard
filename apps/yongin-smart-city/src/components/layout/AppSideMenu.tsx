@@ -11,10 +11,17 @@ import {
   AvatarFallback,
   Button,
 } from '@plug-siteguard/ui';
-import { MAIN_MENU_ITEMS } from '../../constants';
+import { MAIN_MENU_ITEMS, MenuItem } from '../../constants';
 
 export default function AppSideMenu() {
   const location = useLocation();
+
+  const [openMenu, setOpenMenu] = React.useState<string | null>(() => {
+    const activeParent = MAIN_MENU_ITEMS.find((item) =>
+      item.children?.some((child) => child.path === location.pathname)
+    );
+    return activeParent?.title || null;
+  });
 
   const currentUser = {
     name: '관리자',
@@ -29,15 +36,68 @@ export default function AppSideMenu() {
   );
 
   const renderMenuItem = React.useCallback(
-    (item: (typeof MAIN_MENU_ITEMS)[0]) => {
+    (item: MenuItem) => {
       const Icon = item.icon;
+      const hasChildren = item.children && item.children.length > 0;
+
+      if (hasChildren) {
+        const isOpen = openMenu === item.title;
+
+        const handleToggle = () => {
+          setOpenMenu(isOpen ? null : item.title);
+        };
+
+        return (
+          <div key={item.title}>
+            <button
+              type="button"
+              onClick={handleToggle}
+              data-state={isOpen ? 'open' : 'closed'}
+              className="flex items-center gap-2 w-full rounded-md px-3 py-2 text-sm transition-colors 
+                hover:bg-gray-100 
+                data-[state=open]:bg-primary-50 
+                data-[state=open]:text-primary-700 
+                data-[state=open]:font-medium"
+            >
+              <Icon className="size-4" />
+              <span>{item.title}</span>
+            </button>
+            {isOpen && (
+              <div className="ml-4 mt-1 space-y-0.5 pl-2">
+                {item.children?.map((child) => {
+                  const isChildActive = child.path && isActive(child.path);
+                  return (
+                    <Link
+                      key={child.title}
+                      to={child.path || '#'}
+                      className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors ${
+                        isChildActive
+                          ? 'text-primary-700 font-medium'
+                          : 'hover:bg-gray-100'
+                      }`}
+                    >
+                      <span 
+                        className={`size-2 border-l-2 border-b-2 rounded-bl-sm ${
+                          isChildActive ? 'border-primary-700' : 'border-gray-300'
+                        }`} 
+                      />
+                      <span>{child.title}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        );
+      }
 
       return (
         <Link
           key={item.title}
           to={item.path || '#'}
+          onClick={() => setOpenMenu(null)}
           className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors ${
-            item.path && isActive(item.path)
+            item.path && isActive(item.path) && !openMenu
               ? 'bg-primary-50 text-primary-700 font-medium'
               : 'hover:bg-gray-100'
           }`}
@@ -47,7 +107,7 @@ export default function AppSideMenu() {
         </Link>
       );
     },
-    [isActive]
+    [isActive, openMenu]
   );
 
   return (
