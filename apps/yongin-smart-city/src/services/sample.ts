@@ -9,6 +9,8 @@ import type {
   StatisticsRequest,
   BaseDataResponse,
   FilterOption,
+  EventsRequest,
+  EventsResponse,
 } from './types/sample';
 
 export async function getStreams(): Promise<Stream[]> {
@@ -36,6 +38,10 @@ export async function getAllProgressData(): Promise<ProgressResponse> {
 
 export async function getStatisticsData(params: StatisticsRequest): Promise<StatisticsResponse> {
   return api.get<StatisticsResponse>(`sample/statistics_${params.page}.json`, { params });
+}
+
+export async function getEventsData(params: EventsRequest): Promise<EventsResponse> {
+  return api.get<EventsResponse>(`sample/events_${params.page}.json`, { params });
 }
 
 export async function getBaseData(): Promise<BaseDataResponse> {
