@@ -6,7 +6,6 @@ import { useFilter } from "@/services/useFilter";
 import { useEventsData } from "./hook/useEventsData";
 import { EventsFilter } from "./components/EventsFilter";
 import { eventsColumns } from "./utils/eventsUtil";
-import { FolderDown } from "lucide-react";
 
 export default function EventsPage() {
   const [filters, setFilters] = useState({
@@ -101,12 +100,12 @@ export default function EventsPage() {
           ) : (
               <DataTable columns={eventsColumns} data={events} />
           )}
-          <div className="flex justify-end">
+          {/* <div className="flex justify-end">
             <div className="flex items-center gap-1 cursor-pointer">
                 <FolderDown className="w-4 h-4 text-neutral-400" />
                 <span className="text-neutral-400 text-xs font-normal font-['Pretendard']">데이터 다운로드</span>
             </div>
-          </div>
+          </div> */}
       </div>
 
       {totalPages > 0 && (
