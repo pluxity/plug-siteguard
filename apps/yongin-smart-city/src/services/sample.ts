@@ -1,7 +1,5 @@
 import { api } from './api';
 import type {
-  Stream,
-  StreamsResponse,
   ProgressDataPoint,
   ProgressPeriod,
   ProgressResponse,
@@ -10,20 +8,6 @@ import type {
   BaseDataResponse,
   FilterOption,
 } from './types/sample';
-
-export async function getStreams(): Promise<Stream[]> {
-  const response = await api.get<StreamsResponse>('sample/streams.json');
-  return response.items;
-}
-
-export async function getActiveStreams(): Promise<Stream[]> {
-  const response = await api.get<StreamsResponse>('sample/streams.json');
-  return response.items.filter((stream) => stream.ready);
-}
-
-export async function getAllStreams(): Promise<StreamsResponse> {
-  return api.get<StreamsResponse>('sample/streams.json');
-}
 
 export async function getProgressData(period: ProgressPeriod): Promise<ProgressDataPoint[]> {
   const response = await api.get<ProgressResponse>('sample/sample_data.json');

@@ -4,7 +4,7 @@ import type { GridTemplate } from '@plug-siteguard/ui';
 import { ChevronLeft, ChevronRight, Square, Grid2X2, LayoutGrid, Grid3X3 } from 'lucide-react';
 
 import { useCCTVList, useWHEPCleanup } from '@/lib/whep';
-import { CCTVWHEP } from '@/components/cctvs';
+import { CCTVWHEP, CCTVPTZ } from '@/components/cctvs';
 
 /**
  * CCTV 레이아웃 템플릿 정의
@@ -88,7 +88,7 @@ const TEMPLATE_ICONS: Record<TemplateId, typeof Square> = {
 };
 
 export default function CctvPage() {
-  const { cctvList, loading } = useCCTVList();
+  const { cctvList, loading, totalStreamCount } = useCCTVList();
   const cleanup = useWHEPCleanup();
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateId>('2x2');
   const [currentPage, setCurrentPage] = useState(0);
@@ -102,22 +102,27 @@ export default function CctvPage() {
 
   const template = GRID_TEMPLATES[selectedTemplate];
   const itemsPerPage = template.cells.length;
-  const totalPages = Math.ceil(cctvList.length / itemsPerPage);
+
+  // 1x1 모드에서는 PTZ 가능한 카메라만 필터링
+  const filteredCCTVList = useMemo(() => {
+    if (selectedTemplate === '1x1') {
+      return cctvList.filter((cctv) => cctv.ptz);
+    }
+    return cctvList;
+  }, [cctvList, selectedTemplate]);
+
+  const totalPages = Math.ceil(filteredCCTVList.length / itemsPerPage);
 
   // 현재 페이지에 표시할 CCTV 목록
   const currentCCTVs = useMemo(() => {
     const start = currentPage * itemsPerPage;
-    return cctvList.slice(start, start + itemsPerPage);
-  }, [cctvList, currentPage, itemsPerPage]);
+    return filteredCCTVList.slice(start, start + itemsPerPage);
+  }, [filteredCCTVList, currentPage, itemsPerPage]);
 
   // 페이지 변경 시 범위 체크
   const handleTemplateChange = (templateId: TemplateId) => {
     setSelectedTemplate(templateId);
-    const newTemplate = GRID_TEMPLATES[templateId];
-    const newTotalPages = Math.ceil(cctvList.length / newTemplate.cells.length);
-    if (currentPage >= newTotalPages) {
-      setCurrentPage(Math.max(0, newTotalPages - 1));
-    }
+    setCurrentPage(0);
   };
 
   if (loading) {
@@ -143,7 +148,7 @@ export default function CctvPage() {
         <div>
           <h1 className="text-2xl font-bold">CCTV 모니터링</h1>
           <p className="text-gray-600">
-            전체 {cctvList.length}개 스트림
+            전체 {totalStreamCount}개 스트림
             <span className="text-xs text-gray-400 ml-2">(Ctrl + 드래그로 위치 교환)</span>
           </p>
         </div>
@@ -201,10 +206,20 @@ export default function CctvPage() {
         <GridLayout template={template} editable={true} gap={8} className="h-full">
           {template.cells.map((cell, index) => {
             const cctv = currentCCTVs[index];
+            const isPTZMode = selectedTemplate === '1x1';
             return (
               <Widget key={cctv?.id ?? `empty-${cell.id}`} id={`cctv-${index}`} border={false} contentClassName="p-0">
                 {cctv ? (
-                  <CCTVWHEP streamPath={cctv.id} className="w-full h-full" />
+                  isPTZMode ? (
+                    <CCTVPTZ
+                      streamPath={cctv.id}
+                      cameraId={cctv.id}
+                      className="w-full h-full"
+                      ptzSpeed={20}
+                    />
+                  ) : (
+                    <CCTVWHEP streamPath={cctv.id} className="w-full h-full" hasPTZ={cctv.ptz} />
+                  )
                 ) : (
                   <div className="w-full h-full bg-gray-900 rounded-lg flex items-center justify-center text-gray-500">
                     <span className="text-sm">No Signal</span>

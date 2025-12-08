@@ -55,6 +55,7 @@ export function useWHEPStream(streamId: string, autoConnect = true) {
 export function useCCTVList() {
   const cctvList = useWHEPStore((state) => state.cctvList);
   const loading = useWHEPStore((state) => state.cctvLoading);
+  const totalStreamCount = useWHEPStore((state) => state.totalStreamCount);
   const initialized = useWHEPStore((state) => state.initialized);
   const initialize = useWHEPStore((state) => state.initialize);
 
@@ -64,7 +65,7 @@ export function useCCTVList() {
     }
   }, [initialized, initialize]);
 
-  return { cctvList, loading };
+  return { cctvList, loading, totalStreamCount };
 }
 
 /**
