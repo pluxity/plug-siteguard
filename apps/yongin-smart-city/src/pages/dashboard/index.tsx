@@ -14,17 +14,17 @@ const DASHBOARD_STREAM_IDS = [
 export default function Dashboard() {
   return (
     <GridLayout columns={10} gap={16}>
-      <Widget colSpan={10} className="bg-[#303741]">
+      <Widget colSpan={10} className="bg-[#C1D5EF]" contentClassName="p-0">
         <GridLayout columns={12} gap={12}>
-          <Widget className="p-0" colSpan={7} border={false}>
+          <Widget colSpan={6} border={false} contentClassName="p-4">
             <ProgressChart />
           </Widget>
 
-          <Widget colSpan={3} border={false} className="self-end" contentClassName="p-0">
+          <Widget colSpan={3} border={false} contentClassName="p-4">
             <ProgressCard />
           </Widget>
 
-          <Widget colSpan={2} border={false}>
+          <Widget colSpan={3} border={false} contentClassName="p-0 rounded-none">
             <SafetyCard />
           </Widget>
         </GridLayout>

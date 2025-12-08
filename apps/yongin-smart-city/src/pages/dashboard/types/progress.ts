@@ -31,4 +31,5 @@ export interface ProgressProps {
 export interface StatusCircleProps {
   label: string;
   color: string;
+  gradient?: string;
 }
