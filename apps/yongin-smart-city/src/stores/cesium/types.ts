@@ -27,11 +27,11 @@ export interface FeatureOptions {
 
 
 export const DEFAULT_CAMERA_POSITION: CameraPosition = {
-  lon: 127.1038,
-  lat: 37.2842,
-  height: 1000,
-  heading: 0,
-  pitch: -45,
+  lon: 2.218407,
+  lat: 0.650516,
+  height: 600.93,
+  heading: 3.50,
+  pitch: -9.44,
   roll: 0,
 };
 
