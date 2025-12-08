@@ -23,17 +23,6 @@ interface FBXModelProps {
   onHoverMesh?: (info: MeshInfo | null) => void;
 }
 
-// 오브젝트 깊이 계산
-function getObjectDepth(obj: THREE.Object3D): number {
-  let depth = 0;
-  let current = obj.parent;
-  while (current) {
-    depth++;
-    current = current.parent;
-  }
-  return depth;
-}
-
 function FBXModel({ url, rotation, onHoverMesh }: FBXModelProps) {
   const fbx = useFBX(url);
   const { camera, gl, scene, size } = useThree();
@@ -41,6 +30,8 @@ function FBXModel({ url, rotation, onHoverMesh }: FBXModelProps) {
   const mouse = useRef(new THREE.Vector2());
   const hoveredMesh = useRef<THREE.Mesh | null>(null);
   const outlineRef = useRef<LineSegments2 | null>(null);
+  const lastCameraPos = useRef(new THREE.Vector3());
+  const lastCameraRot = useRef(new THREE.Euler());
 
   // Outline 머티리얼 (연두색, 두꺼운 선)
   const outlineMaterial = useRef(
@@ -111,8 +102,21 @@ function FBXModel({ url, rotation, onHoverMesh }: FBXModelProps) {
     };
   }, [scene]);
 
-  // 매 프레임 Raycast 검사
+  // 매 프레임 Raycast 검사 및 카메라 변경 감지
   useFrame(() => {
+    // 카메라 위치/회전 변경 감지
+    const currentPos = camera.position;
+    const currentRot = camera.rotation;
+
+    if (!lastCameraPos.current.equals(currentPos) ||
+        !lastCameraRot.current.equals(currentRot)) {
+      console.log(`Camera position: (${currentPos.x.toFixed(2)}, ${currentPos.y.toFixed(2)}, ${currentPos.z.toFixed(2)})`);
+      console.log(`Camera rotation (deg): (${(currentRot.x * 180 / Math.PI).toFixed(2)}°, ${(currentRot.y * 180 / Math.PI).toFixed(2)}°, ${(currentRot.z * 180 / Math.PI).toFixed(2)}°)`);
+
+      lastCameraPos.current.copy(currentPos);
+      lastCameraRot.current.copy(currentRot);
+    }
+
     if (!fbx || !onHoverMesh) return;
 
     raycaster.current.setFromCamera(mouse.current, camera);
@@ -126,7 +130,7 @@ function FBXModel({ url, rotation, onHoverMesh }: FBXModelProps) {
       const mesh = meshIntersect.object;
       if (hoveredMesh.current !== mesh) {
         hoveredMesh.current = mesh;
-        setOutline(mesh); // Outline 추가
+        setOutline(mesh);
 
         const geometry = mesh.geometry;
         const vertices = geometry.attributes.position?.count || 0;
@@ -154,7 +158,7 @@ function FBXModel({ url, rotation, onHoverMesh }: FBXModelProps) {
     } else {
       if (hoveredMesh.current) {
         hoveredMesh.current = null;
-        setOutline(null); // Outline 제거
+        setOutline(null);
         onHoverMesh(null);
       }
     }
@@ -162,68 +166,24 @@ function FBXModel({ url, rotation, onHoverMesh }: FBXModelProps) {
 
   useEffect(() => {
     if (fbx) {
-      // 모델 구조 디버그 출력
-      console.group('📦 FBX Model Hierarchy');
-      let meshCount = 0;
-      let totalVertices = 0;
-      let totalTriangles = 0;
-
-      fbx.traverse((child) => {
-        const depth = getObjectDepth(child);
-        const indent = '  '.repeat(depth);
-
-        if (child instanceof THREE.Mesh) {
-          meshCount++;
-          const geometry = child.geometry;
-          const vertices = geometry.attributes.position?.count || 0;
-          const triangles = geometry.index
-            ? geometry.index.count / 3
-            : vertices / 3;
-
-          totalVertices += vertices;
-          totalTriangles += triangles;
-
-          const materialName = Array.isArray(child.material)
-            ? child.material.map((m) => m.name || 'unnamed').join(', ')
-            : child.material?.name || 'unnamed';
-
-          console.log(
-            `${indent}🔷 Mesh: "${child.name || '(unnamed)'}" | ` +
-              `Vertices: ${vertices.toLocaleString()} | ` +
-              `Triangles: ${Math.floor(triangles).toLocaleString()} | ` +
-              `Material: ${materialName}`
-          );
-        } else if (child instanceof THREE.Group || child.type === 'Group') {
-          console.log(`${indent}📁 Group: "${child.name || '(unnamed)'}"`);
-        } else if (child instanceof THREE.Bone) {
-          console.log(`${indent}🦴 Bone: "${child.name || '(unnamed)'}"`);
-        } else {
-          console.log(`${indent}🔹 ${child.type}: "${child.name || '(unnamed)'}"`);
-        }
-      });
-
-      console.log('---');
-      console.log(`📊 Total Meshes: ${meshCount}`);
-      console.log(`📊 Total Vertices: ${totalVertices.toLocaleString()}`);
-      console.log(`📊 Total Triangles: ${totalTriangles.toLocaleString()}`);
-      console.groupEnd();
-
       // 모델의 바운딩 박스 계산
       const box = new THREE.Box3().setFromObject(fbx);
-      const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
 
       // 모델을 중심으로 이동
       fbx.position.sub(center);
 
-      // 카메라 위치 조정
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const fov = (camera as THREE.PerspectiveCamera).fov * (Math.PI / 180);
-      const cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2)) * 2;
-
-      camera.position.set(cameraZ * 0.5, cameraZ * 0.3, cameraZ);
-      camera.lookAt(0, 0, 0);
+      // 카메라 위치 및 회전 설정
+      camera.position.set(118.67, 182.73, 252.46);
+      camera.rotation.set(
+        -44.93 * Math.PI / 180,
+        21.20 * Math.PI / 180,
+        19.84 * Math.PI / 180
+      );
       camera.updateProjectionMatrix();
+
+      console.log(`Camera position: (${camera.position.x.toFixed(2)}, ${camera.position.y.toFixed(2)}, ${camera.position.z.toFixed(2)})`);
+      console.log(`Camera rotation (deg): (${(camera.rotation.x * 180 / Math.PI).toFixed(2)}°, ${(camera.rotation.y * 180 / Math.PI).toFixed(2)}°, ${(camera.rotation.z * 180 / Math.PI).toFixed(2)}°)`);
     }
   }, [fbx, camera]);
 
@@ -274,7 +234,7 @@ export function FBXViewer({ modelUrl, rotation, className = '' }: FBXViewerProps
 
       {/* Hover 메시 정보 패널 */}
       {hoveredMesh && (
-        <div className="absolute top-4 left-4 bg-black/80 text-white text-sm p-3 rounded-lg pointer-events-none">
+        <div className="absolute bottom-4 left-4 bg-black/80 text-white text-sm p-3 rounded-lg pointer-events-none">
           <div className="font-bold text-blue-400 mb-2">{hoveredMesh.name}</div>
           <div className="space-y-1 text-xs">
             <div>

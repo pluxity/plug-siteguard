@@ -1,7 +1,8 @@
 import { GridLayout, Widget } from '@plug-siteguard/ui';
 
-import { CesiumMap, ProgressCard, ProgressChart, SafetyCard, Weather } from './components';
+import { ProgressCard, ProgressChart, SafetyCard, Weather } from './components';
 import { CCTVWHEP } from '@/components/cctvs';
+import { Map } from '@/components/map';
 
 const DASHBOARD_STREAM_IDS = [
   'CCTV-JEJU1-31',
@@ -35,7 +36,7 @@ export default function Dashboard() {
       </Widget>
 
       <Widget colSpan={6} rowSpan={3} className="bg-white" contentClassName="p-0">
-        <CesiumMap />
+        <Map />
       </Widget>
 
       <Widget colSpan={10} className="bg-white">
