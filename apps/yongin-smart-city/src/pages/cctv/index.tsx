@@ -4,7 +4,7 @@ import type { GridTemplate } from '@plug-siteguard/ui';
 import { ChevronLeft, ChevronRight, Square, Grid2X2, LayoutGrid, Grid3X3 } from 'lucide-react';
 
 import { useCCTVList, useWHEPCleanup } from '@/lib/whep';
-import { CCTVWHEP } from '@/components/cctvs';
+import { CCTVWHEP, CCTVPTZ } from '@/components/cctvs';
 
 /**
  * CCTV 레이아웃 템플릿 정의
@@ -201,10 +201,20 @@ export default function CctvPage() {
         <GridLayout template={template} editable={true} gap={8} className="h-full">
           {template.cells.map((cell, index) => {
             const cctv = currentCCTVs[index];
+            const isPTZMode = selectedTemplate === '1x1';
             return (
               <Widget key={cctv?.id ?? `empty-${cell.id}`} id={`cctv-${index}`} border={false} contentClassName="p-0">
                 {cctv ? (
-                  <CCTVWHEP streamPath={cctv.id} className="w-full h-full" />
+                  isPTZMode ? (
+                    <CCTVPTZ
+                      streamPath={cctv.id}
+                      cameraId={cctv.id}
+                      className="w-full h-full"
+                      ptzSpeed={40}
+                    />
+                  ) : (
+                    <CCTVWHEP streamPath={cctv.id} className="w-full h-full" />
+                  )
                 ) : (
                   <div className="w-full h-full bg-gray-900 rounded-lg flex items-center justify-center text-gray-500">
                     <span className="text-sm">No Signal</span>
