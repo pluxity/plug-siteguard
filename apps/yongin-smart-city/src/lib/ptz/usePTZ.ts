@@ -1,33 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ptzApi } from './api';
-import type { PTZCommand, PTZDirection, PTZStatus } from './types';
+import type { PTZCommand, PTZDirection } from './types';
 
-const DEFAULT_SPEED = 40;
+const DEFAULT_SPEED = 10;
 
-export function usePTZ(cameraId: string, autoFetchStatus = true) {
-  const [status, setStatus] = useState<PTZStatus | null>(null);
+export function usePTZ(cameraId: string) {
   const [isMoving, setIsMoving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const moveTimeoutRef = useRef<number | null>(null);
-
-  const fetchStatus = useCallback(async () => {
-    if (!cameraId) return;
-
-    try {
-      const newStatus = await ptzApi.getStatus(cameraId);
-      setStatus(newStatus);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch status');
-    }
-  }, [cameraId]);
-
-  useEffect(() => {
-    if (autoFetchStatus) {
-      fetchStatus();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const move = useCallback(
     async (command: PTZCommand) => {
@@ -51,11 +31,10 @@ export function usePTZ(cameraId: string, autoFetchStatus = true) {
       await ptzApi.stop(cameraId);
       setIsMoving(false);
       setError(null);
-      await fetchStatus();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to stop camera');
     }
-  }, [cameraId, fetchStatus]);
+  }, [cameraId]);
 
   const moveDirection = useCallback(
     async (direction: PTZDirection, speed = DEFAULT_SPEED) => {
@@ -73,12 +52,11 @@ export function usePTZ(cameraId: string, autoFetchStatus = true) {
 
       if (direction === 'home') {
         await ptzApi.gotoPreset(cameraId, 34);
-        await fetchStatus();
       } else {
         await move(commands[direction]);
       }
     },
-    [cameraId, move, fetchStatus],
+    [cameraId, move],
   );
 
   const zoom = useCallback(
@@ -116,7 +94,6 @@ export function usePTZ(cameraId: string, autoFetchStatus = true) {
   }, []);
 
   return {
-    status,
     isMoving,
     error,
     move,
@@ -125,6 +102,5 @@ export function usePTZ(cameraId: string, autoFetchStatus = true) {
     zoom,
     startContinuousMove,
     stopContinuousMove,
-    fetchStatus,
   };
 }

@@ -9,6 +9,7 @@ import {
   ZoomOut,
   Save,
   MapPin,
+  Square,
 } from 'lucide-react';
 import { usePTZ } from '@/lib/ptz';
 import type { PTZDirection } from '@/lib/ptz';
@@ -19,8 +20,8 @@ interface PTZControlsProps {
   speed?: number;
 }
 
-export default function PTZControls({ cameraId, speed = 40 }: PTZControlsProps) {
-  const { status, moveDirection, zoom } = usePTZ(cameraId);
+export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) {
+  const { moveDirection, zoom, stop } = usePTZ(cameraId);
   const [selectedPreset, setSelectedPreset] = useState<number>(1);
   const [ptzSpeed, setPtzSpeed] = useState(speed);
 
@@ -30,6 +31,10 @@ export default function PTZControls({ cameraId, speed = 40 }: PTZControlsProps) 
 
   const handleMouseUp = () => {
     // Intentionally not stopping PTZ movement
+  };
+
+  const handleStop = () => {
+    stop();
   };
 
   const handleZoomIn = () => {
@@ -124,14 +129,11 @@ export default function PTZControls({ cameraId, speed = 40 }: PTZControlsProps) 
           </button>
 
           <button
-            onMouseDown={() => handleMouseDown('home')}
-            onMouseUp={handleMouseUp}
-            onTouchStart={() => handleMouseDown('home')}
-            onTouchEnd={handleMouseUp}
-            className="w-16 h-16 bg-blue-600 hover:bg-blue-500 rounded-lg flex items-center justify-center text-white transition-colors active:bg-blue-400"
-            title="Home"
+            onClick={handleStop}
+            className="w-16 h-16 bg-red-600 hover:bg-red-500 rounded-lg flex items-center justify-center text-white transition-colors active:bg-red-400"
+            title="Stop"
           >
-            <Home size={24} />
+            <Square size={24} fill="currentColor" />
           </button>
 
           <button
@@ -236,7 +238,7 @@ export default function PTZControls({ cameraId, speed = 40 }: PTZControlsProps) 
               type="range"
               min="10"
               max="100"
-              step="10"
+              step="5"
               value={ptzSpeed}
               onChange={(e) => setPtzSpeed(Number(e.target.value))}
               className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
@@ -246,30 +248,6 @@ export default function PTZControls({ cameraId, speed = 40 }: PTZControlsProps) 
               <span>빠름</span>
             </div>
           </div>
-
-          {/* Status Display */}
-          {status && (
-            <div className="bg-gray-800 rounded p-3 border border-gray-700">
-              <div className="text-xs font-medium text-gray-400 mb-2">현재 위치</div>
-              <div className="grid grid-cols-3 gap-3 text-xs">
-                <div className="text-center">
-                  <div className="text-gray-500 mb-1">Pan</div>
-                  <div className="text-white font-mono text-base font-semibold">{status.pan}</div>
-                  <div className="text-gray-600 text-xs mt-0.5">(-100 ~ 100)</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-gray-500 mb-1">Tilt</div>
-                  <div className="text-white font-mono text-base font-semibold">{status.tilt}</div>
-                  <div className="text-gray-600 text-xs mt-0.5">(-100 ~ 100)</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-gray-500 mb-1">Zoom</div>
-                  <div className="text-white font-mono text-base font-semibold">{status.zoom}</div>
-                  <div className="text-gray-600 text-xs mt-0.5">(-100 ~ 100)</div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
       {/* Preset Section */}
@@ -282,7 +260,7 @@ export default function PTZControls({ cameraId, speed = 40 }: PTZControlsProps) 
             <input
               type="number"
               min="1"
-              max="44"
+              max="4"
               value={selectedPreset}
               onChange={(e) => setSelectedPreset(Number(e.target.value))}
               className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-blue-500"

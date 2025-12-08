@@ -1,6 +1,6 @@
-import type { PTZCamera, PTZCommand, PTZStatus } from './types';
+import type { PTZCamera, PTZCommand } from './types';
 
-const PTZ_API_URL = import.meta.env.VITE_PTZ_API_URL || 'http://www.plugplatform.com:8889';
+const PTZ_API_URL = import.meta.env.VITE_MEDIA_API_URL || 'http://192.168.10.181:9997';
 
 export class PTZApi {
   private baseUrl: string;
@@ -10,7 +10,7 @@ export class PTZApi {
   }
 
   async getCameras(): Promise<PTZCamera[]> {
-    const response = await fetch(`${this.baseUrl}/ptz/cameras`);
+    const response = await fetch(`${this.baseUrl}/v3/ptz/cameras`);
     if (!response.ok) {
       throw new Error('Failed to fetch PTZ cameras');
     }
@@ -18,7 +18,7 @@ export class PTZApi {
   }
 
   async move(cameraId: string, command: PTZCommand): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/ptz/${cameraId}/move`, {
+    const response = await fetch(`${this.baseUrl}/v3/ptz/${cameraId}/move`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export class PTZApi {
   }
 
   async stop(cameraId: string): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/ptz/${cameraId}/stop`, {
+    const response = await fetch(`${this.baseUrl}/v3/ptz/${cameraId}/stop`, {
       method: 'POST',
     });
 
@@ -41,16 +41,8 @@ export class PTZApi {
     }
   }
 
-  async getStatus(cameraId: string): Promise<PTZStatus> {
-    const response = await fetch(`${this.baseUrl}/ptz/${cameraId}/status`);
-    if (!response.ok) {
-      throw new Error('Failed to get PTZ status');
-    }
-    return response.json();
-  }
-
   async getPresets(cameraId: string): Promise<number[]> {
-    const response = await fetch(`${this.baseUrl}/ptz/${cameraId}/presets`);
+    const response = await fetch(`${this.baseUrl}/v3/ptz/${cameraId}/presets`);
     if (!response.ok) {
       throw new Error('Failed to get PTZ presets');
     }
@@ -58,7 +50,7 @@ export class PTZApi {
   }
 
   async gotoPreset(cameraId: string, presetId: number): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/ptz/${cameraId}/preset/${presetId}`, {
+    const response = await fetch(`${this.baseUrl}/v3/ptz/${cameraId}/preset/${presetId}`, {
       method: 'POST',
     });
 

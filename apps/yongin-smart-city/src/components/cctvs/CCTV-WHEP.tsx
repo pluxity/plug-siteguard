@@ -9,9 +9,10 @@ interface CCTVWHEPProps {
   streamPath: string;
   className?: string;
   autoConnect?: boolean;
+  hasPTZ?: boolean;
 }
 
-export default function CCTVWHEP({ streamPath, className, autoConnect = true }: CCTVWHEPProps) {
+export default function CCTVWHEP({ streamPath, className, autoConnect = true, hasPTZ = false }: CCTVWHEPProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { videoRef, status } = useWHEPStream(streamPath, autoConnect);
   const [videoReady, setVideoReady] = useState(false);
@@ -66,6 +67,12 @@ export default function CCTVWHEP({ streamPath, className, autoConnect = true }: 
             <span>|</span>
             {streamPath}
           </div>
+
+          {hasPTZ && (
+            <div className="absolute top-1 left-1 bg-blue-600/90 px-2 py-0.5 rounded text-xs text-white font-medium">
+              PTZ Available
+            </div>
+          )}
 
           <button
             onClick={handleFullscreen}

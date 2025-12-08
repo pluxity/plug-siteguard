@@ -19,7 +19,7 @@ export default function CCTVPTZ({
   cameraId,
   className,
   autoConnect = true,
-  ptzSpeed = 40,
+  ptzSpeed = 10,
 }: CCTVPTZProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { videoRef, status } = useWHEPStream(streamPath, autoConnect);

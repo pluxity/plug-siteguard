@@ -3,16 +3,13 @@ import { GridLayout, Widget } from '@plug-siteguard/ui';
 import { ProgressCard, ProgressChart, SafetyCard, Weather } from './components';
 import { CCTVWHEP } from '@/components/cctvs';
 import { Map } from '@/components/map';
-
-const DASHBOARD_STREAM_IDS = [
-  'CCTV-JEJU1-31',
-  'CCTV-JEJU1-32',
-  'CCTV-JEJU1-33',
-  'CCTV-JEJU1-34',
-  'CCTV-JEJU1-36',
-];
+import { useCCTVList } from '@/lib/cctv';
 
 export default function Dashboard() {
+  const { streams, isLoading } = useCCTVList();
+
+  const readyStreams = streams.filter((stream) => stream.ready).slice(0, 3);
+
   return (
     <GridLayout columns={10} gap={16}>
       <Widget colSpan={10} className="bg-[#303741]">
@@ -40,11 +37,17 @@ export default function Dashboard() {
       </Widget>
 
       <Widget colSpan={10} className="bg-white">
-        <div className="grid grid-cols-5 gap-4">
-          {DASHBOARD_STREAM_IDS.map((streamPath) => (
-            <CCTVWHEP key={streamPath} streamPath={streamPath} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="flex items-center justify-center h-32 text-gray-500">
+            CCTV 목록 로딩 중...
+          </div>
+        ) : (
+          <div className="grid grid-cols-5 gap-4">
+            {readyStreams.map((stream) => (
+              <CCTVWHEP key={stream.name} streamPath={stream.name} />
+            ))}
+          </div>
+        )}
       </Widget>
     </GridLayout>
   );
