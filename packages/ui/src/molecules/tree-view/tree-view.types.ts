@@ -1,7 +1,15 @@
 import * as React from "react"
 
+export interface TreeItemData {
+  value: string;
+  label: React.ReactNode;
+  icon?: React.ReactNode;
+  disabled?: boolean;
+  children?: TreeItemData[];
+  renderItem?: (props: TreeItemRenderProps) => React.ReactNode;
+}
+
 export interface TreeViewProps {
-  children?: React.ReactNode;
   className?: string;
   defaultExpanded?: string[];
   expanded?: string[];
@@ -13,10 +21,12 @@ export interface TreeViewProps {
   checked?: string[];
   defaultChecked?: string[];
   onCheckedChange?: (checked: string[]) => void;
+  ref?: React.RefObject<HTMLDivElement>;
+  items: TreeItemData[];
+  showExpandIcon?: boolean;
 }
 
 export interface TreeItemProps {
-  children?: React.ReactNode;
   className?: string;
   contentClassName?: string;
   value: string;
@@ -24,6 +34,8 @@ export interface TreeItemProps {
   disabled?: boolean;
   icon?: React.ReactNode;
   depth?: number;
+  children?: React.ReactNode;
+  childValues?: string[];
   renderItem?: (props: TreeItemRenderProps) => React.ReactNode;
 }
 

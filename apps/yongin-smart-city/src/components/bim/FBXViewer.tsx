@@ -23,17 +23,6 @@ interface FBXModelProps {
   onHoverMesh?: (info: MeshInfo | null) => void;
 }
 
-// 오브젝트 깊이 계산
-function getObjectDepth(obj: THREE.Object3D): number {
-  let depth = 0;
-  let current = obj.parent;
-  while (current) {
-    depth++;
-    current = current.parent;
-  }
-  return depth;
-}
-
 function FBXModel({ url, rotation, onHoverMesh }: FBXModelProps) {
   const fbx = useFBX(url);
   const { camera, gl, scene, size } = useThree();
@@ -179,7 +168,6 @@ function FBXModel({ url, rotation, onHoverMesh }: FBXModelProps) {
     if (fbx) {
       // 모델의 바운딩 박스 계산
       const box = new THREE.Box3().setFromObject(fbx);
-      const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
 
       // 모델을 중심으로 이동

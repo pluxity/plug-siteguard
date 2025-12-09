@@ -3,7 +3,7 @@ import { subscribeWithSelector } from 'zustand/middleware';
 
 import { buildWhepUrl, performWhepNegotiation } from './client';
 import type { CCTVInfo } from './types';
-import { getStreams } from '@/services/sample';
+import { cctvApi } from '@/lib/cctv';
 
 const RETRY_DELAY = 5000;
 const MAX_RETRIES = 3;
@@ -34,6 +34,7 @@ interface WHEPState {
   initialized: boolean;
   cctvList: CCTVInfo[];
   cctvLoading: boolean;
+  totalStreamCount: number;
   streams: Map<string, WHEPStreamState>;
 }
 
@@ -78,6 +79,7 @@ export const useWHEPStore = create<WHEPStore>()(
     initialized: false,
     cctvList: [],
     cctvLoading: false,
+    totalStreamCount: 0,
     streams: new Map(),
 
     initialize: async () => {
@@ -102,14 +104,20 @@ export const useWHEPStore = create<WHEPStore>()(
       set({ cctvLoading: true });
 
       try {
-        const streams = await getStreams();
+        const response = await cctvApi.fetchCCTVList();
 
-        const list: CCTVInfo[] = streams.map((s) => ({
-          id: s.name,
-          name: s.name,
+        const list: CCTVInfo[] = response.items.map((stream) => ({
+          id: stream.name,
+          name: stream.name,
+          ptz: stream.ptz,
+          ptzPort: String(stream.ptzPort),
         }));
 
-        set({ cctvList: list, cctvLoading: false });
+        set({
+          cctvList: list,
+          totalStreamCount: response.itemCount,
+          cctvLoading: false
+        });
       } catch {
         set({ cctvLoading: false });
       }

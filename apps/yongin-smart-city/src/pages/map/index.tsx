@@ -30,8 +30,8 @@ export default function MapPage() {
 
         viewer.scene.requestRender();
 
-        // 초기 카메라 위치 설정 (구성역)
-        const destination = Cesium.Cartesian3.fromDegrees(
+        // 초기 카메라 위치 설정
+        const destination = Cesium.Cartesian3.fromRadians(
           DEFAULT_CAMERA_POSITION.lon,
           DEFAULT_CAMERA_POSITION.lat,
           DEFAULT_CAMERA_POSITION.height

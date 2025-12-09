@@ -9,6 +9,8 @@ export type WHEPStatus = 'idle' | 'connecting' | 'connected' | 'error';
 export interface CCTVInfo {
   id: string;
   name: string;
+  ptz: boolean;
+  ptzPort: string;
 }
 
 /**
