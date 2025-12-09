@@ -199,7 +199,7 @@ export default function CctvPage() {
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <span className="text-sm text-gray-600 min-w-[80px] text-center">
-                {currentPage + 1} / {totalPages}
+                {currentPage + 1} / {totalPages || 1}
               </span>
               <button
                 onClick={() => handlePageChange('next')}

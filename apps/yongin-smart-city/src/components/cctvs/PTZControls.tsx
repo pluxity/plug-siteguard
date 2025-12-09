@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   ChevronDown,
   ChevronLeft,
@@ -11,20 +11,12 @@ import {
   Trash2,
 } from 'lucide-react';
 import { usePTZ } from '@/lib/ptz';
-import type { PTZDirection } from '@/lib/ptz';
+import type { PTZDirection, PresetInfo } from '@/lib/ptz';
 import { ptzApi } from '@/lib/ptz';
 
 interface PTZControlsProps {
   cameraId: string;
   speed?: number;
-}
-
-interface PresetInfo {
-  id: number;
-  name?: string;
-  elevation?: number;
-  azimuth?: number;
-  zoom?: number;
 }
 
 export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) {
@@ -35,13 +27,7 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
   const [presets, setPresets] = useState<PresetInfo[]>([]);
   const [loadingPresets, setLoadingPresets] = useState(false);
 
-  // Load presets on mount
-  useEffect(() => {
-    loadPresets();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cameraId]);
-
-  const loadPresets = async () => {
+  const loadPresets = useCallback(async () => {
     setLoadingPresets(true);
     try {
       const presetList = await ptzApi.getPresets(cameraId);
@@ -51,6 +37,33 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
     } finally {
       setLoadingPresets(false);
     }
+  }, [cameraId]);
+
+  // Load presets on mount
+  useEffect(() => {
+    loadPresets();
+  }, [loadPresets]);
+
+  const getDirectionButtonClassName = (direction: PTZDirection | 'zoom-in' | 'zoom-out') => {
+    const baseClasses = 'w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors';
+    const activeClasses = 'bg-blue-600 ring-2 ring-blue-400';
+    const inactiveClasses = 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500';
+
+    if (activeDirection === direction) {
+      return `${baseClasses} ${activeClasses}`;
+    }
+    return `${baseClasses} ${inactiveClasses}`;
+  };
+
+  const getZoomButtonClassName = (direction: 'zoom-in' | 'zoom-out') => {
+    const baseClasses = 'flex-1 py-2 rounded flex items-center justify-center gap-2 text-white transition-colors';
+    const activeClasses = 'bg-blue-600 ring-2 ring-blue-400';
+    const inactiveClasses = 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500';
+
+    if (activeDirection === direction) {
+      return `${baseClasses} ${activeClasses}`;
+    }
+    return `${baseClasses} ${inactiveClasses}`;
   };
 
   const handleMouseDown = (direction: PTZDirection) => {
@@ -150,11 +163,7 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('up-left')}
             onTouchEnd={handleMouseUp}
-            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
-              activeDirection === 'up-left'
-                ? 'bg-blue-600 ring-2 ring-blue-400'
-                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
-            }`}
+            className={getDirectionButtonClassName('up-left')}
             title="Up-Left"
           >
             <div className="flex flex-col items-center justify-center -space-y-1">
@@ -168,11 +177,7 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('up')}
             onTouchEnd={handleMouseUp}
-            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
-              activeDirection === 'up'
-                ? 'bg-blue-600 ring-2 ring-blue-400'
-                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
-            }`}
+            className={getDirectionButtonClassName('up')}
             title="Up"
           >
             <ChevronUp size={28} />
@@ -184,11 +189,7 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('up-right')}
             onTouchEnd={handleMouseUp}
-            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
-              activeDirection === 'up-right'
-                ? 'bg-blue-600 ring-2 ring-blue-400'
-                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
-            }`}
+            className={getDirectionButtonClassName('up-right')}
             title="Up-Right"
           >
             <div className="flex flex-col items-center justify-center -space-y-1">
@@ -202,11 +203,7 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('left')}
             onTouchEnd={handleMouseUp}
-            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
-              activeDirection === 'left'
-                ? 'bg-blue-600 ring-2 ring-blue-400'
-                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
-            }`}
+            className={getDirectionButtonClassName('left')}
             title="Left"
           >
             <ChevronLeft size={28} />
@@ -226,11 +223,7 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('right')}
             onTouchEnd={handleMouseUp}
-            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
-              activeDirection === 'right'
-                ? 'bg-blue-600 ring-2 ring-blue-400'
-                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
-            }`}
+            className={getDirectionButtonClassName('right')}
             title="Right"
           >
             <ChevronRight size={28} />
@@ -242,11 +235,7 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('down-left')}
             onTouchEnd={handleMouseUp}
-            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
-              activeDirection === 'down-left'
-                ? 'bg-blue-600 ring-2 ring-blue-400'
-                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
-            }`}
+            className={getDirectionButtonClassName('down-left')}
             title="Down-Left"
           >
             <div className="flex flex-col items-center justify-center -space-y-1">
@@ -260,11 +249,7 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('down')}
             onTouchEnd={handleMouseUp}
-            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
-              activeDirection === 'down'
-                ? 'bg-blue-600 ring-2 ring-blue-400'
-                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
-            }`}
+            className={getDirectionButtonClassName('down')}
             title="Down"
           >
             <ChevronDown size={28} />
@@ -276,11 +261,7 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('down-right')}
             onTouchEnd={handleMouseUp}
-            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
-              activeDirection === 'down-right'
-                ? 'bg-blue-600 ring-2 ring-blue-400'
-                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
-            }`}
+            className={getDirectionButtonClassName('down-right')}
             title="Down-Right"
           >
             <div className="flex flex-col items-center justify-center -space-y-1">
@@ -298,11 +279,7 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
               onMouseLeave={handleMouseUp}
               onTouchStart={handleZoomOut}
               onTouchEnd={handleMouseUp}
-              className={`flex-1 py-2 rounded flex items-center justify-center gap-2 text-white transition-colors ${
-                activeDirection === 'zoom-out'
-                  ? 'bg-blue-600 ring-2 ring-blue-400'
-                  : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
-              }`}
+              className={getZoomButtonClassName('zoom-out')}
               title="Zoom Out"
             >
               <ZoomOut size={16} />
@@ -315,11 +292,7 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
               onMouseLeave={handleMouseUp}
               onTouchStart={handleZoomIn}
               onTouchEnd={handleMouseUp}
-              className={`flex-1 py-2 rounded flex items-center justify-center gap-2 text-white transition-colors ${
-                activeDirection === 'zoom-in'
-                  ? 'bg-blue-600 ring-2 ring-blue-400'
-                  : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
-              }`}
+              className={getZoomButtonClassName('zoom-in')}
               title="Zoom In"
             >
               <ZoomIn size={16} />

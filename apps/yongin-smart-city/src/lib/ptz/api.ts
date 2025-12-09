@@ -1,4 +1,4 @@
-import type { PTZCamera, PTZCommand } from './types';
+import type { PTZCamera, PTZCommand, PresetInfo } from './types';
 
 const PTZ_API_URL = import.meta.env.VITE_MEDIA_API_URL || 'http://192.168.10.181:9997';
 
@@ -41,7 +41,7 @@ export class PTZApi {
     }
   }
 
-  async getPresets(cameraId: string): Promise<any[]> {
+  async getPresets(cameraId: string): Promise<PresetInfo[]> {
     const response = await fetch(`${this.baseUrl}/v3/ptz/${cameraId}/presets`);
     if (!response.ok) {
       throw new Error('Failed to get PTZ presets');
