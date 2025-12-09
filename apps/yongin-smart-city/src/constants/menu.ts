@@ -38,7 +38,13 @@ export const MAIN_MENU_ITEMS: MenuItem[] = [
   {
     title: '통계',
     icon: ChartNoAxesColumn,
-    path: '/statistics',
+    children: [
+      {
+        title: '작업',
+        icon: ChartNoAxesColumn,
+        path: '/statistics',
+      },
+    ],
   },
   {
     title: '이벤트',

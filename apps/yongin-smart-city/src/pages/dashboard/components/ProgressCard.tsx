@@ -1,5 +1,3 @@
-import { Button } from "@plug-siteguard/ui";
-import { ExternalLink } from 'lucide-react'
 import { useState, useEffect } from 'react';
 import { ProgressData, ProgressProps } from "../types/progress";
 import { getProgressColor, progressRows } from "../utils/progressUtils";
@@ -31,21 +29,19 @@ export default function ProgressCard() {
 
     const Progress = ({ id, header, getProgress }: ProgressProps) => {
         const color = getProgressColor(id);
+        const isDifference = id === 'difference';
+        const isPlanned = id === 'planned';
 
         return (
-            <div className="flex items-center gap-3">
-                {/* 왼쪽 색상 악센트 바 */}
-                <div
-                    className="w-1 h-12 rounded-full"
-                    style={{ backgroundColor: color }}
-                />
-
+            <div className={`flex items-center gap-3 flex-1 ${isDifference ? 'bg-primary rounded-lg p-3' : ''} ${isPlanned ? 'pb-2  border-b-1 border-dotted border-dashed border-gray-500' : ''}`} >
                 {/* 라벨 */}
-                <div className="text-sm text-gray-400 min-w-[70px]">{header}</div>
+                <div className={`text-xl min-w-[70px] ${isDifference ? 'text-white font-bold' : 'text-gray-800'}`}>
+                    {header}
+                </div>
 
                 {/* 퍼센트 값 */}
                 <div
-                    className="flex items-baseline text-3xl font-bold ml-auto"
+                    className={`flex items-baseline ml-auto ${isDifference ? 'text-3xl font-bold' : 'text-2xl'} `}
                     style={{ color }}
                 >
                     <span>{getProgress(data[id])}</span>
@@ -56,18 +52,9 @@ export default function ProgressCard() {
     };
 
     return (
-        <div className="h-72 flex flex-col justify-between bg-[#303741] rounded-lg p-4">
-            <div className="flex flex-col gap-4">
+        <div className="h-72 flex flex-col justify-between bg-[#C1D5EF] rounded-lg">
+            <div className="flex flex-col gap-4 h-full">
                 {progressRows.map(row => <Progress key={row.id} {...row} />)}
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 pt-3 border-t border-gray-700">
-                <Button className="text-xs text-gray-400 bg-transparent hover:bg-[#444c67] border border-gray-600 transition">
-                    <span>Phase 진행 상세</span> <ExternalLink size={12} />
-                </Button>
-                <Button className="text-xs text-gray-400 bg-transparent hover:bg-[#444c67] border border-gray-600 transition">
-                    <span>시공 진행 상세</span> <ExternalLink size={12} />
-                </Button>
             </div>
         </div>
     );

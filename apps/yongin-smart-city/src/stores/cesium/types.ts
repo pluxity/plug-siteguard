@@ -31,7 +31,7 @@ export const DEFAULT_CAMERA_POSITION: CameraPosition = {
   lat: 0.650516,
   height: 600.93,
   heading: 3.50,
-  pitch: -9.44,
+  pitch: -25.44,
   roll: 0,
 };
 

@@ -73,12 +73,12 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps>(
         {title && (
           <div
             className={cn(
-              "px-4 py-3 bg-gray-50/50 flex-shrink-0",
-              border && "border-b",
+              "px-4 pt-3 bg-gray-50/50 flex-shrink-0",
+              border,
               headerClassName
             )}
           >
-            <h3 className="text-sm font-semibold text-gray-900">{title}</h3>
+            <h3 className="text-base font-bold text-gray-900">{title}</h3>
           </div>
         )}
         <div className={cn("p-4 flex-1 min-h-0", contentClassName)}>

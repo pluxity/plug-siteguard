@@ -1,14 +1,108 @@
 import { useWeatherData } from '@/hooks/weather/useWeatherData';
-import { 
-  formatDate, 
-} from '@/services';
+import { formatDate } from '@/services';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@plug-siteguard/ui';
 import { MapPin } from 'lucide-react';
+import { RadialBarChart, RadialBar } from 'recharts';
+
+
+
+const environmentData = [
+  {
+    name: '초미세먼지(PM2.5)',
+    value: 14,
+    unit: 'µg/m³',
+    status: '양호',
+    fill: '#11C208', 
+    percentage: 25,
+  },
+  {
+    name: '미세먼지(PM10)',
+    value: 45,
+    unit: 'µg/m³',
+    status: '주의',
+    fill: '#FDC200',  
+    percentage: 50,
+  },
+  {
+    name: '일산화탄소',
+    value: 15,
+    unit: 'ppm',
+    status: '나쁨',
+    fill: '#F86700', 
+    percentage: 75,
+  },
+  {
+    name: '소음',
+    value: 70,
+    unit: 'dB',
+    status: '매우나쁨',
+    fill: '#CA0014', 
+    percentage: 90,
+  },
+];
+
+const EnvironmentGauge = ({ data }: { data: typeof environmentData[0] }) => {
+  const chartData = [
+    {
+      name: data.name,
+      value: 100, 
+      fill: '#e5e7eb',
+    },
+    {
+      name: data.name,
+      value: data.percentage, 
+      fill: data.fill,
+    },
+  ];
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="relative w-32 h-32">
+        <RadialBarChart
+          width={128}
+          height={128}
+          cx="50%"
+          cy="50%"
+          innerRadius="60%"
+          outerRadius="90%"
+          barSize={14}
+          data={chartData}
+          startAngle={90}
+          endAngle={-270}
+        >
+          <RadialBar
+            dataKey="value"
+            cornerRadius={10}
+          />
+        </RadialBarChart>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-xs">
+          <div className="font-bold">{data.value}</div>
+          <div className="text-gray-600">{data.unit}</div>
+        </div>
+      </div>
+      <div className="flex flex-col items-center text-xs font-bold mt-2">
+        <div className="text-gray-700">{data.name}</div>
+        <div style={{ color: data.fill }}>
+          {data.status}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function Weather() {
   const { data, loading, error } = useWeatherData();
 
+  const GaugesDisplay = ({ data }: { data: typeof environmentData }) => (
+    <div className="flex items-center justify-center flex-wrap">
+      {data.map((item: typeof environmentData[0]) => (
+        <EnvironmentGauge key={item.name} data={item} />
+      ))}
+    </div> 
+  );
+
   return (
-    <div className="h-full min-h-[400px] flex flex-col justify-between rounded-lg">
+    <div className="h-full flex flex-col rounded-lg gap-4">
       {loading ? (
         <div className="flex items-center justify-center h-full">
           <div className="text-gray-500">날씨 정보를 불러오는 중...</div>
@@ -51,58 +145,34 @@ export default function Weather() {
         </>
       )}
 
-      <div className="bg-zinc-100 rounded-lg w-full min-h-16 mt-2 mb-4 flex items-center justify-between px-5 py-5 flex-wrap gap-1">
-        <div className="flex flex-col gap-2">
-          <div className="text-zinc-500 text-xs font-bold">대기질</div>
-          <div className="inline-flex justify-start items-end gap-0.5">
-            <div className="text-sky-500 text-base font-bold leading-4">1.0</div>
-            <div className="text-neutral-400 text-xs font-normal">보통</div>
+      <Tabs className="bg-gray-100 rounded-lg" defaultValue="environment"> 
+        <TabsList >
+          <TabsTrigger value="environment" className="flex-1">환경</TabsTrigger>
+          <TabsTrigger value="quality" className="flex-1">품질</TabsTrigger>
+          <TabsTrigger value="safety" className="flex-1">안전</TabsTrigger>
+          <TabsTrigger value="work" className="flex-1">작업</TabsTrigger>
+        </TabsList>
+        <TabsContent value="environment" className="px-3 py-13 min-h-[200px]">
+          <div className="flex items-center justify-center flex-wrap">
+            <GaugesDisplay data={environmentData} />
           </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="text-zinc-500 text-xs font-bold">이산화질소</div>
-          <div className="inline-flex justify-start items-end gap-1">
-            <div className="text-lime-600 text-base font-bold leading-4">0.052</div>
-            <div className="text-neutral-400 text-xs font-normal">매우좋음</div>
+        </TabsContent>
+        <TabsContent value="quality" className="px-3 py-13 min-h-[200px]">
+          <div className="flex items-center justify-center flex-wrap">
+            <GaugesDisplay data={environmentData} />
           </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="text-zinc-500 text-xs font-bold">미세먼지</div>
-          <div className="inline-flex justify-start items-end gap-1">
-            <div className="text-amber-500 text-base font-bold leading-4">54</div>
-            <div className="text-neutral-400 text-xs font-normal">나쁨</div>
+        </TabsContent>
+        <TabsContent value="safety" className="px-3 py-13 min-h-[200px]">
+          <div className="flex items-center justify-center flex-wrap">
+            <GaugesDisplay data={environmentData} />
           </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="text-zinc-500 text-xs font-bold">초미세먼지</div>
-          <div className="inline-flex justify-start items-end gap-1">
-            <div className="text-red-500 text-base font-bold leading-4">100</div>
-            <div className="text-neutral-400 text-xs font-normal">매우나쁨</div>
+        </TabsContent>
+        <TabsContent value="work" className="px-3 py-13 min-h-[200px]">
+          <div className="flex items-center justify-center flex-wrap">
+            <GaugesDisplay data={environmentData} />
           </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="text-zinc-500 text-xs font-bold">현장 환경 지수</div>
-          <div className="inline-flex justify-start items-end gap-1">
-            <div className="text-lime-600 text-base font-bold leading-4">80</div>
-            <div className="text-neutral-400 text-xs font-normal">매우 좋음</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex justify-between gap-4">
-        <img
-          src={`${import.meta.env.BASE_URL}assets/images/weather-warning.png`}
-          alt="경고 날씨 알림"
-        />
-        <img
-          src={`${import.meta.env.BASE_URL}assets/images/weather-notice.png`}
-          alt="주의 날씨 알림"
-        />
-        <img
-          src={`${import.meta.env.BASE_URL}assets/images/weather-danger.png`}
-          alt="위험 날씨 알림"
-        />
-      </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
