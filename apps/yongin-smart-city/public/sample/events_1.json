@@ -1,0 +1,20 @@
+{
+    "data": {
+        "content": [
+            {"id": 10,"eventId": "10","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "가스센서","status": "CAUTION","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 9,"eventId": "9","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "가스센서","status": "WARNING","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 8,"eventId": "8","eventNm": "쓰러짐 감지","location": "A321","deviceNm": "이동형 CCTV","status": "CAUTION","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 7,"eventId": "7","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "가스센서","status": "WARNING","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 6,"eventId": "6","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "가스센서","status": "DANGER","progress": "경고","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 5,"eventId": "5","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "가스센서","status": "DANGER","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 4,"eventId": "4","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "스마트워치","status": "CAUTION","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 3,"eventId": "3","eventNm": "쓰러짐 감지","location": "A321","deviceNm": "이동형 CCTV","status": "DANGER","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 2,"eventId": "2","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "스마트워치","status": "DANGER","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 1,"eventId": "1","eventNm": "쓰러짐 감지","location": "A321","deviceNm": "이동형 CCTV","status": "DANGER","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"}
+        ],
+        "page": 1,
+        "size": 10,
+        "totalElements": 20,
+        "totalPages": 2
+    }
+}

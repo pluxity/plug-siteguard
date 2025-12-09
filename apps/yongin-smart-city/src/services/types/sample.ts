@@ -44,6 +44,34 @@ export interface StatisticsRequest
 
 export type StatisticsResponse = PageResponse<Statistics>;
 
+export interface Events {
+  id: number;
+  eventId: string;
+  eventNm: string;
+  location: string;
+  deviceNm: string;
+  status: string;
+  progress: string;
+  occurredAt: string;
+  resolvedAt: string;
+}
+
+export interface EventsRequest
+  extends Record<string, string | number | boolean | undefined> {
+  page: number;
+  size: number;
+
+  location?: string;
+  progress?: string;
+  status?: string;
+  keyword?: string;
+
+  from?: string;
+  to?: string;
+}
+
+export type EventsResponse = PageResponse<Events>;
+
 export interface FilterOption {
   id: number;
   name: string;
