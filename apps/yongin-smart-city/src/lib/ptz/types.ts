@@ -16,6 +16,14 @@ export interface PTZCamera {
   ip: string;
 }
 
+export interface PresetInfo {
+  id: number;
+  name?: string;
+  elevation?: number;
+  azimuth?: number;
+  zoom?: number;
+}
+
 export type PTZDirection =
   | 'up'
   | 'down'
