@@ -8,7 +8,7 @@ import { useCCTVList } from '@/lib/cctv';
 export default function Dashboard() {
   const { streams, isLoading } = useCCTVList();
 
-  const readyStreams = streams.filter((stream) => stream.ready).slice(0, 3);
+  const readyStreams = [...streams].sort((a, b) => Number(b.ready) - Number(a.ready)).slice(0, 3);
 
   return (
     <GridLayout columns={10} gap={16}>
@@ -38,17 +38,23 @@ export default function Dashboard() {
           </Widget>
         </GridLayout>
       </Widget>
-  
+
       <Widget colSpan={6} rowSpan={2} className="bg-white" contentClassName="p-0">
         <Map />
       </Widget>
 
       <Widget colSpan={6} rowSpan={3} className="bg-white" title="주요현장 CCTV">
-        <div className="grid grid-cols-3 gap-4 h-full min-h-[180px]">
-          {readyStreams.map((stream) => (
-            <CCTVWHEP key={stream.name} streamPath={stream.name} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="flex items-center justify-center h-full text-gray-500">
+            CCTV 목록 로딩 중...
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 gap-4 h-full min-h-[180px]">
+            {readyStreams.map((stream) => (
+              <CCTVWHEP key={stream.name} streamPath={stream.name} />
+            ))}
+          </div>
+        )}
       </Widget>
     </GridLayout>
   );
