@@ -1,15 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
   ChevronUp,
-  Home,
   ZoomIn,
   ZoomOut,
   Save,
-  MapPin,
   Square,
+  Trash2,
 } from 'lucide-react';
 import { usePTZ } from '@/lib/ptz';
 import type { PTZDirection } from '@/lib/ptz';
@@ -20,57 +19,126 @@ interface PTZControlsProps {
   speed?: number;
 }
 
+interface PresetInfo {
+  id: number;
+  name?: string;
+  elevation?: number;
+  azimuth?: number;
+  zoom?: number;
+}
+
 export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) {
   const { moveDirection, zoom, stop } = usePTZ(cameraId);
   const [selectedPreset, setSelectedPreset] = useState<number>(1);
   const [ptzSpeed, setPtzSpeed] = useState(speed);
+  const [activeDirection, setActiveDirection] = useState<PTZDirection | 'zoom-in' | 'zoom-out' | null>(null);
+  const [presets, setPresets] = useState<PresetInfo[]>([]);
+  const [loadingPresets, setLoadingPresets] = useState(false);
+
+  // Load presets on mount
+  useEffect(() => {
+    loadPresets();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cameraId]);
+
+  const loadPresets = async () => {
+    setLoadingPresets(true);
+    try {
+      const presetList = await ptzApi.getPresets(cameraId);
+      setPresets(presetList);
+    } catch (err) {
+      console.error('Failed to load presets:', err);
+    } finally {
+      setLoadingPresets(false);
+    }
+  };
 
   const handleMouseDown = (direction: PTZDirection) => {
+    // 이미 활성화된 방향을 다시 누르면 Stop
+    if (activeDirection === direction) {
+      setActiveDirection(null);
+      stop();
+      return;
+    }
+
+    setActiveDirection(direction);
     moveDirection(direction, ptzSpeed);
   };
 
   const handleMouseUp = () => {
-    // Intentionally not stopping PTZ movement
+    // Intentionally not stopping PTZ movement (continuous mode)
   };
 
   const handleStop = () => {
+    setActiveDirection(null);
     stop();
   };
 
   const handleZoomIn = () => {
+    // 이미 줌인 중이면 Stop
+    if (activeDirection === 'zoom-in') {
+      setActiveDirection(null);
+      stop();
+      return;
+    }
+
+    setActiveDirection('zoom-in');
     zoom(ptzSpeed);
   };
 
   const handleZoomOut = () => {
+    // 이미 줌아웃 중이면 Stop
+    if (activeDirection === 'zoom-out') {
+      setActiveDirection(null);
+      stop();
+      return;
+    }
+
+    setActiveDirection('zoom-out');
     zoom(-ptzSpeed);
   };
 
-  const handleSetPreset = async () => {
+  const handleSavePreset = async () => {
     try {
-      await ptzApi.gotoPreset(cameraId, selectedPreset);
+      await ptzApi.savePreset(cameraId, selectedPreset);
+      await loadPresets();
     } catch (err) {
-      // Error handling
+      console.error('Failed to save preset:', err);
+    }
+  };
+
+  const handleDeletePreset = async () => {
+    try {
+      await ptzApi.deletePreset(cameraId, selectedPreset);
+      await loadPresets();
+    } catch (err) {
+      console.error('Failed to delete preset:', err);
     }
   };
 
   const handleGotoPreset = async (presetId: number) => {
     try {
+      setSelectedPreset(presetId);
       await ptzApi.gotoPreset(cameraId, presetId);
     } catch (err) {
-      // Error handling
+      console.error('Failed to go to preset:', err);
     }
   };
 
-  const handleGotoHome = async () => {
-    try {
-      await ptzApi.gotoPreset(cameraId, 34);
-    } catch (err) {
-      // Error handling
-    }
-  };
+  // const handleFocus = (direction: 'near' | 'far') => {
+  //   const speed = direction === 'near' ? -ptzSpeed : ptzSpeed;
+  //   setActiveDirection(direction === 'near' ? 'focus-near' as any : 'focus-far' as any);
+  //   ptzApi.focus(cameraId, speed);
+  // };
+
+  // const handleIris = (direction: 'close' | 'open') => {
+  //   const speed = direction === 'close' ? -ptzSpeed : ptzSpeed;
+  //   setActiveDirection(direction === 'close' ? 'iris-close' as any : 'iris-open' as any);
+  //   ptzApi.iris(cameraId, speed);
+  // };
 
   return (
-    <div className="flex flex-col h-full gap-16 bg-gray-900 rounded-lg border border-gray-700 px-4 justify-center">
+    <div className="flex flex-col h-full gap-2 bg-gray-900 rounded-lg border border-gray-700 px-4 justify-center">
       {/* PTZ Control Section */}
       <div className="flex flex-col gap-3">
         {/* PTZ Control Pad */}
@@ -82,7 +150,11 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('up-left')}
             onTouchEnd={handleMouseUp}
-            className="w-16 h-16 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center text-white transition-colors active:bg-gray-500"
+            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
+              activeDirection === 'up-left'
+                ? 'bg-blue-600 ring-2 ring-blue-400'
+                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+            }`}
             title="Up-Left"
           >
             <div className="flex flex-col items-center justify-center -space-y-1">
@@ -96,7 +168,11 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('up')}
             onTouchEnd={handleMouseUp}
-            className="w-16 h-16 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center text-white transition-colors active:bg-gray-500"
+            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
+              activeDirection === 'up'
+                ? 'bg-blue-600 ring-2 ring-blue-400'
+                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+            }`}
             title="Up"
           >
             <ChevronUp size={28} />
@@ -108,7 +184,11 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('up-right')}
             onTouchEnd={handleMouseUp}
-            className="w-16 h-16 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center text-white transition-colors active:bg-gray-500"
+            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
+              activeDirection === 'up-right'
+                ? 'bg-blue-600 ring-2 ring-blue-400'
+                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+            }`}
             title="Up-Right"
           >
             <div className="flex flex-col items-center justify-center -space-y-1">
@@ -122,7 +202,11 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('left')}
             onTouchEnd={handleMouseUp}
-            className="w-16 h-16 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center text-white transition-colors active:bg-gray-500"
+            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
+              activeDirection === 'left'
+                ? 'bg-blue-600 ring-2 ring-blue-400'
+                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+            }`}
             title="Left"
           >
             <ChevronLeft size={28} />
@@ -142,7 +226,11 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('right')}
             onTouchEnd={handleMouseUp}
-            className="w-16 h-16 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center text-white transition-colors active:bg-gray-500"
+            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
+              activeDirection === 'right'
+                ? 'bg-blue-600 ring-2 ring-blue-400'
+                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+            }`}
             title="Right"
           >
             <ChevronRight size={28} />
@@ -154,7 +242,11 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('down-left')}
             onTouchEnd={handleMouseUp}
-            className="w-16 h-16 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center text-white transition-colors active:bg-gray-500"
+            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
+              activeDirection === 'down-left'
+                ? 'bg-blue-600 ring-2 ring-blue-400'
+                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+            }`}
             title="Down-Left"
           >
             <div className="flex flex-col items-center justify-center -space-y-1">
@@ -168,7 +260,11 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('down')}
             onTouchEnd={handleMouseUp}
-            className="w-16 h-16 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center text-white transition-colors active:bg-gray-500"
+            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
+              activeDirection === 'down'
+                ? 'bg-blue-600 ring-2 ring-blue-400'
+                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+            }`}
             title="Down"
           >
             <ChevronDown size={28} />
@@ -180,7 +276,11 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             onMouseLeave={handleMouseUp}
             onTouchStart={() => handleMouseDown('down-right')}
             onTouchEnd={handleMouseUp}
-            className="w-16 h-16 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center text-white transition-colors active:bg-gray-500"
+            className={`w-16 h-16 rounded-lg flex items-center justify-center text-white transition-colors ${
+              activeDirection === 'down-right'
+                ? 'bg-blue-600 ring-2 ring-blue-400'
+                : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+            }`}
             title="Down-Right"
           >
             <div className="flex flex-col items-center justify-center -space-y-1">
@@ -198,7 +298,11 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
               onMouseLeave={handleMouseUp}
               onTouchStart={handleZoomOut}
               onTouchEnd={handleMouseUp}
-              className="flex-1 py-2 bg-gray-700 hover:bg-gray-600 rounded flex items-center justify-center gap-2 text-white transition-colors active:bg-gray-500"
+              className={`flex-1 py-2 rounded flex items-center justify-center gap-2 text-white transition-colors ${
+                activeDirection === 'zoom-out'
+                  ? 'bg-blue-600 ring-2 ring-blue-400'
+                  : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+              }`}
               title="Zoom Out"
             >
               <ZoomOut size={16} />
@@ -211,7 +315,11 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
               onMouseLeave={handleMouseUp}
               onTouchStart={handleZoomIn}
               onTouchEnd={handleMouseUp}
-              className="flex-1 py-2 bg-gray-700 hover:bg-gray-600 rounded flex items-center justify-center gap-2 text-white transition-colors active:bg-gray-500"
+              className={`flex-1 py-2 rounded flex items-center justify-center gap-2 text-white transition-colors ${
+                activeDirection === 'zoom-in'
+                  ? 'bg-blue-600 ring-2 ring-blue-400'
+                  : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+              }`}
               title="Zoom In"
             >
               <ZoomIn size={16} />
@@ -219,14 +327,79 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
             </button>
           </div>
 
-          {/* Home Position */}
-          <button
-            onClick={handleGotoHome}
-            className="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded flex items-center justify-center gap-2 text-white transition-colors active:bg-blue-400"
-          >
-            <Home size={16} />
-            <span className="text-sm font-medium">홈 포지션</span>
-          </button>
+          {/* Focus Controls */}
+          {/* <div className="flex gap-2">
+            <button
+              onMouseDown={() => handleFocus('near')}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              onTouchStart={() => handleFocus('near')}
+              onTouchEnd={handleMouseUp}
+              className={`flex-1 py-2 rounded flex items-center justify-center gap-2 text-white transition-colors ${
+                activeDirection === 'focus-near'
+                  ? 'bg-blue-600 ring-2 ring-blue-400'
+                  : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+              }`}
+              title="Focus Near"
+            >
+              <Minus size={16} />
+              <span className="text-sm">근접</span>
+            </button>
+
+            <button
+              onMouseDown={() => handleFocus('far')}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              onTouchStart={() => handleFocus('far')}
+              onTouchEnd={handleMouseUp}
+              className={`flex-1 py-2 rounded flex items-center justify-center gap-2 text-white transition-colors ${
+                activeDirection === 'focus-far'
+                  ? 'bg-blue-600 ring-2 ring-blue-400'
+                  : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+              }`}
+              title="Focus Far"
+            >
+              <Plus size={16} />
+              <span className="text-sm">원거리</span>
+            </button>
+          </div> */}
+
+          {/* Iris Controls */}
+          {/* <div className="flex gap-2">
+            <button
+              onMouseDown={() => handleIris('close')}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              onTouchStart={() => handleIris('close')}
+              onTouchEnd={handleMouseUp}
+              className={`flex-1 py-2 rounded flex items-center justify-center gap-2 text-white transition-colors ${
+                activeDirection === 'iris-close'
+                  ? 'bg-blue-600 ring-2 ring-blue-400'
+                  : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+              }`}
+              title="Iris Close"
+            >
+              <Minus size={16} />
+              <span className="text-sm">조리개 닫기</span>
+            </button>
+
+            <button
+              onMouseDown={() => handleIris('open')}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              onTouchStart={() => handleIris('open')}
+              onTouchEnd={handleMouseUp}
+              className={`flex-1 py-2 rounded flex items-center justify-center gap-2 text-white transition-colors ${
+                activeDirection === 'iris-open'
+                  ? 'bg-blue-600 ring-2 ring-blue-400'
+                  : 'bg-gray-700 hover:bg-gray-600 active:bg-gray-500'
+              }`}
+              title="Iris Open"
+            >
+              <Plus size={16} />
+              <span className="text-sm">조리개 열기</span>
+            </button>
+          </div> */}
 
           {/* Speed Control */}
           <div>
@@ -256,11 +429,10 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
         <div className="flex flex-col gap-3">
           {/* Preset Selector */}
           <div>
-            <label className="text-xs text-gray-400 mb-1.5 block">프리셋 번호 (1-4)</label>
             <input
               type="number"
               min="1"
-              max="4"
+              max="300"
               value={selectedPreset}
               onChange={(e) => setSelectedPreset(Number(e.target.value))}
               className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-blue-500"
@@ -270,36 +442,48 @@ export default function PTZControls({ cameraId, speed = 10 }: PTZControlsProps) 
           {/* Preset Actions */}
           <div className="grid grid-cols-2 gap-2">
             <button
-              onClick={handleSetPreset}
-              className="py-2.5 bg-green-600 hover:bg-green-500 rounded flex items-center justify-center gap-2 text-white transition-colors active:bg-green-400"
+              onClick={handleSavePreset}
+              className="py-2.5 bg-green-600 hover:bg-green-500 rounded flex items-center justify-center gap-1 text-white transition-colors active:bg-green-400"
+              title="현재 위치를 프리셋으로 저장"
             >
-              <Save size={16} />
-              <span className="text-sm font-medium">저장</span>
+              <Save size={14} />
+              <span className="text-xs font-medium">저장</span>
             </button>
 
             <button
-              onClick={() => handleGotoPreset(selectedPreset)}
-              className="py-2.5 bg-blue-600 hover:bg-blue-500 rounded flex items-center justify-center gap-2 text-white transition-colors active:bg-blue-400"
+              onClick={handleDeletePreset}
+              className="py-2.5 bg-red-600 hover:bg-red-500 rounded flex items-center justify-center gap-1 text-white transition-colors active:bg-red-400"
+              title="프리셋 삭제"
             >
-              <MapPin size={16} />
-              <span className="text-sm font-medium">이동</span>
+              <Trash2 size={14} />
+              <span className="text-xs font-medium">삭제</span>
             </button>
           </div>
 
-          {/* Quick Presets */}
+          {/* Saved Presets List */}
           <div>
-            <div className="text-xs text-gray-400 mb-2">빠른 프리셋</div>
-            <div className="grid grid-cols-4 gap-1.5">
-              {[1, 2, 3, 4].map((presetId) => (
-                <button
-                  key={presetId}
-                  onClick={() => handleGotoPreset(presetId)}
-                  className="py-2 bg-gray-700 hover:bg-gray-600 rounded text-white text-sm transition-colors active:bg-gray-500"
-                >
-                  {presetId}
-                </button>
-              ))}
+            <div className="text-xs text-gray-400 mb-2 flex items-center justify-between">
+              <span>저장된 프리셋</span>
+              {loadingPresets && <span className="text-blue-400">로딩 중...</span>}
             </div>
+            {presets.length > 0 ? (
+              <div className="grid grid-cols-4 gap-1.5 max-h-32 overflow-y-auto">
+                {presets.map((preset) => (
+                  <button
+                    key={preset.id}
+                    onClick={() => handleGotoPreset(preset.id)}
+                    className="py-2 bg-gray-700 hover:bg-gray-600 rounded text-white text-xs transition-colors active:bg-gray-500"
+                    title={preset.name || `Preset ${preset.id}`}
+                  >
+                    {preset.id}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="text-xs text-gray-500 text-center py-3 bg-gray-800 rounded">
+                저장된 프리셋이 없습니다
+              </div>
+            )}
           </div>
 
         </div>

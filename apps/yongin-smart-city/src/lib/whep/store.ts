@@ -106,12 +106,14 @@ export const useWHEPStore = create<WHEPStore>()(
       try {
         const response = await cctvApi.fetchCCTVList();
 
-        const list: CCTVInfo[] = response.items.map((stream) => ({
-          id: stream.name,
-          name: stream.name,
-          ptz: stream.ptz,
-          ptzPort: String(stream.ptzPort),
-        }));
+        const list: CCTVInfo[] = response.items
+          .map((stream) => ({
+            id: stream.name,
+            name: stream.name,
+            ptz: stream.ptz,
+            ptzPort: String(stream.ptzPort),
+          }))
+          .sort((a, b) => a.name.localeCompare(b.name));
 
         set({
           cctvList: list,

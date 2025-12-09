@@ -4,7 +4,7 @@ import type { GridTemplate } from '@plug-siteguard/ui';
 import { ChevronLeft, ChevronRight, Square, Grid2X2, LayoutGrid, Grid3X3 } from 'lucide-react';
 
 import { useCCTVList, useWHEPCleanup } from '@/lib/whep';
-import { CCTVWHEP, CCTVPTZ } from '@/components/cctvs';
+import { CCTVGridCell } from '@/components/cctvs';
 
 /**
  * CCTV 레이아웃 템플릿 정의
@@ -90,7 +90,7 @@ const TEMPLATE_ICONS: Record<TemplateId, typeof Square> = {
 export default function CctvPage() {
   const { cctvList, loading, totalStreamCount } = useCCTVList();
   const cleanup = useWHEPCleanup();
-  const [selectedTemplate, setSelectedTemplate] = useState<TemplateId>('2x2');
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateId>('8x8');
   const [currentPage, setCurrentPage] = useState(0);
 
   // 페이지 언마운트 시 모든 WHEP 스트림 연결 정리
@@ -119,10 +119,20 @@ export default function CctvPage() {
     return filteredCCTVList.slice(start, start + itemsPerPage);
   }, [filteredCCTVList, currentPage, itemsPerPage]);
 
-  // 페이지 변경 시 범위 체크
+  // 템플릿 변경 시 페이지 초기화 및 범위 체크
   const handleTemplateChange = (templateId: TemplateId) => {
     setSelectedTemplate(templateId);
     setCurrentPage(0);
+  };
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (direction: 'prev' | 'next') => {
+    setCurrentPage((prev) => {
+      if (direction === 'prev') {
+        return Math.max(0, prev - 1);
+      }
+      return Math.min(totalPages - 1, prev + 1);
+    });
   };
 
   if (loading) {
@@ -180,54 +190,46 @@ export default function CctvPage() {
 
           {/* 페이징 */}
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
-              disabled={currentPage === 0}
-              className="p-1.5 rounded-lg hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <span className="text-sm text-gray-600 min-w-[80px] text-center">
-              {currentPage + 1} / {totalPages || 1}
-            </span>
-            <button
-              onClick={() => setCurrentPage((p) => Math.min(totalPages - 1, p + 1))}
-              disabled={currentPage >= totalPages - 1}
-              className="p-1.5 rounded-lg hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
+              <button
+                onClick={() => handlePageChange('prev')}
+                disabled={currentPage === 0}
+                className="p-1.5 rounded-lg hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                aria-label="이전 페이지"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <span className="text-sm text-gray-600 min-w-[80px] text-center">
+                {currentPage + 1} / {totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange('next')}
+                disabled={currentPage >= totalPages - 1}
+                className="p-1.5 rounded-lg hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                aria-label="다음 페이지"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
         </div>
       </div>
 
       {/* CCTV 그리드 */}
       <div className={`flex-1 ${selectedTemplate === '8x8' ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-        <GridLayout template={template} editable={true} gap={8} className="h-full">
-          {template.cells.map((cell, index) => {
-            const cctv = currentCCTVs[index];
-            const isPTZMode = selectedTemplate === '1x1';
-            return (
-              <Widget key={cctv?.id ?? `empty-${cell.id}`} id={`cctv-${index}`} border={false} contentClassName="p-0">
-                {cctv ? (
-                  isPTZMode ? (
-                    <CCTVPTZ
-                      streamPath={cctv.id}
-                      cameraId={cctv.id}
-                      className="w-full h-full"
-                      ptzSpeed={20}
-                    />
-                  ) : (
-                    <CCTVWHEP streamPath={cctv.id} className="w-full h-full" hasPTZ={cctv.ptz} />
-                  )
-                ) : (
-                  <div className="w-full h-full bg-gray-900 rounded-lg flex items-center justify-center text-gray-500">
-                    <span className="text-sm">No Signal</span>
-                  </div>
-                )}
-              </Widget>
-            );
-          })}
+        <GridLayout key={selectedTemplate} template={template} editable={true} gap={8} className="h-full">
+          {template.cells.map((cell, index) => (
+            <Widget
+              key={`${selectedTemplate}-${cell.id}`}
+              id={`${selectedTemplate}-${cell.id}`}
+              border={false}
+              contentClassName="p-0"
+            >
+              <CCTVGridCell
+                cctv={currentCCTVs[index]}
+                isPTZMode={selectedTemplate === '1x1'}
+                gridSize={selectedTemplate}
+              />
+            </Widget>
+          ))}
         </GridLayout>
       </div>
     </div>

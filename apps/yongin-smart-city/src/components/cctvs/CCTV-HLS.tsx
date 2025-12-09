@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 
-import { Skeleton } from '@plug-siteguard/ui';
+import { Skeleton, Spinner } from '@plug-siteguard/ui';
 import { Maximize } from 'lucide-react';
 
 import { useHLSStream } from '@/lib/hls';
@@ -10,6 +10,8 @@ interface CCTVHLSProps {
   className?: string;
   autoLoad?: boolean;
   showStats?: boolean;
+  hasPTZ?: boolean;
+  gridSize?: '1x1' | '2x2' | '1+5' | '4x4' | '8x8';
 }
 
 export default function CCTVHLS({
@@ -17,6 +19,8 @@ export default function CCTVHLS({
   className,
   autoLoad = true,
   showStats = false,
+  hasPTZ = false,
+  gridSize = '2x2',
 }: CCTVHLSProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { videoRef, status, stats } = useHLSStream(streamId, autoLoad);
@@ -44,8 +48,12 @@ export default function CCTVHLS({
       <video ref={videoRef} className="w-full h-full object-cover" autoPlay playsInline muted />
 
       {isLoading && (
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gray-900 flex flex-col items-center justify-center">
           <Skeleton className="w-full h-full rounded-lg" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <Spinner size="xl" className="text-green-500 mb-2" />
+            <span className="text-green-400 text-sm font-medium">{streamId}</span>
+          </div>
         </div>
       )}
 
@@ -56,27 +64,48 @@ export default function CCTVHLS({
       )}
 
       {isError && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900">
-          <span className="text-red-400 text-sm font-medium">연결 실패</span>
-          <span className="text-gray-500 text-xs mt-1">현장 접속 장애</span>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 border-2 border-red-500/50">
+          <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mb-3">
+            <div className="w-8 h-8 bg-red-500 rounded-full animate-pulse" />
+          </div>
+          <span className="text-red-400 text-sm font-medium">{streamId}</span>
+          <span className="text-gray-500 text-xs mt-1">연결 실패</span>
         </div>
       )}
 
       {isPlaying && (
         <>
-          <div className="absolute bottom-1 left-1 bg-black/50 px-1.5 py-0.5 rounded text-xs text-white flex items-center gap-1">
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-blue-400 font-semibold">HLS</span>
-            <span>|</span>
-            {streamId}
-          </div>
+          {/* Stream name - hidden on 8x8 grid, smaller on 4x4 */}
+          {gridSize !== '8x8' && (
+            <div className={`absolute bottom-1 left-1 bg-black/50 px-1.5 py-0.5 rounded text-white flex items-center gap-1 ${
+              gridSize === '4x4' ? 'text-[10px]' : 'text-xs'
+            }`}>
+              <span className={`bg-green-500 rounded-full animate-pulse ${
+                gridSize === '4x4' ? 'w-1.5 h-1.5' : 'w-2 h-2'
+              }`} />
+              {streamId}
+            </div>
+          )}
+
+          {/* PTZ badge - smaller on 4x4/8x8, hover-only on 8x8 */}
+          {hasPTZ && (
+            <div className={`absolute top-1 left-1 bg-blue-600/90 px-2 py-0.5 rounded text-white font-medium ${
+              gridSize === '8x8'
+                ? 'text-[9px] opacity-0 group-hover:opacity-100 transition-opacity'
+                : gridSize === '4x4'
+                ? 'text-[10px]'
+                : 'text-xs'
+            }`}>
+              PTZ
+            </div>
+          )}
 
           <button
             onClick={handleFullscreen}
             className="absolute bottom-1 right-1 bg-black/50 p-1 rounded text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70"
             title="전체화면"
           >
-            <Maximize size={14} />
+            <Maximize size={gridSize === '8x8' ? 12 : 14} />
           </button>
 
           {showStats && (
