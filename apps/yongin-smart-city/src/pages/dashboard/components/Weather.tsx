@@ -93,6 +93,14 @@ const EnvironmentGauge = ({ data }: { data: typeof environmentData[0] }) => {
 export default function Weather() {
   const { data, loading, error } = useWeatherData();
 
+  const GaugesDisplay = ({ data }: { data: typeof environmentData }) => (
+    <div className="flex items-center justify-center flex-wrap">
+      {data.map((item: typeof environmentData[0]) => (
+        <EnvironmentGauge key={item.name} data={item} />
+      ))}
+    </div> 
+  );
+
   return (
     <div className="h-full flex flex-col rounded-lg gap-4">
       {loading ? (
@@ -146,30 +154,22 @@ export default function Weather() {
         </TabsList>
         <TabsContent value="environment" className="px-3 py-13 min-h-[200px]">
           <div className="flex items-center justify-center flex-wrap">
-            {environmentData.map((item) => (
-              <EnvironmentGauge key={item.name} data={item} />
-            ))}
+            <GaugesDisplay data={environmentData} />
           </div>
         </TabsContent>
         <TabsContent value="quality" className="px-3 py-13 min-h-[200px]">
           <div className="flex items-center justify-center flex-wrap">
-            {environmentData.map((item) => (
-              <EnvironmentGauge key={item.name} data={item} />
-            ))}
+            <GaugesDisplay data={environmentData} />
           </div>
         </TabsContent>
         <TabsContent value="safety" className="px-3 py-13 min-h-[200px]">
           <div className="flex items-center justify-center flex-wrap">
-            {environmentData.map((item) => (
-              <EnvironmentGauge key={item.name} data={item} />
-            ))}
+            <GaugesDisplay data={environmentData} />
           </div>
         </TabsContent>
         <TabsContent value="work" className="px-3 py-13 min-h-[200px]">
           <div className="flex items-center justify-center flex-wrap">
-            {environmentData.map((item) => (
-              <EnvironmentGauge key={item.name} data={item} />
-            ))}
+            <GaugesDisplay data={environmentData} />
           </div>
         </TabsContent>
       </Tabs>
