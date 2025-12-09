@@ -1,6 +1,6 @@
 import { GridLayout, Widget } from '@plug-siteguard/ui';
 
-import { ProgressCard, ProgressChart, SafetyCard, Weather } from './components';
+import { ProgressCard, ProgressChart, SafetyCard, Weather, EventList } from './components';
 import { CCTVWHEP } from '@/components/cctvs';
 import { Map } from '@/components/map';
 import { useCCTVList } from '@/lib/cctv';
@@ -29,12 +29,12 @@ export default function Dashboard() {
       </Widget>
 
       <Widget colSpan={4} rowSpan={5} className="bg-white">
-        <GridLayout columns={1} gap={2}>
-          <Widget colSpan={1} border={false} contentClassName="p-4">
+        <GridLayout columns={1} gap={2} >
+          <Widget colSpan={1} border={false} contentClassName="p-2">
             <Weather />
           </Widget>
-          <Widget colSpan={1} border={false} contentClassName="p-4" title="실시간 이벤트">
-            <div></div>
+          <Widget colSpan={1} border={false} contentClassName="p-2" title="실시간 이벤트">
+            <EventList />
           </Widget>
         </GridLayout>
       </Widget>
@@ -44,13 +44,13 @@ export default function Dashboard() {
       </Widget>
 
       <Widget colSpan={6} rowSpan={3} className="bg-white" title="주요현장 CCTV">
-        <div className="grid grid-cols-5 gap-4 h-full">
-        {readyStreams.map((stream) => (
-              <CCTVWHEP key={stream.name} streamPath={stream.name} />
-            ))}
+        <div className="grid grid-cols-3 gap-4 h-full min-h-[180px]">
+          {readyStreams.map((stream) => (
+            <CCTVWHEP key={stream.name} streamPath={stream.name} />
+          ))}
         </div>
       </Widget>
     </GridLayout>
   );
 }
-
+ 

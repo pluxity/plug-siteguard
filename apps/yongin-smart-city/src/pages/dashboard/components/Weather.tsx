@@ -4,6 +4,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@plug-siteguard/ui';
 import { MapPin } from 'lucide-react';
 import { RadialBarChart, RadialBar } from 'recharts';
 
+
+
 const environmentData = [
   {
     name: '초미세먼지(PM2.5)',
@@ -135,28 +137,40 @@ export default function Weather() {
         </>
       )}
 
-      <Tabs className="bg-gray-100 rounded-lg"> 
+      <Tabs className="bg-gray-100 rounded-lg" defaultValue="environment"> 
         <TabsList >
           <TabsTrigger value="environment" className="flex-1">환경</TabsTrigger>
           <TabsTrigger value="quality" className="flex-1">품질</TabsTrigger>
           <TabsTrigger value="safety" className="flex-1">안전</TabsTrigger>
           <TabsTrigger value="work" className="flex-1">작업</TabsTrigger>
         </TabsList>
-        <TabsContent value="environment" className="p-3 min-h-[200px]">
+        <TabsContent value="environment" className="px-3 py-13 min-h-[200px]">
           <div className="flex items-center justify-center flex-wrap">
             {environmentData.map((item) => (
               <EnvironmentGauge key={item.name} data={item} />
             ))}
           </div>
         </TabsContent>
-        <TabsContent value="quality" className="p-3 min-h-[200px]">
-          <div>품질</div>
+        <TabsContent value="quality" className="px-3 py-13 min-h-[200px]">
+          <div className="flex items-center justify-center flex-wrap">
+            {environmentData.map((item) => (
+              <EnvironmentGauge key={item.name} data={item} />
+            ))}
+          </div>
         </TabsContent>
-        <TabsContent value="safety" className="p-3 min-h-[200px]">
-          <div>안전</div>
+        <TabsContent value="safety" className="px-3 py-13 min-h-[200px]">
+          <div className="flex items-center justify-center flex-wrap">
+            {environmentData.map((item) => (
+              <EnvironmentGauge key={item.name} data={item} />
+            ))}
+          </div>
         </TabsContent>
-        <TabsContent value="work" className="p-3 min-h-[200px]">
-          <div>작업</div>
+        <TabsContent value="work" className="px-3 py-13 min-h-[200px]">
+          <div className="flex items-center justify-center flex-wrap">
+            {environmentData.map((item) => (
+              <EnvironmentGauge key={item.name} data={item} />
+            ))}
+          </div>
         </TabsContent>
       </Tabs>
     </div>
