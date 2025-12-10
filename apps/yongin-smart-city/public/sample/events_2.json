@@ -1,16 +1,16 @@
 {
     "data": {
         "content": [
-            {"id": 20,"eventId": "20","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "가스센서","status": "주의","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
-            {"id": 19,"eventId": "19","eventNm": "불꽃감지","location": "A321","deviceNm": "화재센서","status": "주의","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
-            {"id": 18,"eventId": "18","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "스마트워치","status": "주의","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
-            {"id": 17,"eventId": "17","eventNm": "쓰러짐 감지","location": "A321","deviceNm": "이동형 CCTV","status": "주의","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
-            {"id": 16,"eventId": "16","eventNm": "심박수 상승","location": "A321","deviceNm": "스마트워치","status": "위험","progress": "위험","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
-            {"id": 15,"eventId": "15","eventNm": "심박수 상승","location": "A321","deviceNm": "스마트워치","status": "주의","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
-            {"id": 14,"eventId": "14","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "가스센서","status": "주의","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
-            {"id": 13,"eventId": "13","eventNm": "심박수 상승","location": "A321","deviceNm": "스마트워치","status": "경고","progress": "경고","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
-            {"id": 12,"eventId": "12","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "가스센서","status": "주의","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
-            {"id": 11,"eventId": "11","eventNm": "쓰러짐 감지","location": "A321","deviceNm": "이동형 CCTV","status": "주의","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"}
+            {"id": 20,"eventId": "20","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "가스센서","status": "CAUTION","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 19,"eventId": "19","eventNm": "불꽃감지","location": "A321","deviceNm": "화재센서","status": "WARNING","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 18,"eventId": "18","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "스마트워치","status": "CAUTION","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 17,"eventId": "17","eventNm": "쓰러짐 감지","location": "A321","deviceNm": "이동형 CCTV","status": "CAUTION","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 16,"eventId": "16","eventNm": "심박수 상승","location": "A321","deviceNm": "스마트워치","status": "DANGER","progress": "위험","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 15,"eventId": "15","eventNm": "심박수 상승","location": "A321","deviceNm": "스마트워치","status": "CAUTION","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 14,"eventId": "14","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "가스센서","status": "CAUTION","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 13,"eventId": "13","eventNm": "심박수 상승","location": "A321","deviceNm": "스마트워치","status": "WARNING","progress": "경고","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 12,"eventId": "12","eventNm": "일산화탄소 농도 상승","location": "A321","deviceNm": "가스센서","status": "CAUTION","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"},
+            {"id": 11,"eventId": "11","eventNm": "쓰러짐 감지","location": "A321","deviceNm": "이동형 CCTV","status": "CAUTION","progress": "주의","occurredAt": "2025-12-08 17:25:35","resolvedAt": "2025-12-08 17:25:35"}
         ],
         "page": 2,
         "size": 10,
