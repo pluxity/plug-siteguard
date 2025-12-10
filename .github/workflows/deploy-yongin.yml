@@ -48,7 +48,7 @@ jobs:
           VITE_WHEP_URL: ${{ secrets.VITE_WHEP_URL }}
           VITE_ION_CESIUM_ACCESS_TOKEN: ${{ secrets.VITE_ION_CESIUM_ACCESS_TOKEN }}
           VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
-        run: pnpm --filter @plug-siteguard/yongin build:staging && node apps/a-iot/scripts/post-build.js
+        run: pnpm --filter @plug-siteguard/yongin build
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
       - name: Compress build artifacts
