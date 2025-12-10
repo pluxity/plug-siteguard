@@ -62,7 +62,7 @@ jobs:
         run: |
           sshpass -e scp -o StrictHostKeyChecking=no -P ${{ secrets.PLX_DEV_SSH_PORT }} \
             apps/yongin-smart-city/dist.tar.gz \
-            ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }}:${{ secrets.VITE_DEPLOY_PATH }} /
+            ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }}:${{ secrets.VITE_DEPLOY_PATH }}/
           sshpass -e ssh -o StrictHostKeyChecking=no -p ${{ secrets.PLX_DEV_SSH_PORT }} \
             ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }} \
             "cd ${{ secrets.VITE_DEPLOY_PATH }} && \
