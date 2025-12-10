@@ -30,24 +30,24 @@ jobs:
       - name: Setup pnpm cache
         uses: actions/cache@v4
         with:
-          path: $ [env.STORE](http://env.STORE)_PATH
-          key: $ runner.os -pnpm-store-$ hashFiles('**/pnpm-lock.yaml')
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            $ runner.os -pnpm-store-
+            ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Build Yongin Smart City
         env:
-          VITE_BASE_URL: $ vars.VITE_BASE_URL
-          VITE_WEATHER_CITY: $ vars.VITE_WEATHER_CITY
-          VITE_WEATHER_UPDATE_INTERVAL: $ vars.VITE_WEATHER_UPDATE_INTERVAL
-          VITE_ION_CESIUM_MAP_ASSET_ID: $ vars.VITE_ION_CESIUM_MAP_ASSET_ID
-          VITE_ION_CESIUM_TERRAIN_ASSET_ID: $ vars.VITE_ION_CESIUM_TERRAIN_ASSET_ID
-          VITE_MEDIA_API_URL: $ secrets.VITE_MEDIA_API_URL
-          VITE_HLS_URL: $ secrets.VITE_HLS_URL
-          VITE_WHEP_URL: $ secrets.VITE_WHEP_URL
-          VITE_ION_CESIUM_ACCESS_TOKEN: $ secrets.VITE_ION_CESIUM_ACCESS_TOKEN
-          VITE_OPENWEATHER_API_KEY: $ secrets.VITE_OPENWEATHER_API_KEY
+          VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
+          VITE_WEATHER_CITY: ${{ vars.VITE_WEATHER_CITY }}
+          VITE_WEATHER_UPDATE_INTERVAL: ${{ vars.VITE_WEATHER_UPDATE_INTERVAL }}
+          VITE_ION_CESIUM_MAP_ASSET_ID: ${{ vars.VITE_ION_CESIUM_MAP_ASSET_ID }}
+          VITE_ION_CESIUM_TERRAIN_ASSET_ID: ${{ vars.VITE_ION_CESIUM_TERRAIN_ASSET_ID }}
+          VITE_MEDIA_API_URL: ${{ secrets.VITE_MEDIA_API_URL }}
+          VITE_HLS_URL: ${{ secrets.VITE_HLS_URL }}
+          VITE_WHEP_URL: ${{ secrets.VITE_WHEP_URL }}
+          VITE_ION_CESIUM_ACCESS_TOKEN: ${{ secrets.VITE_ION_CESIUM_ACCESS_TOKEN }}
+          VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
         run: pnpm --filter @plug-siteguard/yongin build:staging && node apps/a-iot/scripts/post-build.js
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
@@ -58,14 +58,14 @@ jobs:
           echo "Compressed size: $(du -h dist.tar.gz | cut -f1)"
       - name: Deploy to Server
         env:
-          SSHPASS: $ secrets.PLX_DEV_PASSWORD
+          SSHPASS: ${{ secrets.PLX_DEV_PASSWORD }}
         run: |
-          sshpass -e scp -o StrictHostKeyChecking=no -P $ secrets.PLX_DEV_SSH_PORT  \
+          sshpass -e scp -o StrictHostKeyChecking=no -P ${{ secrets.PLX_DEV_SSH_PORT }} \
             apps/yongin-smart-city/dist.tar.gz \
-            $ secrets.PLX_DEV_USER @$ secrets.PLX_DEV_DOMAIN :$ secrets.VITE_DEPLOY_PATH /
-          sshpass -e ssh -o StrictHostKeyChecking=no -p $ secrets.PLX_DEV_SSH_PORT  \
-            $ secrets.PLX_DEV_USER @$ secrets.PLX_DEV_DOMAIN  \
-            "cd $ secrets.VITE_DEPLOY_PATH  && \
+            ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }}:${{ secrets.VITE_DEPLOY_PATH }} /
+          sshpass -e ssh -o StrictHostKeyChecking=no -p ${{ secrets.PLX_DEV_SSH_PORT }} \
+            ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }} \
+            "cd ${{ secrets.VITE_DEPLOY_PATH }} && \
              rm -rf assets index.html *.js *.css yongin cesium 2>/dev/null || true && \
              tar -xzf dist.tar.gz && \
              rm dist.tar.gz && \
@@ -75,8 +75,8 @@ jobs:
              fi"
       - name: Verify Deployment
         env:
-          SSHPASS: $ secrets.PLX_DEV_PASSWORD
+          SSHPASS: ${{ secrets.PLX_DEV_PASSWORD }}
         run: |
-          sshpass -e ssh -o StrictHostKeyChecking=no -p $ secrets.PLX_DEV_SSH_PORT  \
-            $ secrets.PLX_DEV_USER @$ secrets.PLX_DEV_DOMAIN  \
-            "echo 'Deployment completed!' && ls -la $ secrets.VITE_DEPLOY_PATH "
+          sshpass -e ssh -o StrictHostKeyChecking=no -p ${{ secrets.PLX_DEV_SSH_PORT }} \
+            ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }} \
+            "echo 'Deployment completed!' && ls -la ${{ secrets.VITE_DEPLOY_PATH }}"
