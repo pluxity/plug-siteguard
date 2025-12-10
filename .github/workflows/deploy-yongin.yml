@@ -1,32 +1,40 @@
 name: Deploy Yongin Smart City
 
 on:
+  # main 브랜치에 push 시 배포 (PR 머지 포함)
   push:
     branches:
       - main
     paths:
       - 'apps/yongin-smart-city/**'
       - 'packages/ui/**'
+
+  # 수동 배포
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 10
+
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
       - name: Setup pnpm cache
         uses: actions/cache@v4
         with:
@@ -34,45 +42,57 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
       - name: Build Yongin Smart City
         env:
+          # Variables
           VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
           VITE_WEATHER_CITY: ${{ vars.VITE_WEATHER_CITY }}
           VITE_WEATHER_UPDATE_INTERVAL: ${{ vars.VITE_WEATHER_UPDATE_INTERVAL }}
           VITE_ION_CESIUM_MAP_ASSET_ID: ${{ vars.VITE_ION_CESIUM_MAP_ASSET_ID }}
           VITE_ION_CESIUM_TERRAIN_ASSET_ID: ${{ vars.VITE_ION_CESIUM_TERRAIN_ASSET_ID }}
-          VITE_MEDIA_API_URL: ${{ secrets.VITE_MEDIA_API_URL }}
+          # Secrets
+          VITE_MEDIA_API_URL: ${{ secrets.VITE_MEDIA_API_URL }}          
           VITE_HLS_URL: ${{ secrets.VITE_HLS_URL }}
           VITE_WHEP_URL: ${{ secrets.VITE_WHEP_URL }}
           VITE_ION_CESIUM_ACCESS_TOKEN: ${{ secrets.VITE_ION_CESIUM_ACCESS_TOKEN }}
           VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
-        run: pnpm --filter @plug-siteguard/yongin build
+        run: pnpm build:yongin
+
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
+
       - name: Compress build artifacts
         run: |
           cd apps/yongin-smart-city
           tar -czf dist.tar.gz -C dist .
           echo "Compressed size: $(du -h dist.tar.gz | cut -f1)"
+
       - name: Deploy to Server
         env:
           SSHPASS: ${{ secrets.PLX_DEV_PASSWORD }}
         run: |
+          # 압축 파일 전송
           sshpass -e scp -o StrictHostKeyChecking=no -P ${{ secrets.PLX_DEV_SSH_PORT }} \
             apps/yongin-smart-city/dist.tar.gz \
             ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }}:${{ secrets.VITE_DEPLOY_PATH }}/
+
+          # 서버에서 압축 해제 및 Cesium 경로 정리
           sshpass -e ssh -o StrictHostKeyChecking=no -p ${{ secrets.PLX_DEV_SSH_PORT }} \
             ${{ secrets.PLX_DEV_USER }}@${{ secrets.PLX_DEV_DOMAIN }} \
             "cd ${{ secrets.VITE_DEPLOY_PATH }} && \
              rm -rf assets index.html *.js *.css yongin cesium 2>/dev/null || true && \
              tar -xzf dist.tar.gz && \
              rm dist.tar.gz && \
+             # yongin/cesium을 cesium으로 이동 (nginx proxy 구조에 맞춤)
              if [ -d 'yongin/cesium' ]; then \
                mv yongin/cesium ./cesium && \
                rmdir yongin 2>/dev/null || true; \
              fi"
+
       - name: Verify Deployment
         env:
           SSHPASS: ${{ secrets.PLX_DEV_PASSWORD }}
